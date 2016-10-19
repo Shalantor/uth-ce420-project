@@ -41,7 +41,7 @@ class Player(pygame.sprite.Sprite):
                 if self.direction == "right":
                     self.image = pygame.image.load("actions/jump_right.png")
                 self.jump = True
-                self.movy -= 1
+                self.contact = False
         if down:
             if self.contact and self.direction == "right":
                 self.image = pygame.image.load('actions/down_right.png').convert_alpha()
@@ -81,27 +81,29 @@ class Player(pygame.sprite.Sprite):
         self.collide(self.movx, 0, world)
 
 
-        if not self.contact:
+        if not self.contact and not self.jump:
             self.movy += 1
-            self.fallSpeed += HORIZ_MOV_INCR / JUMP_SPEEDS
-            if self.fallSpeed > HORIZ_MOV_INCR:
-                self.fallSpeed = HORIZ_MOV_INCR
+            self.fallSpeed += 1
+            if self.fallSpeed > HORIZ_MOV_INCR / 2:
+                self.fallSpeed = HORIZ_MOV_INCR / 2
             self.rect.top += self.fallSpeed
 
         if self.jump:
             self.movy -= 1
             self.rect.top -= self.jumpSpeed
-            self.jumpSpeed -= HORIZ_MOV_INCR / JUMP_SPEEDS
-            if self.jumpSpeed <= 0 or self.contact:
+            self.maxJumpHeight -= self.jumpSpeed
+            self.jumpSpeed -= 1
+            if self.jumpSpeed <= HORIZ_MOV_INCR / 2:
+                self.jumpSpeed = HORIZ_MOV_INCR / 2
+            if self.maxJumpHeight <= 0:
+                self.maxJumpHeight = self.rect.height * 2
                 self.jump = False
 
-        self.contact = False
         self.collide(0, self.movy, world)
         self.movx = 0
         self.movy = 0
 
     def collide(self, movx, movy, world):
-        self.contact = False
         for o in world:
             if self.rect.colliderect(o):
                 if movx > 0:
@@ -114,7 +116,11 @@ class Player(pygame.sprite.Sprite):
                     self.contact = True
                     self.fallSpeed = 0
                     self.jumpSpeed = HORIZ_MOV_INCR
+                    self.jump = False
+                    self.maxJumpHeight = self.rect.height * 2
                 if movy < 0:
                     self.rect.top = o.rect.bottom
                     self.movy = 0
                     self.jumpSpeed = HORIZ_MOV_INCR
+                    self.jump = False
+                    self.maxJumpHeight = self.rect.height * 2
