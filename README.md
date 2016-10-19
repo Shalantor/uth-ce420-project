@@ -1,1 +1,1 @@
-# A small example of how to implement side-scrolling with pygame
+# Uth winter semester 2016-2017 ce420 project
