@@ -5,6 +5,7 @@ from level import *
 from camera import *
 
 HORIZ_MOV_INCR = 10 #speed of movement
+JUMP_SPEEDS = 10 #number of different speeds for jumping
 
 class Player(pygame.sprite.Sprite):
     '''class for player and collision'''
@@ -14,10 +15,13 @@ class Player(pygame.sprite.Sprite):
         self.movx = 0
         self.x = x
         self.y = y
+        self.fallSpeed = 0
+        self.jumpSpeed = HORIZ_MOV_INCR
         self.contact = False
         self.jump = False
         self.image = pygame.image.load('actions/idle_right.png').convert()
         self.rect = self.image.get_rect()
+        self.maxJumpHeight = self.rect.height * 2
         self.run_left = ["actions/run_left000.png","actions/run_left001.png",
                          "actions/run_left002.png", "actions/run_left003.png",
                          "actions/run_left004.png", "actions/run_left005.png",
@@ -37,7 +41,7 @@ class Player(pygame.sprite.Sprite):
                 if self.direction == "right":
                     self.image = pygame.image.load("actions/jump_right.png")
                 self.jump = True
-                self.movy -= 20
+                self.movy -= 1
         if down:
             if self.contact and self.direction == "right":
                 self.image = pygame.image.load('actions/down_right.png').convert_alpha()
@@ -58,7 +62,7 @@ class Player(pygame.sprite.Sprite):
                 self.image = pygame.image.load(self.run_left[self.frame]).convert_alpha()
                 if self.frame == 6: self.frame = 0
             else:
-                self.image = self.image = pygame.image.load("actions/jump_left.png").convert_alpha()
+                self.image = pygame.image.load("actions/jump_left.png").convert_alpha()
 
         if right:
             self.direction = "right"
@@ -68,7 +72,7 @@ class Player(pygame.sprite.Sprite):
                 self.image = pygame.image.load(self.run_right[self.frame]).convert_alpha()
                 if self.frame == 6: self.frame = 0
             else:
-                self.image = self.image = pygame.image.load("actions/jump_right.png").convert_alpha()
+                self.image = pygame.image.load("actions/jump_right.png").convert_alpha()
 
         if not (left or right):
             self.movx = 0
@@ -78,20 +82,23 @@ class Player(pygame.sprite.Sprite):
 
 
         if not self.contact:
-            self.movy += 0.3
-            if self.movy > 10:
-                self.movy = 10
-            self.rect.top += self.movy
+            self.movy += 1
+            self.fallSpeed += HORIZ_MOV_INCR / JUMP_SPEEDS
+            if self.fallSpeed > HORIZ_MOV_INCR:
+                self.fallSpeed = HORIZ_MOV_INCR
+            self.rect.top += self.fallSpeed
 
         if self.jump:
-
-            self.movy += 2
-            self.rect.top += self.movy
-            if self.contact == True:
+            self.movy -= 1
+            self.rect.top -= self.jumpSpeed
+            self.jumpSpeed -= HORIZ_MOV_INCR / JUMP_SPEEDS
+            if self.jumpSpeed <= 0 or self.contact:
                 self.jump = False
 
         self.contact = False
         self.collide(0, self.movy, world)
+        self.movx = 0
+        self.movy = 0
 
     def collide(self, movx, movy, world):
         self.contact = False
@@ -105,6 +112,9 @@ class Player(pygame.sprite.Sprite):
                     self.rect.bottom = o.rect.top
                     self.movy = 0
                     self.contact = True
+                    self.fallSpeed = 0
+                    self.jumpSpeed = HORIZ_MOV_INCR
                 if movy < 0:
                     self.rect.top = o.rect.bottom
                     self.movy = 0
+                    self.jumpSpeed = HORIZ_MOV_INCR
