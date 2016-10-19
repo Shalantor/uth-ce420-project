@@ -6,6 +6,7 @@ from camera import *
 
 HORIZ_MOV_INCR = 10 #speed of movement
 JUMP_SPEEDS = 10 #number of different speeds for jumping
+MIN_VERTICAL_SPEED = HORIZ_MOV_INCR
 
 class Player(pygame.sprite.Sprite):
     '''class for player and collision'''
@@ -84,8 +85,8 @@ class Player(pygame.sprite.Sprite):
         if not self.contact and not self.jump:
             self.movy += 1
             self.fallSpeed += 1
-            if self.fallSpeed > HORIZ_MOV_INCR / 2:
-                self.fallSpeed = HORIZ_MOV_INCR / 2
+            if self.fallSpeed > MIN_VERTICAL_SPEED:
+                self.fallSpeed = MIN_VERTICAL_SPEED
             self.rect.top += self.fallSpeed
 
         if self.jump:
@@ -93,8 +94,8 @@ class Player(pygame.sprite.Sprite):
             self.rect.top -= self.jumpSpeed
             self.maxJumpHeight -= self.jumpSpeed
             self.jumpSpeed -= 1
-            if self.jumpSpeed <= HORIZ_MOV_INCR / 2:
-                self.jumpSpeed = HORIZ_MOV_INCR / 2
+            if self.jumpSpeed <= MIN_VERTICAL_SPEED:
+                self.jumpSpeed = MIN_VERTICAL_SPEED
             if self.maxJumpHeight <= 0:
                 self.maxJumpHeight = self.rect.height * 2
                 self.jump = False
@@ -104,6 +105,7 @@ class Player(pygame.sprite.Sprite):
         self.movy = 0
 
     def collide(self, movx, movy, world):
+        self.contact = False
         for o in world:
             if self.rect.colliderect(o):
                 if movx > 0:
