@@ -13,14 +13,71 @@ def tps(orologio,fps):
     tps = temp / 1000.
     return tps
 
+def showNameBox(screen,font):
+    joinString = ""
+    currentList = []
+
+    #render texts
+    namePrompt = font.render("ENTER YOUR NAME",1,(255,255,255))
+    okText = font.render("OK",1,(255,255,255))
+
+    #get rectangles of texts
+    namePos = namePrompt.get_rect()
+    okPos = okText.get_rect()
+
+    #rectangle for the typed text
+    screenRect = screen.get_rect()
+    inputRect = Rect(0,0,screenRect.width // 4,screenRect.height // 10)
+
+    #position them
+    namePos.centerx = screenRect.centerx
+    okPos.centerx = screenRect.centerx
+    namePos.top = 2 * namePos.height
+    okPos.centery = screenRect.centery + 2 * okPos.height
+    inputRect.centerx = screenRect.centerx
+    inputRect.centery = screenRect.centery
+
+    #draw on screen
+    screen.fill((0,0,0))
+    screen.blit(namePrompt,namePos)
+    screen.blit(okText,okPos)
+    pygame.draw.rect(screen,(255,255,255),inputRect,1)
+    pygame.display.flip()
+
+    while True:
+        inKey = -1
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if okPos.collidepoint(pygame.mouse.get_pos()):
+                    return True
+            if event.type == KEYDOWN:
+                inKey = event.key
+
+        if inKey > 0:
+            if inKey == K_BACKSPACE:
+                currentList = currentList[0:-1]
+            elif inKey == K_RETURN:
+                return False
+            elif inKey == K_MINUS:
+                currentList.append("_")
+            elif inKey <= 127:
+                currentList.append(chr(inKey))
+
+        screen.fill((0,0,0))
+        screen.blit(namePrompt,namePos)
+        screen.blit(okText,okPos)
+        pygame.draw.rect(screen,(255,255,255),inputRect,1)
+
+        if len(currentList) > 0:
+            inputText = font.render(joinString.join(currentList),1,(255,255,255))
+            screen.blit( inputText , inputRect)
+        pygame.display.flip()
+
 def showMenu(screen,clock):
     pygame.mouse.set_visible(1)
     startBackground = pygame.Surface(screen.get_size()).convert()
     width,height = screen.get_size()
     font = pygame.font.Font(None,height // 10)
-
-    #list of characters for name string in new game screen
-    currentCharList = []
 
     #Variables to know what is visible and what isnt
     areOptionsVisible = False
@@ -88,11 +145,20 @@ def showMenu(screen,clock):
         if isStartMenuVisible:
             screen.blit(startBackground,(0,0))
         elif isNewGameVisible:
-            screen.fill((255,255,255))
+            startGame = showNameBox(screen,font)
+            if startGame:
+                leaveLoop = True
+            else:
+                isStartMenuVisible = True
+                areOptionsVisible = False
+                isLoadingVisible = False
+                isNewGameVisible = False
 
         pygame.display.flip()
         time_spent = tps(clock, FPS)
 
+
+"""HERE THE MAIN PROGRAM STARTS"""
 
 pygame.init()
 
