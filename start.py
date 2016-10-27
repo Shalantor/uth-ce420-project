@@ -14,6 +14,7 @@ def tps(orologio,fps):
     return tps
 
 def showMenu(screen,clock):
+    pygame.mouse.set_visible(1)
     startBackground = pygame.Surface(screen.get_size()).convert()
     width,height = screen.get_size()
     font = pygame.font.Font(None,height // 10)
@@ -22,9 +23,10 @@ def showMenu(screen,clock):
     areOptionsVisible = False
     isLoadingVisible = False
     isStartMenuVisible = True
+    isNewGameVisible = False
 
     #render texts
-    playText = font.render("PLAY",1,(255,255,255))
+    playText = font.render("NEW GAME",1,(255,255,255))
     loadText = font.render("LOAD",1,(255,255,255))
     optionsText = font.render("OPTIONS",1,(255,255,255))
     exitText = font.render("EXIT",1,(255,255,255))
@@ -57,10 +59,26 @@ def showMenu(screen,clock):
 
     while not leaveLoop:
         for event in pygame.event.get():
+            #Check for closing game or going back to previous menu
             if event.type == KEYDOWN and event.key == K_ESCAPE or event.type == QUIT:
-                leaveLoop = True
+                if isStartMenuVisible:
+                    pygame.quit()
+                    sys.exit()
+                else:
+                    isStartMenuVisible = True
+                    areOptionsVisible = False
+                    isLoadingVisible = False
+                    isNewGameVisible = False
+
+            #Check if new game has been clicked and then navigate to next menu
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if isStartMenuVisible and exitPos.collidepoint(pygame.mouse.get_pos()):
+                    pygame.quit()
+                    sys.exit()
+
         if isStartMenuVisible:
             screen.blit(startBackground,(0,0))
+
         pygame.display.flip()
         time_spent = tps(clock, FPS)
 
@@ -68,13 +86,13 @@ def showMenu(screen,clock):
 pygame.init()
 
 #Show menu for login
-pygame.mouse.set_visible(0)
 screen = pygame.display.set_mode(SCREEN_SIZE, FULLSCREEN, 32)
 clock = pygame.time.Clock()
 
 showMenu(screen,clock)
 
 """Now set variables for gameplay """
+pygame.mouse.set_visible(0)
 screen_rect = screen.get_rect()
 background = pygame.image.load("world/background2.jpg").convert_alpha()
 background_rect = background.get_rect()
