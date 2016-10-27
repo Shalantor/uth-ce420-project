@@ -13,6 +13,57 @@ def tps(orologio,fps):
     tps = temp / 1000.
     return tps
 
+def showMenu(screen,clock):
+    startBackground = pygame.Surface(screen.get_size()).convert()
+    width,height = screen.get_size()
+    font = pygame.font.Font(None,height // 10)
+
+    #Variables to know what is visible and what isnt
+    areOptionsVisible = False
+    isLoadingVisible = False
+    isStartMenuVisible = True
+
+    #render texts
+    playText = font.render("PLAY",1,(255,255,255))
+    loadText = font.render("LOAD",1,(255,255,255))
+    optionsText = font.render("OPTIONS",1,(255,255,255))
+    exitText = font.render("EXIT",1,(255,255,255))
+
+    #Get rectangles for text
+    playPos = playText.get_rect()
+    loadPos = loadText.get_rect()
+    optionsPos = optionsText.get_rect()
+    exitPos = exitText.get_rect()
+
+    #Set position of texts
+    playPos.centerx = startBackground.get_rect().centerx
+    loadPos.centerx = startBackground.get_rect().centerx
+    optionsPos.centerx = startBackground.get_rect().centerx
+    exitPos.centerx = startBackground.get_rect().centerx
+
+    playPos.centery = startBackground.get_rect().centery - 3 * playPos.height
+    loadPos.centery = startBackground.get_rect().centery - 1 * loadPos.height
+    optionsPos.centery = startBackground.get_rect().centery + 1 * optionsPos.height
+    exitPos.centery = startBackground.get_rect().centery + 3 * exitPos.height
+
+    #blit to background
+    startBackground.blit(playText,playPos)
+    startBackground.blit(loadText,loadPos)
+    startBackground.blit(optionsText,optionsPos)
+    startBackground.blit(exitText,exitPos)
+
+    #blit to screen
+    leaveLoop = False
+
+    while not leaveLoop:
+        for event in pygame.event.get():
+            if event.type == KEYDOWN and event.key == K_ESCAPE or event.type == QUIT:
+                leaveLoop = True
+        if isStartMenuVisible:
+            screen.blit(startBackground,(0,0))
+        pygame.display.flip()
+        time_spent = tps(clock, FPS)
+
 
 pygame.init()
 
@@ -20,50 +71,8 @@ pygame.init()
 pygame.mouse.set_visible(0)
 screen = pygame.display.set_mode(SCREEN_SIZE, FULLSCREEN, 32)
 clock = pygame.time.Clock()
-background = pygame.Surface(screen.get_size()).convert()
-width,height = screen.get_size()
-font = pygame.font.Font(None,height // 10)
 
-#render texts
-playText = font.render("PLAY",1,(255,255,255))
-loadText = font.render("LOAD",1,(255,255,255))
-optionsText = font.render("OPTIONS",1,(255,255,255))
-exitText = font.render("EXIT",1,(255,255,255))
-
-#Get rectangles for text
-playPos = playText.get_rect()
-loadPos = loadText.get_rect()
-optionsPos = optionsText.get_rect()
-exitPos = exitText.get_rect()
-
-#Set position of texts
-playPos.centerx = background.get_rect().centerx
-loadPos.centerx = background.get_rect().centerx
-optionsPos.centerx = background.get_rect().centerx
-exitPos.centerx = background.get_rect().centerx
-
-playPos.centery = background.get_rect().centery - 3 * playPos.height
-loadPos.centery = background.get_rect().centery - 1 * loadPos.height
-optionsPos.centery = background.get_rect().centery + 1 * optionsPos.height
-exitPos.centery = background.get_rect().centery + 3 * exitPos.height
-
-#blit to background
-background.blit(playText,playPos)
-background.blit(loadText,loadPos)
-background.blit(optionsText,optionsPos)
-background.blit(exitText,exitPos)
-
-#blit to screen
-screen.blit(background,(0,0))
-pygame.display.flip()
-leaveLoop = False
-
-while not leaveLoop:
-    for event in pygame.event.get():
-        if event.type == KEYDOWN and event.key == K_ESCAPE or event.type == QUIT:
-            leaveLoop = True
-    screen.blit(background,(0,0))
-    time_spent = tps(clock, FPS)
+showMenu(screen,clock)
 
 """Now set variables for gameplay """
 screen_rect = screen.get_rect()
