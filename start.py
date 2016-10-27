@@ -19,6 +19,9 @@ def showMenu(screen,clock):
     width,height = screen.get_size()
     font = pygame.font.Font(None,height // 10)
 
+    #list of characters for name string in new game screen
+    currentCharList = []
+
     #Variables to know what is visible and what isnt
     areOptionsVisible = False
     isLoadingVisible = False
@@ -70,14 +73,22 @@ def showMenu(screen,clock):
                     isLoadingVisible = False
                     isNewGameVisible = False
 
-            #Check if new game has been clicked and then navigate to next menu
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                #Check if exit has been clicked and if it was terminate program
                 if isStartMenuVisible and exitPos.collidepoint(pygame.mouse.get_pos()):
                     pygame.quit()
                     sys.exit()
+                #check if new game is clicked and if it is navigate to next menu
+                elif isStartMenuVisible and playPos.collidepoint(pygame.mouse.get_pos()):
+                    isStartMenuVisible = False
+                    areOptionsVisible = False
+                    isLoadingVisible = False
+                    isNewGameVisible = True
 
         if isStartMenuVisible:
             screen.blit(startBackground,(0,0))
+        elif isNewGameVisible:
+            screen.fill((255,255,255))
 
         pygame.display.flip()
         time_spent = tps(clock, FPS)
