@@ -56,11 +56,11 @@ def showNameBox(screen,font):
         if inKey > 0:
             if inKey == K_BACKSPACE:
                 currentList = currentList[0:-1]
-            elif inKey == K_RETURN:
+            elif inKey == K_ESCAPE:
                 return False
-            elif inKey == K_MINUS:
+            elif inKey == K_MINUS and len(currentList) <= 10:
                 currentList.append("_")
-            elif inKey <= 127:
+            elif inKey <= 127 and len(currentList) <= 10:
                 currentList.append(chr(inKey))
 
         screen.fill((0,0,0))
@@ -70,7 +70,10 @@ def showNameBox(screen,font):
 
         if len(currentList) > 0:
             inputText = font.render(joinString.join(currentList),1,(255,255,255))
-            screen.blit( inputText , inputRect)
+            inputTextPos = inputText.get_rect()
+            inputTextPos.centerx = inputRect.centerx
+            inputTextPos.centery = inputRect.centery
+            screen.blit( inputText , inputTextPos)
         pygame.display.flip()
 
 def showMenu(screen,clock):
