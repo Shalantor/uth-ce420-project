@@ -20,14 +20,25 @@ def showNameBox(screen,font):
     #render texts
     namePrompt = font.render("ENTER YOUR NAME",1,(255,255,255))
     okText = font.render("OK",1,(255,255,255))
+    slotText = font.render("CHOOSE A SLOT",1,(255,255,255))
+    emptyText = font.render("EMPTY",1,(255,255,255))
 
     #get rectangles of texts
     namePos = namePrompt.get_rect()
     okPos = okText.get_rect()
+    slotPos = slotText.get_rect()
+    emptyPos = emptyText.get_rect()
 
     #rectangle for the typed text
     screenRect = screen.get_rect()
     inputRect = Rect(0,0,screenRect.width // 4,screenRect.height // 10)
+
+    #rectangles for slots
+    slotRect1 = Rect(0,0,screenRect.width // 5, screenRect.height // 5)
+    slotRect2 = Rect(0,0,screenRect.width // 5, screenRect.height // 5)
+    slotRect3 = Rect(0,0,screenRect.width // 5, screenRect.height // 5)
+    slotRect4 = Rect(0,0,screenRect.width // 5, screenRect.height // 5)
+    slots = [slotRect1,slotRect2,slotRect3,slotRect4]
 
     #position them
     namePos.centerx = screenRect.centerx
@@ -36,6 +47,37 @@ def showNameBox(screen,font):
     okPos.centery = screenRect.centery + 2 * okPos.height
     inputRect.centerx = screenRect.centerx
     inputRect.centery = screenRect.centery
+    slotPos.centerx = screenRect.centerx
+    slotPos.top = 5
+
+    slotRect1.centerx = screenRect.width // 4
+    slotRect2.centerx = screenRect.width // 4
+    slotRect3.centerx = 3 * (screenRect.width // 4)
+    slotRect4.centerx = 3 * (screenRect.width // 4)
+
+    slotRect1.centery = screenRect.height // 4
+    slotRect2.centery = 3 * (screenRect.height // 4)
+    slotRect3.centery = screenRect.height // 4
+    slotRect4.centery = 3 * (screenRect.height // 4)
+
+    #now draw on screen
+    screen.fill((0,0,0))
+    screen.blit(slotText,slotPos)
+    for r in slots:
+        pygame.draw.rect(screen,(255,255,255),r,1)
+    pygame.display.flip()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    return False
+
+        screen.fill((0,0,0))
+        screen.blit(slotText,slotPos)
+        for r in slots:
+            pygame.draw.rect(screen,(255,255,255),r,1)
+        pygame.display.flip()
 
     #draw on screen
     screen.fill((0,0,0))
@@ -110,6 +152,8 @@ def showMenu(screen,clock):
     loadPos.centery = startBackground.get_rect().centery - 1 * loadPos.height
     optionsPos.centery = startBackground.get_rect().centery + 1 * optionsPos.height
     exitPos.centery = startBackground.get_rect().centery + 3 * exitPos.height
+
+    #now first the screen with the available slots should be shown
 
     #blit to background
     startBackground.blit(playText,playPos)
