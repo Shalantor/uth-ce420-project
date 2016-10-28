@@ -77,6 +77,9 @@ def showNameBox(screen,font):
         screen.blit(slotText,slotPos)
         for r in slots:
             pygame.draw.rect(screen,(255,255,255),r,1)
+            emptyPos.centerx = r.centerx
+            emptyPos.centery = r.centery
+            screen.blit(emptyText,emptyPos)
         pygame.display.flip()
 
     #draw on screen
