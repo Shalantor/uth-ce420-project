@@ -13,6 +13,81 @@ def tps(orologio,fps):
     tps = temp / 1000.
     return tps
 
+def showOptions(screen,font):
+
+    screenRect = screen.get_rect()
+
+    #render texts
+    difficultyText = font.render("DIFFICULTY",1,(255,255,255))
+    easyText = font.render("EASY",1,(255,255,255))
+    mediumText = font.render("MEDIUM",1,(255,255,255))
+    hardText = font.render("HARD",1,(255,255,255))
+    volumeText = font.render("VOLUME",1,(255,255,255))
+
+    #get rectangles of texts
+    difficultyPos = difficultyText.get_rect()
+    easyPos = easyText.get_rect()
+    mediumPos = mediumText.get_rect()
+    hardPos = hardText.get_rect()
+    volumePos = volumeText.get_rect()
+
+    #position them
+    difficultyPos.centerx = screenRect.centerx
+    difficultyPos.top = 5
+    easyPos.centerx = screenRect.width // 4
+    easyPos.top = screenRect.height // 5
+    mediumPos.centerx = screenRect.width // 2
+    mediumPos.top = screenRect.height // 5
+    hardPos.centerx = 3 * (screenRect.width // 4)
+    hardPos.top = screenRect.height // 5
+    volumePos.centerx = screenRect.centerx
+    volumePos.centery = screenRect.centery
+
+    #create volume bar and progress
+    volumeBar = Rect(0,0,screenRect.width // 2, screenRect.height // 10)
+    volumeBar.centerx = screenRect.centerx
+    volumeBar.centery = screenRect.centery + (screenRect.height // 5)
+
+    #TODO:set progress according to current volume
+    volumeProgress = Rect(0,0,volumeBar.width // 2,volumeBar.height)
+    volumeProgress.topleft = volumeBar.topleft
+
+    #now create a rectangle for the button on the progress bar
+    volumeButton = Rect(0,0,volumeBar.width // 10, int(volumeBar.height * 1.5))
+    volumeButton.centerx = volumeProgress.right
+    volumeButton.centery = volumeProgress.centery
+
+    #draw on screen
+    screen.fill((0,0,0))
+    screen.blit(difficultyText,difficultyPos)
+    screen.blit(easyText,easyPos)
+    screen.blit(mediumText,mediumPos)
+    screen.blit(hardText,hardPos)
+    screen.blit(volumeText,volumePos)
+    pygame.draw.rect(screen,(255,255,255),volumeBar,1)
+    pygame.draw.rect(screen,(0,255,0),volumeProgress)
+    pygame.draw.rect(screen,(0,0,255),volumeButton)
+    pygame.display.flip()
+    leaveLoop = False
+
+    while not leaveLoop:
+        for event in pygame.event.get():
+            if event.type == KEYDOWN and event.key == K_ESCAPE:
+                leaveLoop = True
+
+        screen.fill((0,0,0))
+        screen.blit(difficultyText,difficultyPos)
+        screen.blit(easyText,easyPos)
+        screen.blit(mediumText,mediumPos)
+        screen.blit(hardText,hardPos)
+        screen.blit(volumeText,volumePos)
+        pygame.draw.rect(screen,(255,255,255),volumeBar,1)
+        pygame.draw.rect(screen,(0,255,0),volumeProgress)
+        pygame.draw.rect(screen,(0,0,255),volumeButton)
+        pygame.display.flip()
+
+
+
 def showNameBox(screen,font):
     joinString = ""
     currentList = []
@@ -200,6 +275,11 @@ def showMenu(screen,clock):
                     areOptionsVisible = False
                     isLoadingVisible = False
                     isNewGameVisible = True
+                elif isStartMenuVisible and optionsPos.collidepoint(pygame.mouse.get_pos()):
+                    isStartMenuVisible = False
+                    areOptionsVisible = True
+                    isLoadingVisible = False
+                    isNewGameVisible = False
 
         if isStartMenuVisible:
             screen.blit(startBackground,(0,0))
@@ -212,6 +292,12 @@ def showMenu(screen,clock):
                 areOptionsVisible = False
                 isLoadingVisible = False
                 isNewGameVisible = False
+        elif areOptionsVisible:
+            showOptions(screen,font)
+            isStartMenuVisible = True
+            areOptionsVisible = False
+            isLoadingVisible = False
+            isNewGameVisible = False
 
         pygame.display.flip()
         time_spent = tps(clock, FPS)
