@@ -66,65 +66,69 @@ def showNameBox(screen,font):
     for r in slots:
         pygame.draw.rect(screen,(255,255,255),r,1)
     pygame.display.flip()
-    leaveLoop = False
+    leaveFunctionLoop = False
 
-    while not leaveLoop:
-        for event in pygame.event.get():
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    return False
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                for r in slots:
-                    if r.collidepoint(pygame.mouse.get_pos()):
-                        leaveLoop = True
+    while not leaveFunctionLoop:
+        leaveSlotsLoop = False
+        leaveNamePromptLoop = False
 
-        screen.fill((0,0,0))
-        screen.blit(slotText,slotPos)
-        for r in slots:
-            pygame.draw.rect(screen,(255,255,255),r,1)
-            emptyPos.centerx = r.centerx
-            emptyPos.centery = r.centery
-            screen.blit(emptyText,emptyPos)
-        pygame.display.flip()
+        while not leaveSlotsLoop:
+            for event in pygame.event.get():
+                if event.type == KEYDOWN:
+                    if event.key == K_ESCAPE:
+                        return False
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    for r in slots:
+                        if r.collidepoint(pygame.mouse.get_pos()):
+                            leaveSlotsLoop = True
 
-    #draw on screen
-    screen.fill((0,0,0))
-    screen.blit(namePrompt,namePos)
-    screen.blit(okText,okPos)
-    pygame.draw.rect(screen,(255,255,255),inputRect,1)
-    pygame.display.flip()
+            screen.fill((0,0,0))
+            screen.blit(slotText,slotPos)
+            for r in slots:
+                pygame.draw.rect(screen,(255,255,255),r,1)
+                emptyPos.centerx = r.centerx
+                emptyPos.centery = r.centery
+                screen.blit(emptyText,emptyPos)
+            pygame.display.flip()
 
-    while True:
-        inKey = -1
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                if okPos.collidepoint(pygame.mouse.get_pos()):
-                    return True
-            if event.type == KEYDOWN:
-                inKey = event.key
-
-        if inKey > 0:
-            if inKey == K_BACKSPACE:
-                currentList = currentList[0:-1]
-            elif inKey == K_ESCAPE:
-                return False
-            elif inKey == K_MINUS and len(currentList) <= 10:
-                currentList.append("_")
-            elif inKey <= 127 and len(currentList) <= 10:
-                currentList.append(chr(inKey))
-
+        #draw on screen
         screen.fill((0,0,0))
         screen.blit(namePrompt,namePos)
         screen.blit(okText,okPos)
         pygame.draw.rect(screen,(255,255,255),inputRect,1)
-
-        if len(currentList) > 0:
-            inputText = font.render(joinString.join(currentList),1,(255,255,255))
-            inputTextPos = inputText.get_rect()
-            inputTextPos.centerx = inputRect.centerx
-            inputTextPos.centery = inputRect.centery
-            screen.blit( inputText , inputTextPos)
         pygame.display.flip()
+
+        while not leaveNamePromptLoop:
+            inKey = -1
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    if okPos.collidepoint(pygame.mouse.get_pos()):
+                        return True
+                if event.type == KEYDOWN:
+                    inKey = event.key
+
+            if inKey > 0:
+                if inKey == K_BACKSPACE:
+                    currentList = currentList[0:-1]
+                elif inKey == K_ESCAPE:
+                    leaveNamePromptLoop = True
+                elif inKey == K_MINUS and len(currentList) <= 10:
+                    currentList.append("_")
+                elif inKey <= 127 and len(currentList) <= 10:
+                    currentList.append(chr(inKey))
+
+            screen.fill((0,0,0))
+            screen.blit(namePrompt,namePos)
+            screen.blit(okText,okPos)
+            pygame.draw.rect(screen,(255,255,255),inputRect,1)
+
+            if len(currentList) > 0:
+                inputText = font.render(joinString.join(currentList),1,(255,255,255))
+                inputTextPos = inputText.get_rect()
+                inputTextPos.centerx = inputRect.centerx
+                inputTextPos.centery = inputRect.centery
+                screen.blit( inputText , inputTextPos)
+            pygame.display.flip()
 
 def showMenu(screen,clock):
     pygame.mouse.set_visible(1)
