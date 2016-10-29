@@ -35,25 +35,27 @@ def showOptions(screen,font):
     difficultyPos.centerx = screenRect.centerx
     difficultyPos.top = 5
     easyPos.centerx = screenRect.width // 4
-    easyPos.top = screenRect.height // 5
+    easyPos.top = int(1.2 * difficultyPos.height)
     mediumPos.centerx = screenRect.width // 2
-    mediumPos.top = screenRect.height // 5
+    mediumPos.top = int(1.2 * difficultyPos.height)
     hardPos.centerx = 3 * (screenRect.width // 4)
-    hardPos.top = screenRect.height // 5
-    volumePos.centerx = screenRect.centerx
-    volumePos.centery = screenRect.centery
+    hardPos.top = int(1.2 * difficultyPos.height)
 
     #create volume bar and progress
-    volumeBar = Rect(0,0,screenRect.width // 2, screenRect.height // 10)
+    volumeBar = Rect(0,0,screenRect.width // 2, screenRect.height // 12)
     volumeBar.centerx = screenRect.centerx
-    volumeBar.centery = screenRect.centery + (screenRect.height // 5)
+    volumeBar.bottom = screenRect.bottom - 10
+
+    #adjust volume text position
+    volumePos.right = volumeBar.left - 10
+    volumePos.bottom = volumeBar.bottom
 
     #TODO:set progress according to current volume
     volumeProgress = Rect(0,0,volumeBar.width // 2,volumeBar.height)
     volumeProgress.topleft = volumeBar.topleft
 
     #now create a rectangle for the button on the progress bar
-    volumeButton = Rect(0,0,volumeBar.width // 10, int(volumeBar.height * 1.5))
+    volumeButton = Rect(0,0,volumeBar.width // 12, int(volumeBar.height * 1.2))
     volumeButton.centerx = volumeProgress.right
     volumeButton.centery = volumeProgress.centery
 
