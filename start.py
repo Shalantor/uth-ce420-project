@@ -18,28 +18,16 @@ def showOptions(screen,font):
     screenRect = screen.get_rect()
 
     #render texts
-    difficultyText = font.render("DIFFICULTY",1,(255,255,255))
-    easyText = font.render("EASY",1,(255,255,255))
-    mediumText = font.render("MEDIUM",1,(255,255,255))
-    hardText = font.render("HARD",1,(255,255,255))
     volumeText = font.render("VOLUME",1,(255,255,255))
+    controlsText = font.render("CONTROLS",1,(255,255,255))
 
     #get rectangles of texts
-    difficultyPos = difficultyText.get_rect()
-    easyPos = easyText.get_rect()
-    mediumPos = mediumText.get_rect()
-    hardPos = hardText.get_rect()
     volumePos = volumeText.get_rect()
+    controlsPos = controlsText.get_rect()
 
     #position them
-    difficultyPos.centerx = screenRect.centerx
-    difficultyPos.top = 5
-    easyPos.centerx = screenRect.width // 4
-    easyPos.top = int(1.2 * difficultyPos.height)
-    mediumPos.centerx = screenRect.width // 2
-    mediumPos.top = int(1.2 * difficultyPos.height)
-    hardPos.centerx = 3 * (screenRect.width // 4)
-    hardPos.top = int(1.2 * difficultyPos.height)
+    controlsPos.centerx = screenRect.centerx
+    controlsPos.top = screenRect.top
 
     #create volume bar and progress
     volumeBar = Rect(0,0,screenRect.width // 2, screenRect.height // 12)
@@ -61,11 +49,8 @@ def showOptions(screen,font):
 
     #draw on screen
     screen.fill((0,0,0))
-    screen.blit(difficultyText,difficultyPos)
-    screen.blit(easyText,easyPos)
-    screen.blit(mediumText,mediumPos)
-    screen.blit(hardText,hardPos)
     screen.blit(volumeText,volumePos)
+    screen.blit(controlsText,controlsPos)
     pygame.draw.rect(screen,(255,255,255),volumeBar,1)
     pygame.draw.rect(screen,(0,255,0),volumeProgress)
     pygame.draw.rect(screen,(0,0,255),volumeButton)
@@ -78,11 +63,8 @@ def showOptions(screen,font):
                 leaveLoop = True
 
         screen.fill((0,0,0))
-        screen.blit(difficultyText,difficultyPos)
-        screen.blit(easyText,easyPos)
-        screen.blit(mediumText,mediumPos)
-        screen.blit(hardText,hardPos)
         screen.blit(volumeText,volumePos)
+        screen.blit(controlsText,controlsPos)
         pygame.draw.rect(screen,(255,255,255),volumeBar,1)
         pygame.draw.rect(screen,(0,255,0),volumeProgress)
         pygame.draw.rect(screen,(0,0,255),volumeButton)
