@@ -80,6 +80,9 @@ def showNameBox(screen,font):
     joinString = ""
     currentList = []
 
+    #difficulties: 0 for easy, 1 for medium, 2 for hard, default is easy
+    activeDifficulty = 0
+
     #render texts
     namePrompt = font.render("ENTER YOUR NAME",1,(255,255,255))
     okText = font.render("OK",1,(255,255,255))
@@ -129,6 +132,9 @@ def showNameBox(screen,font):
     mediumPos.top = difficultyPos.bottom + 50
     hardPos.top = difficultyPos.bottom + 50
 
+    #list for easier rendering of active difficulty
+    diffList = [easyPos,mediumPos,hardPos]
+
     slotRect1.centerx = screenRect.width // 4
     slotRect2.centerx = screenRect.width // 4
     slotRect3.centerx = 3 * (screenRect.width // 4)
@@ -161,6 +167,7 @@ def showNameBox(screen,font):
                         if r.collidepoint(pygame.mouse.get_pos()):
                             leaveSlotsLoop = True
 
+
             screen.fill((0,0,0))
             screen.blit(slotText,slotPos)
             for r in slots:
@@ -183,6 +190,9 @@ def showNameBox(screen,font):
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if okPos.collidepoint(pygame.mouse.get_pos()):
                         return True
+                    for pos in diffList:
+                        if pos.collidepoint(pygame.mouse.get_pos()):
+                            activeDifficulty = diffList.index(pos)
                 if event.type == KEYDOWN:
                     inKey = event.key
 
@@ -197,6 +207,7 @@ def showNameBox(screen,font):
                     currentList.append(chr(inKey))
 
             screen.fill((0,0,0))
+            pygame.draw.rect(screen,(0,255,0),diffList[activeDifficulty])
             screen.blit(namePrompt,namePos)
             screen.blit(okText,okPos)
             screen.blit(difficultyText,difficultyPos)
