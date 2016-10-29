@@ -66,8 +66,6 @@ def showOptions(screen,font):
                     volumeProgress.width = pygame.mouse.get_pos()[0] - volumeBar.left
                     volumeProgress.topleft = volumeBar.topleft
                     volumeButton.centerx = volumeProgress.right
-
-
         screen.fill((0,0,0))
         screen.blit(volumeText,volumePos)
         screen.blit(controlsText,controlsPos)
@@ -87,12 +85,20 @@ def showNameBox(screen,font):
     okText = font.render("OK",1,(255,255,255))
     slotText = font.render("CHOOSE A SLOT",1,(255,255,255))
     emptyText = font.render("EMPTY",1,(255,255,255))
+    difficultyText = font.render("CHOOSE DIFFICULTY",1,(255,255,255))
+    easyText = font.render("EASY",1,(255,255,255))
+    mediumText = font.render("MEDIUM",1,(255,255,255))
+    hardText = font.render("HARD",1,(255,255,255))
 
     #get rectangles of texts
     namePos = namePrompt.get_rect()
     okPos = okText.get_rect()
     slotPos = slotText.get_rect()
     emptyPos = emptyText.get_rect()
+    difficultyPos = difficultyText.get_rect()
+    easyPos = easyText.get_rect()
+    mediumPos = mediumText.get_rect()
+    hardPos = hardText.get_rect()
 
     #rectangle for the typed text
     screenRect = screen.get_rect()
@@ -108,12 +114,20 @@ def showNameBox(screen,font):
     #position them
     namePos.centerx = screenRect.centerx
     okPos.centerx = screenRect.centerx
-    namePos.top = 2 * namePos.height
-    okPos.centery = screenRect.centery + 2 * okPos.height
+    okPos.bottom = screenRect.bottom - 170
     inputRect.centerx = screenRect.centerx
-    inputRect.centery = screenRect.centery
+    inputRect.bottom = okPos.top - 50
+    namePos.bottom = inputRect.top - 50
     slotPos.centerx = screenRect.centerx
     slotPos.top = 5
+    difficultyPos.centerx = screenRect.centerx
+    difficultyPos.top = 5
+    easyPos.centerx = screenRect.centerx - (screenRect.width // 3)
+    mediumPos.centerx = screenRect.centerx
+    hardPos.centerx = screenRect.centerx + (screenRect.width // 3)
+    easyPos.top = difficultyPos.bottom + 50
+    mediumPos.top = difficultyPos.bottom + 50
+    hardPos.top = difficultyPos.bottom + 50
 
     slotRect1.centerx = screenRect.width // 4
     slotRect2.centerx = screenRect.width // 4
@@ -185,6 +199,10 @@ def showNameBox(screen,font):
             screen.fill((0,0,0))
             screen.blit(namePrompt,namePos)
             screen.blit(okText,okPos)
+            screen.blit(difficultyText,difficultyPos)
+            screen.blit(easyText,easyPos)
+            screen.blit(mediumText,mediumPos)
+            screen.blit(hardText,hardPos)
             pygame.draw.rect(screen,(255,255,255),inputRect,1)
 
             if len(currentList) > 0:
