@@ -43,7 +43,7 @@ def showOptions(screen,font):
     volumeProgress.topleft = volumeBar.topleft
 
     #now create a rectangle for the button on the progress bar
-    volumeButton = Rect(0,0,volumeBar.width // 12, int(volumeBar.height * 1.2))
+    volumeButton = Rect(0,0,volumeBar.width // 20, int(volumeBar.height * 1.2))
     volumeButton.centerx = volumeProgress.right
     volumeButton.centery = volumeProgress.centery
 
@@ -61,6 +61,12 @@ def showOptions(screen,font):
         for event in pygame.event.get():
             if event.type == KEYDOWN and event.key == K_ESCAPE:
                 leaveLoop = True
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if volumeBar.collidepoint(pygame.mouse.get_pos()):
+                    volumeProgress.width = pygame.mouse.get_pos()[0] - volumeBar.left
+                    volumeProgress.topleft = volumeBar.topleft
+                    volumeButton.centerx = volumeProgress.right
+
 
         screen.fill((0,0,0))
         screen.blit(volumeText,volumePos)
