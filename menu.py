@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 import sys
 import sqlite3
+from databaseUtils import *
 
 FPS = 30
 DATABASE = 'random.db'
@@ -81,11 +82,16 @@ def showNameBox(screen,font):
     #difficulties: 0 for easy, 1 for medium, 2 for hard, default is easy
     activeDifficulty = 0
 
+    #get user data
+    profiles = getProfiles()
+    profileTexts = []
+    for p in profiles:
+        profileTexts.append(font.render(p,1,(255,255,255)))
+
     #render texts
     namePrompt = font.render("ENTER YOUR NAME",1,(255,255,255))
     okText = font.render("OK",1,(255,255,255))
     slotText = font.render("CHOOSE A SLOT",1,(255,255,255))
-    emptyText = font.render("EMPTY",1,(255,255,255))
     difficultyText = font.render("CHOOSE DIFFICULTY",1,(255,255,255))
     easyText = font.render("EASY",1,(255,255,255))
     mediumText = font.render("MEDIUM",1,(255,255,255))
@@ -95,11 +101,11 @@ def showNameBox(screen,font):
     namePos = namePrompt.get_rect()
     okPos = okText.get_rect()
     slotPos = slotText.get_rect()
-    emptyPos = emptyText.get_rect()
     difficultyPos = difficultyText.get_rect()
     easyPos = easyText.get_rect()
     mediumPos = mediumText.get_rect()
     hardPos = hardText.get_rect()
+    profilePos = Rect(0,0,slotPos.width // 2,slotPos.height)
 
     #rectangle for the typed text
     screenRect = screen.get_rect()
@@ -168,11 +174,11 @@ def showNameBox(screen,font):
 
             screen.fill((0,0,0))
             screen.blit(slotText,slotPos)
-            for r in slots:
-                pygame.draw.rect(screen,(255,255,255),r,1)
-                emptyPos.centerx = r.centerx
-                emptyPos.centery = r.centery
-                screen.blit(emptyText,emptyPos)
+            for i in range(0,4):
+                pygame.draw.rect(screen,(255,255,255),slots[i],1)
+                profilePos.left = slots[i].left + 5
+                profilePos.centery = slots[i].centery
+                screen.blit(profileTexts[i],profilePos)
             pygame.display.flip()
 
         #draw on screen
@@ -199,9 +205,9 @@ def showNameBox(screen,font):
                     currentList = currentList[0:-1]
                 elif inKey == K_ESCAPE:
                     leaveNamePromptLoop = True
-                elif inKey == K_MINUS and len(currentList) <= 10:
+                elif inKey == K_MINUS and len(currentList) <= 8:
                     currentList.append("_")
-                elif inKey <= 127 and len(currentList) <= 10:
+                elif inKey <= 127 and len(currentList) <= 8:
                     currentList.append(chr(inKey))
 
             screen.fill((0,0,0))
