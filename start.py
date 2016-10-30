@@ -10,8 +10,10 @@ from databaseUtils import *
 SCREEN_SIZE = (1280, 720) #resolution of the game
 FPS = 30
 
-"""HERE THE MAIN PROGRAM STARTS"""
+"""SETUP DATABASE"""
 setupDatabase()
+
+"""HERE THE MAIN PROGRAM STARTS"""
 
 pygame.init()
 

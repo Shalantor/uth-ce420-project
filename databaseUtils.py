@@ -37,3 +37,14 @@ def enterProfile(userId,name):
     cursor.execute('UPDATE Profiles SET id=?,name=?,level=?,lives=?,coins=? WHERE id=?',data)
     connection.commit()
     connection.close()
+
+#Function to get all names from database
+def getProfiles():
+    connection = sqlite3.connect(DATABASE)
+    cursor = connection.cursor()
+    cursor.execute('SELECT name from Profiles')
+    names = []
+    for n in cursor:
+        names.append(n)
+    connection.close()
+    return names
