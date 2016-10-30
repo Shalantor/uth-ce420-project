@@ -1,8 +1,10 @@
 import pygame
 from pygame.locals import *
 import sys
+import sqlite3
 
 FPS = 30
+DATABASE = 'random.db'
 
 def tps(orologio,fps):
     temp = orologio.tick(fps)
@@ -221,6 +223,7 @@ def showNameBox(screen,font):
             pygame.display.flip()
 
 def showMenu(screen,clock):
+
     pygame.mouse.set_visible(1)
     startBackground = pygame.Surface(screen.get_size()).convert()
     width,height = screen.get_size()

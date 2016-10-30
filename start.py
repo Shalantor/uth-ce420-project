@@ -5,10 +5,13 @@ from level import *
 from player import *
 from camera import *
 from menu import *
+from databaseUtils import *
 
 SCREEN_SIZE = (1280, 720) #resolution of the game
+FPS = 30
 
 """HERE THE MAIN PROGRAM STARTS"""
+setupDatabase()
 
 pygame.init()
 
