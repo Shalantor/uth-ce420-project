@@ -45,6 +45,17 @@ def getProfiles():
     cursor.execute('SELECT name from Profiles')
     names = []
     for n in cursor:
-        names.append(n)
+        names.append(n[0])
     connection.close()
     return names
+
+#Function to get profile data
+def getData(userId):
+    connection = sqlite3.connect(DATABASE)
+    cursor = connection.cursor()
+    data = (userId,)
+    cursor.execute('SELECT * FROM Profiles WHERE id=?',data)
+    cursorResult = cursor.fetchone()
+    statistics = {"name":cursorResult[1],"level":cursorResult[2],"lives":cursorResult[3],"coins":cursorResult[4]}
+    connection.close()
+    return statistics
