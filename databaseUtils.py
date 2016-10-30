@@ -15,15 +15,16 @@ def setupDatabase():
                                 level integer,
                                 lives integer,
                                 coins integer,
+                                difficulty integer,
                                 PRIMARY KEY(id))''')
     cursor.execute('SELECT * FROM Profiles')
-    if cursor == None:
+    if cursor.fetchone() == None:
         #now fill with four profiles
-        startProfiles = [ (0,'EMPTY',START_LEVEL,START_LIVES,START_COINS),
-                          (1,'EMPTY',START_LEVEL,START_LIVES,START_COINS),
-                          (2,'EMPTY',START_LEVEL,START_LIVES,START_COINS),
-                          (3,'EMPTY',START_LEVEL,START_LIVES,START_COINS),]
-        cursor.executemany('INSERT INTO Profiles VALUES (?,?,?,?,?)',startProfiles)
+        startProfiles = [ (0,'EMPTY',START_LEVEL,START_LIVES,START_COINS,0),
+                          (1,'EMPTY',START_LEVEL,START_LIVES,START_COINS,0),
+                          (2,'EMPTY',START_LEVEL,START_LIVES,START_COINS,0),
+                          (3,'EMPTY',START_LEVEL,START_LIVES,START_COINS,0),]
+        cursor.executemany('INSERT INTO Profiles VALUES (?,?,?,?,?,?)',startProfiles)
 
     connection.commit()
     connection.close()
@@ -33,8 +34,8 @@ def setupDatabase():
 def enterProfile(userId,name):
     connection = sqlite3.connect(DATABASE)
     cursor = connection.cursor()
-    data = (userId,name,START_LEVEL,START_LIVES,START_COINS,userId)
-    cursor.execute('UPDATE Profiles SET id=?,name=?,level=?,lives=?,coins=? WHERE id=?',data)
+    data = (userId,name,START_LEVEL,START_LIVES,START_COINS,0,userId)
+    cursor.execute('UPDATE Profiles SET id=?,name=?,level=?,lives=?,coins=?,difficulty=? WHERE id=?',data)
     connection.commit()
     connection.close()
 
@@ -56,6 +57,6 @@ def getData(userId):
     data = (userId,)
     cursor.execute('SELECT * FROM Profiles WHERE id=?',data)
     cursorResult = cursor.fetchone()
-    statistics = {"name":cursorResult[1],"level":cursorResult[2],"lives":cursorResult[3],"coins":cursorResult[4]}
+    statistics = {"name":cursorResult[1],"level":cursorResult[2],"lives":cursorResult[3],"coins":cursorResult[4],"difficulty":cursorResult[5]}
     connection.close()
     return statistics

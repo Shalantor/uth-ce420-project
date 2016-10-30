@@ -180,8 +180,7 @@ def showNameBox(screen,font):
             screen.blit(slotText,slotPos)
             for i in range(0,4):
                 pygame.draw.rect(screen,(255,255,255),slots[i],1)
-                profilePos.left = slots[i].left + 5
-                profilePos.centery = slots[i].centery
+                profilePos.center = slots[i].center
                 screen.blit(profileTexts[i],profilePos)
             pygame.display.flip()
 
@@ -210,9 +209,9 @@ def showNameBox(screen,font):
                     currentList = currentList[0:-1]
                 elif inKey == K_ESCAPE:
                     leaveNamePromptLoop = True
-                elif inKey == K_MINUS and len(currentList) <= 8:
+                elif inKey == K_MINUS and len(currentList) <= 7:
                     currentList.append("_")
-                elif inKey <= 127 and len(currentList) <= 8:
+                elif inKey <= 127 and len(currentList) <= 7:
                     currentList.append(chr(inKey))
 
             screen.fill((0,0,0))
