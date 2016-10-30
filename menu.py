@@ -157,6 +157,9 @@ def showNameBox(screen,font):
     pygame.display.flip()
     leaveFunctionLoop = False
 
+    #the slot that is chosen
+    chosenSlot = 0
+
     while not leaveFunctionLoop:
         leaveSlotsLoop = False
         leaveNamePromptLoop = False
@@ -169,6 +172,7 @@ def showNameBox(screen,font):
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     for r in slots:
                         if r.collidepoint(pygame.mouse.get_pos()):
+                            chosenSlot = slots.index(r)
                             leaveSlotsLoop = True
 
 
@@ -192,7 +196,8 @@ def showNameBox(screen,font):
             inKey = -1
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    if okPos.collidepoint(pygame.mouse.get_pos()):
+                    if okPos.collidepoint(pygame.mouse.get_pos()) and len(currentList) >= 1:
+                        enterProfile(chosenSlot,"".join(currentList))
                         return True
                     for pos in diffList:
                         if pos.collidepoint(pygame.mouse.get_pos()):
