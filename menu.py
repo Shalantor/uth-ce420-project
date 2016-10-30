@@ -12,6 +12,61 @@ def tps(orologio,fps):
     tps = temp / 1000.
     return tps
 
+def showLoadingScreen(screen,font):
+
+    screenRect = screen.get_rect()
+    chooseText = font.render("CHOOSE A SAVE",1,(255,255,255))
+    choosePos = chooseText.get_rect()
+    choosePos.centerx = screenRect.centerx
+    choosePos.top = 5
+
+    #get user data
+    profiles = getProfiles()
+    profileTexts = []
+    for p in profiles:
+        profileTexts.append(font.render(p,1,(255,255,255)))
+
+    profilePos = Rect(0,0,choosePos.width // 2,choosePos.height)
+
+    #rectangles for slots
+    slotRect1 = Rect(0,0,screenRect.width // 5, screenRect.height // 5)
+    slotRect2 = Rect(0,0,screenRect.width // 5, screenRect.height // 5)
+    slotRect3 = Rect(0,0,screenRect.width // 5, screenRect.height // 5)
+    slotRect4 = Rect(0,0,screenRect.width // 5, screenRect.height // 5)
+    slots = [slotRect1,slotRect2,slotRect3,slotRect4]
+
+    #positioning them on screen
+    slotRect1.centerx = screenRect.width // 4
+    slotRect2.centerx = screenRect.width // 4
+    slotRect3.centerx = 3 * (screenRect.width // 4)
+    slotRect4.centerx = 3 * (screenRect.width // 4)
+
+    slotRect1.centery = screenRect.height // 4
+    slotRect2.centery = 3 * (screenRect.height // 4)
+    slotRect3.centery = screenRect.height // 4
+    slotRect4.centery = 3 * (screenRect.height // 4)
+
+    #now draw on screen
+    screen.fill((0,0,0))
+    screen.blit(chooseText,choosePos)
+    for r in slots:
+        pygame.draw.rect(screen,(255,255,255),r,1)
+    pygame.display.flip()
+    leaveLoop = False
+
+    while not leaveLoop:
+        for event in pygame.event.get():
+            if event.type == KEYDOWN and event.key == K_ESCAPE:
+                leaveLoop = True
+            screen.fill((0,0,0))
+            screen.blit(chooseText,choosePos)
+            for i in range(0,4):
+                pygame.draw.rect(screen,(255,255,255),slots[i],1)
+                profilePos.center = slots[i].center
+                screen.blit(profileTexts[i],profilePos)
+            pygame.display.flip()
+
+
 def showOptions(screen,font):
 
     screenRect = screen.get_rect()
@@ -196,7 +251,7 @@ def showNameBox(screen,font):
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if okPos.collidepoint(pygame.mouse.get_pos()) and len(currentList) >= 1:
-                        enterProfile(chosenSlot,"".join(currentList))
+                        enterProfile(chosenSlot,"".join(currentList),activeDifficulty)
                         return True
                     for pos in diffList:
                         if pos.collidepoint(pygame.mouse.get_pos()):
@@ -308,6 +363,11 @@ def showMenu(screen,clock):
                     areOptionsVisible = True
                     isLoadingVisible = False
                     isNewGameVisible = False
+                elif isStartMenuVisible and loadPos.collidepoint(pygame.mouse.get_pos()):
+                    isStartMenuVisible = False
+                    areOptionsVisible = False
+                    isLoadingVisible = True
+                    isNewGameVisible = False
 
         if isStartMenuVisible:
             screen.blit(startBackground,(0,0))
@@ -322,6 +382,12 @@ def showMenu(screen,clock):
                 isNewGameVisible = False
         elif areOptionsVisible:
             showOptions(screen,font)
+            isStartMenuVisible = True
+            areOptionsVisible = False
+            isLoadingVisible = False
+            isNewGameVisible = False
+        elif isLoadingVisible:
+            showLoadingScreen(screen,font)
             isStartMenuVisible = True
             areOptionsVisible = False
             isLoadingVisible = False

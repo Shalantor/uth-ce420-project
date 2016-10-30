@@ -31,10 +31,10 @@ def setupDatabase():
 
 
 #Enter new user (will be called for new game)
-def enterProfile(userId,name):
+def enterProfile(userId,name,difficulty):
     connection = sqlite3.connect(DATABASE)
     cursor = connection.cursor()
-    data = (userId,name,START_LEVEL,START_LIVES,START_COINS,0,userId)
+    data = (userId,name,START_LEVEL,START_LIVES,START_COINS,difficulty,userId)
     cursor.execute('UPDATE Profiles SET id=?,name=?,level=?,lives=?,coins=?,difficulty=? WHERE id=?',data)
     connection.commit()
     connection.close()
