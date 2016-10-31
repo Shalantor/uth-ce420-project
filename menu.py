@@ -19,6 +19,7 @@ def showPauseScreen(screen,playerId):
     font = pygame.font.Font(None,height // 10)
     screenRect = screen.get_rect()
     pygame.mouse.set_visible(1)
+    activeDifficulty = getDifficulty(playerId)
 
     #render texts
     difficultyText = font.render("DIFFICULTY",1,(255,255,255))
@@ -47,6 +48,7 @@ def showPauseScreen(screen,playerId):
     hardPos.top = difficultyPos.bottom + 50
     exitPos.centerx = screenRect.centerx
     exitPos.bottom = screenRect.bottom - 100
+    diffList = [easyPos,mediumPos,hardPos]
 
     #Volume bar setup
     volumeBar = Rect(0,0,screenRect.width // 2, screenRect.height // 12)
@@ -90,9 +92,15 @@ def showPauseScreen(screen,playerId):
                     volumeButton.centerx = volumeProgress.right
                 if exitPos.collidepoint(pygame.mouse.get_pos()):
                     return True
+                for rect in diffList:
+                    if rect.collidepoint(pygame.mouse.get_pos()):
+                        activeDifficulty = diffList.index(rect)
+                        changeDifficulty(playerId,activeDifficulty)
+
         #draw on screen
         screen.fill((0,0,0))
         screen.blit(difficultyText,difficultyPos)
+        pygame.draw.rect(screen,(0,255,0),diffList[activeDifficulty])
         screen.blit(easyText,easyPos)
         screen.blit(mediumText,mediumPos)
         screen.blit(hardText,hardPos)

@@ -75,5 +75,6 @@ def getDifficulty(userId):
     cursor = connection.cursor()
     data = (userId,)
     cursor.execute('SELECT difficulty FROM Profiles WHERE id=?',data)
+    cursorResult = cursor.fetchone()
     connection.close()
-    return cursor.fetchone()
+    return cursorResult[0]
