@@ -44,6 +44,7 @@ while True:
         for event in pygame.event.get():
             if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
                 leaveLoop = showPauseScreen(screen,playerId)
+                pygame.mouse.set_visible(0)
 
             if event.type == KEYDOWN and event.key == K_UP:
                 up = True
