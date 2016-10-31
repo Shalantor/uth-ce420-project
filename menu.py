@@ -12,6 +12,101 @@ def tps(orologio,fps):
     tps = temp / 1000.
     return tps
 
+#Function to show pause screen from game
+#Returns true for leaving game and false for just continuing
+def showPauseScreen(screen):
+    width,height = screen.get_size()
+    font = pygame.font.Font(None,height // 10)
+    screenRect = screen.get_rect()
+    pygame.mouse.set_visible(1)
+
+    #render texts
+    difficultyText = font.render("DIFFICULTY",1,(255,255,255))
+    easyText = font.render("EASY",1,(255,255,255))
+    mediumText = font.render("MEDIUM",1,(255,255,255))
+    hardText = font.render("HARD",1,(255,255,255))
+    volumeText = font.render("VOLUME",1,(255,255,255))
+    exitText = font.render("EXIT",1,(255,255,255))
+
+    #get rectangles
+    difficultyPos = difficultyText.get_rect()
+    easyPos = easyText.get_rect()
+    mediumPos = mediumText.get_rect()
+    hardPos = hardText.get_rect()
+    volumePos = volumeText.get_rect()
+    exitPos = exitText.get_rect()
+
+    #position them
+    difficultyPos.centerx = screenRect.centerx
+    difficultyPos.top = 5
+    easyPos.centerx = screenRect.centerx - (screenRect.width // 3)
+    mediumPos.centerx = screenRect.centerx
+    hardPos.centerx = screenRect.centerx + (screenRect.width // 3)
+    easyPos.top = difficultyPos.bottom + 50
+    mediumPos.top = difficultyPos.bottom + 50
+    hardPos.top = difficultyPos.bottom + 50
+    exitPos.centerx = screenRect.centerx
+    exitPos.bottom = screenRect.bottom - 100
+
+    #Volume bar setup
+    volumeBar = Rect(0,0,screenRect.width // 2, screenRect.height // 12)
+    volumeBar.centerx = screenRect.centerx
+    volumeBar.centery = screenRect.centery
+
+    #adjust volume text position
+    volumePos.right = volumeBar.left - 10
+    volumePos.bottom = volumeBar.bottom
+
+    #TODO:set progress according to current volume
+    volumeProgress = Rect(0,0,volumeBar.width // 2,volumeBar.height)
+    volumeProgress.topleft = volumeBar.topleft
+
+    #now create a rectangle for the button on the progress bar
+    volumeButton = Rect(0,0,volumeBar.width // 20, int(volumeBar.height * 1.2))
+    volumeButton.centerx = volumeProgress.right
+    volumeButton.centery = volumeProgress.centery
+
+    #draw on screen
+    screen.fill((0,0,0))
+    screen.blit(difficultyText,difficultyPos)
+    screen.blit(easyText,easyPos)
+    screen.blit(mediumText,mediumPos)
+    screen.blit(hardText,hardPos)
+    screen.blit(volumeText,volumePos)
+    screen.blit(exitText,exitPos)
+    pygame.draw.rect(screen,(255,255,255),volumeBar,1)
+    pygame.draw.rect(screen,(0,255,0),volumeProgress)
+    pygame.draw.rect(screen,(0,0,255),volumeButton)
+    pygame.display.flip()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == KEYDOWN and event.key == K_ESCAPE:
+                return False
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if volumeBar.collidepoint(pygame.mouse.get_pos()):
+                    volumeProgress.width = pygame.mouse.get_pos()[0] - volumeBar.left
+                    volumeProgress.topleft = volumeBar.topleft
+                    volumeButton.centerx = volumeProgress.right
+                if exitPos.collidepoint(pygame.mouse.get_pos()):
+                    return True
+        #draw on screen
+        screen.fill((0,0,0))
+        screen.blit(difficultyText,difficultyPos)
+        screen.blit(easyText,easyPos)
+        screen.blit(mediumText,mediumPos)
+        screen.blit(hardText,hardPos)
+        screen.blit(volumeText,volumePos)
+        screen.blit(exitText,exitPos)
+        pygame.draw.rect(screen,(255,255,255),volumeBar,1)
+        pygame.draw.rect(screen,(0,255,0),volumeProgress)
+        pygame.draw.rect(screen,(0,0,255),volumeButton)
+        pygame.display.flip()
+
+
+
+
+
 def showLoadingScreen(screen,font):
 
     screenRect = screen.get_rect()
