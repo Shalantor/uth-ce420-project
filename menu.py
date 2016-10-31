@@ -14,7 +14,7 @@ def tps(orologio,fps):
 
 #Function to show pause screen from game
 #Returns true for leaving game and false for just continuing
-def showPauseScreen(screen):
+def showPauseScreen(screen,playerId):
     width,height = screen.get_size()
     font = pygame.font.Font(None,height // 10)
     screenRect = screen.get_rect()
@@ -102,9 +102,6 @@ def showPauseScreen(screen):
         pygame.draw.rect(screen,(0,255,0),volumeProgress)
         pygame.draw.rect(screen,(0,0,255),volumeButton)
         pygame.display.flip()
-
-
-
 
 
 def showLoadingScreen(screen,font):
@@ -347,7 +344,7 @@ def showNameBox(screen,font):
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if okPos.collidepoint(pygame.mouse.get_pos()) and len(currentList) >= 1:
                         enterProfile(chosenSlot,"".join(currentList),activeDifficulty)
-                        return True
+                        return True,chosenSlot
                     for pos in diffList:
                         if pos.collidepoint(pygame.mouse.get_pos()):
                             activeDifficulty = diffList.index(pos)
@@ -467,7 +464,7 @@ def showMenu(screen,clock):
         if isStartMenuVisible:
             screen.blit(startBackground,(0,0))
         elif isNewGameVisible:
-            startGame = showNameBox(screen,font)
+            startGame,playerId = showNameBox(screen,font)
             if startGame:
                 leaveLoop = True
             else:
@@ -482,7 +479,7 @@ def showMenu(screen,clock):
             isLoadingVisible = False
             isNewGameVisible = False
         elif isLoadingVisible:
-            showLoadingScreen(screen,font)
+            playerId = showLoadingScreen(screen,font)
             isStartMenuVisible = True
             areOptionsVisible = False
             isLoadingVisible = False
@@ -490,3 +487,4 @@ def showMenu(screen,clock):
 
         pygame.display.flip()
         time_spent = tps(clock, FPS)
+    return playerId

@@ -23,7 +23,7 @@ clock = pygame.time.Clock()
 
 """Now set variables for gameplay """
 while True:
-    showMenu(screen,clock)
+    playerId = showMenu(screen,clock)
     pygame.mouse.set_visible(0)
     screen_rect = screen.get_rect()
     background = pygame.image.load("world/background2.jpg").convert_alpha()
@@ -43,7 +43,7 @@ while True:
 
         for event in pygame.event.get():
             if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
-                leaveLoop = showPauseScreen(screen)
+                leaveLoop = showPauseScreen(screen,playerId)
 
             if event.type == KEYDOWN and event.key == K_UP:
                 up = True
