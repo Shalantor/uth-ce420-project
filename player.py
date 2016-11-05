@@ -94,9 +94,9 @@ class Player(pygame.sprite.Sprite):
 
         if shooting and time.time() - self.lastShotTime > SHOOTING_FREQUENCY:
             if self.direction == "right":
-                projectile = Rect(self.rect.right,self.rect.top,self.rect.w // 2,self.rect.h // 10)
+                projectile = Rect(self.rect.right,self.rect.top,self.rect.w,self.rect.h // 10)
             else:
-                projectile = Rect(self.rect.left - self.rect.w // 2,self.rect.top,self.rect.w // 2,self.rect.h // 10)
+                projectile = Rect(self.rect.left - self.rect.w // 2,self.rect.top,self.rect.w,self.rect.h // 10)
             info = {'projectile':projectile,'direction':self.direction}
             self.projectiles.append(info)
             self.lastShotTime = time.time()
