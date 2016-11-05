@@ -3,15 +3,21 @@ from pygame.locals import *
 import sys
 from level import *
 from camera import *
+import time
 
 HORIZ_MOV_INCR = 10 #speed of movement
 JUMP_SPEEDS = 10 #number of different speeds for jumping
 MIN_VERTICAL_SPEED = HORIZ_MOV_INCR
+SHOOTING_FREQUENCY = 0.5
 
 class Player(pygame.sprite.Sprite):
     '''class for player and collision'''
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
+        self.lastShotTime = 0
+        self.symbol = "P"
+        self.projectileImage = pygame.image.load("world/obstacle.png").convert()
+        self.projectiles = []
         self.canFly = False
         self.isFlying = False
         self.health = 50
@@ -40,7 +46,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.topleft = [x, y]
         self.frame = 0
 
-    def update(self, up, down, left, right, world):
+    def update(self, up, down, left, right, shooting, world):
         #Check for key presses
         self.isFlying = False
         if up:
@@ -86,6 +92,15 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.image = pygame.image.load("actions/jump_right.png").convert_alpha()
 
+        if shooting and time.time() - self.lastShotTime > SHOOTING_FREQUENCY:
+            if self.direction == "right":
+                projectile = Rect(self.rect.right,self.rect.top,self.rect.w // 2,self.rect.h // 10)
+            else:
+                projectile = Rect(self.rect.left - self.rect.w // 2,self.rect.top,self.rect.w // 2,self.rect.h // 10)
+            info = {'projectile':projectile,'direction':self.direction}
+            self.projectiles.append(info)
+            self.lastShotTime = time.time()
+
         #Update player position
         if not (left or right):
             self.movx = 0
@@ -118,6 +133,13 @@ class Player(pygame.sprite.Sprite):
         self.collide(0, self.movy, world)
         self.movx = 0
         self.movy = 0
+
+        #Update projectiles
+        for p in self.projectiles:
+            if p.get('direction') == "right":
+                p.get('projectile').left += 2 * HORIZ_MOV_INCR
+            else:
+                p.get('projectile').left -= 2 * HORIZ_MOV_INCR
 
     def collide(self, movx, movy, world):
         self.contact = False

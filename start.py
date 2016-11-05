@@ -35,7 +35,7 @@ while True:
 
     camera = Camera(screen, player.rect, level.get_size()[0], level.get_size()[1])
     all_sprite = level.all_sprite
-    up = down = left = right = False
+    up = down = left = right = shooting = False
     x, y = 0, 0
     leaveLoop = False
 
@@ -54,6 +54,8 @@ while True:
                 left = True
             if event.type == KEYDOWN and event.key == K_RIGHT:
                 right = True
+            if event.type == KEYDOWN and event.key == K_SPACE:
+                shooting = True
 
             if event.type == KEYUP and event.key == K_UP:
                 up = False
@@ -63,6 +65,8 @@ while True:
                 left = False
             if event.type == KEYUP and event.key == K_RIGHT:
                 right = False
+            if event.type == KEYUP and event.key == K_SPACE:
+                shooting = False
 
         asize = ((screen_rect.w // background_rect.w + 1) * background_rect.w, (screen_rect.h // background_rect.h + 1) * background_rect.h)
 
@@ -74,6 +78,6 @@ while True:
         camera.draw_sprites(screen, all_sprite)
         showPlayerInfo(screen,player)
 
-        player.update(up, down, left, right, world)
+        player.update(up, down, left, right, shooting, world)
         camera.update()
         pygame.display.flip()

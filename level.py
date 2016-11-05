@@ -8,6 +8,7 @@ from camera import *
 class Obstacle(pygame.sprite.Sprite):
     '''Class for create obstacles'''
     def __init__(self, x, y):
+        self.symbol = "X"
         self.x = x
         self.y = y
         pygame.sprite.Sprite.__init__(self)

@@ -25,6 +25,14 @@ class Camera(object):
         for s in sprites:
             if s.rect.colliderect(self.rect):
                 surf.blit(s.image, self.RelRect(s, self))
+                #Check if it is the player
+                if s.symbol == "P":
+                    for p in s.projectiles:
+                        if p.get('projectile').colliderect(self.rect):
+                            surf.blit(s.projectileImage,self.RelRectProject(p.get('projectile'),self))
 
     def RelRect(self,actor, camera):
         return pygame.Rect(actor.rect.x-camera.rect.x, actor.rect.y-camera.rect.y, actor.rect.w, actor.rect.h)
+
+    def RelRectProject(self,projectile,camera):
+        return pygame.Rect(projectile.x-camera.rect.x, projectile.y-camera.rect.y, projectile.w, projectile.h)
