@@ -6,6 +6,8 @@ from databaseUtils import *
 
 FPS = 30
 DATABASE = 'random.db'
+MAX_HEALTH = 100
+MAX_ENERGY = 100
 
 def tps(orologio,fps):
     temp = orologio.tick(fps)
@@ -14,7 +16,7 @@ def tps(orologio,fps):
 
 #Function to show player info while playing
 #Temporarily shows hard coded values
-def showPlayerInfo(screen):
+def showPlayerInfo(screen,player):
     screenRect = screen.get_rect()
     font = pygame.font.Font(None,screenRect.h // 20)
     infoRect = Rect(0,0,screenRect.w,screenRect.h // 20)
@@ -36,11 +38,13 @@ def showPlayerInfo(screen):
     healthPos.left = 0
     healthPos.top = 0
     healthBar = Rect(healthPos.right + 10,0,screenRect.w // 4,healthPos.h)
-    remainingHealth = Rect(healthBar.left+1,healthBar.top+1,healthBar.w - 2,healthBar.h - 2)
+    currentHealthWidth = int((healthBar.w - 2)* (player.health / MAX_HEALTH))
+    remainingHealth = Rect(healthBar.left+1,healthBar.top+1,currentHealthWidth,healthBar.h - 2)
     energyPos.top = 0
     energyPos.left = healthBar.right + 10
     energyBar = Rect(energyPos.right + 10,0,screenRect.w // 4,energyPos.h)
-    remainingEnergy = Rect(energyBar.left+1,energyBar.top+1,energyBar.w - 2,energyBar.h - 2)
+    currentEnergyWidth = int((energyBar.w - 2 ) * (player.energy / MAX_ENERGY))
+    remainingEnergy = Rect(energyBar.left+1,energyBar.top+1,currentEnergyWidth,energyBar.h - 2)
     coinsPos.top = 0
     coinsPos.left = energyBar.right + 10
 

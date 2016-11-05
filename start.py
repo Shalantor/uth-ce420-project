@@ -72,7 +72,7 @@ while True:
 
         time_spent = tps(clock, FPS)
         camera.draw_sprites(screen, all_sprite)
-        showPlayerInfo(screen)
+        showPlayerInfo(screen,player)
 
         player.update(up, down, left, right, world)
         camera.update()

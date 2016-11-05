@@ -14,6 +14,8 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.canFly = False
         self.isFlying = False
+        self.health = 50
+        self.energy = 75
         self.movy = 0
         self.movx = 0
         self.x = x
