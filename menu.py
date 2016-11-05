@@ -12,6 +12,48 @@ def tps(orologio,fps):
     tps = temp / 1000.
     return tps
 
+#Function to show player info while playing
+#Temporarily shows hard coded values
+def showPlayerInfo(screen):
+    screenRect = screen.get_rect()
+    font = pygame.font.Font(None,screenRect.h // 20)
+    infoRect = Rect(0,0,screenRect.w,screenRect.h // 20)
+
+    #fill background of bar with black color
+    pygame.draw.rect(screen,(0,0,0),infoRect)
+
+    #Generate text
+    healthText = font.render("HEALTH : ",1,(255,255,255))
+    energyText = font.render("ENERGY : ",1,(255,255,255))
+    coinsText = font.render("COINS : ",1,(255,255,255))
+
+    #get rectangles of text
+    healthPos = healthText.get_rect()
+    energyPos = energyText.get_rect()
+    coinsPos = coinsText.get_rect()
+
+    #generate healthbar and energybar and place them after texts
+    healthPos.left = 0
+    healthPos.top = 0
+    healthBar = Rect(healthPos.right + 10,0,screenRect.w // 4,healthPos.h)
+    remainingHealth = Rect(healthBar.left+1,healthBar.top+1,healthBar.w - 2,healthBar.h - 2)
+    energyPos.top = 0
+    energyPos.left = healthBar.right + 10
+    energyBar = Rect(energyPos.right + 10,0,screenRect.w // 4,energyPos.h)
+    remainingEnergy = Rect(energyBar.left+1,energyBar.top+1,energyBar.w - 2,energyBar.h - 2)
+    coinsPos.top = 0
+    coinsPos.left = energyBar.right + 10
+
+    #Now draw on screen
+    screen.blit(healthText,healthPos)
+    screen.blit(energyText,energyPos)
+    screen.blit(coinsText,coinsPos)
+    pygame.draw.rect(screen,(255,255,255),healthBar,1)
+    pygame.draw.rect(screen,(255,0,0),remainingHealth)
+    pygame.draw.rect(screen,(255,255,255),energyBar,1)
+    pygame.draw.rect(screen,(0,0,255),remainingEnergy)
+
+
 #Function to show pause screen from game
 #Returns true for leaving game and false for just continuing
 def showPauseScreen(screen,playerId):
