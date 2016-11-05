@@ -12,6 +12,8 @@ class Player(pygame.sprite.Sprite):
     '''class for player and collision'''
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
+        self.canFly = False
+        self.isFlying = False
         self.movy = 0
         self.movx = 0
         self.x = x
@@ -37,11 +39,18 @@ class Player(pygame.sprite.Sprite):
         self.frame = 0
 
     def update(self, up, down, left, right, world):
+        #Check for key presses
+        self.isFlying = False
         if up:
+            if self.canFly:
+                self.isFlying = True
             if self.contact:
                 if self.direction == "right":
                     self.image = pygame.image.load("actions/jump_right.png")
-                self.jump = True
+                if not self.canFly:
+                    self.jump = True
+                else:
+                    self.isFlying = True
                 self.contact = False
         if down:
             if self.contact and self.direction == "right":
@@ -75,14 +84,14 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.image = pygame.image.load("actions/jump_right.png").convert_alpha()
 
+        #Update player position
         if not (left or right):
             self.movx = 0
         self.rect.right += self.movx
 
         self.collide(self.movx, 0, world)
 
-
-        if not self.contact and not self.jump:
+        if not self.contact and not self.jump and not self.isFlying:
             self.movy += 1
             self.fallSpeed += 1
             if self.fallSpeed > MIN_VERTICAL_SPEED:
@@ -99,6 +108,10 @@ class Player(pygame.sprite.Sprite):
             if self.maxJumpHeight <= 0:
                 self.maxJumpHeight = self.rect.height * 2
                 self.jump = False
+
+        if self.isFlying:
+            self.movy -= 1
+            self.rect.top -= HORIZ_MOV_INCR
 
         self.collide(0, self.movy, world)
         self.movx = 0
