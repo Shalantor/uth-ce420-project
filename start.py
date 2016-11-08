@@ -32,6 +32,7 @@ while True:
     level.create_level(0,0)
     world = level.world
     player = level.player
+    enemies = level.enemies
 
     camera = Camera(screen, player.rect, level.get_size()[0], level.get_size()[1])
     all_sprite = level.all_sprite
@@ -78,6 +79,12 @@ while True:
         camera.draw_sprites(screen, all_sprite)
         showPlayerInfo(screen,player)
 
+        #Update player
         player.update(up, down, left, right, shooting, world)
+
+        #Update enemies
+        for enemy in enemies:
+            enemy.update(False,False,False,False,False,world)
+
         camera.update()
         pygame.display.flip()
