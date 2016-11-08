@@ -9,7 +9,9 @@ from player import *
 MAX_VERT_DISTANCE = 300
 MAX_HORIZ_DISTANCE = 300
 MAX_STEPS = 4
-DELAY = 1
+MAX_IDLE_TIME = 2
+MAX_MOVE_TIME = 0.5
+DURATION = 1
 
 class Enemy(Player,pygame.sprite.Sprite):
 
@@ -19,7 +21,9 @@ class Enemy(Player,pygame.sprite.Sprite):
         super().__init__(x,y)
         self.symbol = "e"
         self.stepsTook = 0
-        self.lastMoveTime = time.time()
+        self.standTime = time.time()
+        self.standing = True
+        self.startMoveTime = 0
 
         #Direction facing 0 for right, 1 for left
         self.currentDirection = 1
@@ -36,16 +40,21 @@ class Enemy(Player,pygame.sprite.Sprite):
                 left = True
             elif playerX > self.rect.centerx:
                 right = True
-        #Else move randomly
-        elif time.time() - self.lastMoveTime > DELAY:
-            self.lastMoveTime = time.time()
-            if self.stepsTook == 0:
-                self.currentDirection = (self.currentDirection + 1) % 2
+        elif self.standing : #Stand still
+            left = right = False
+            if time.time() - self.standTime > MAX_IDLE_TIME:
+                self.standing = False
+                self.startMoveTime = time.time()
+        else:   #Move right or left for a while
             if self.currentDirection == 0:
                 right = True
-                self.stepsTook = (self.stepsTook + 1) % MAX_STEPS
             else:
                 left = True
-                self.stepsTook = (self.stepsTook + 1) % MAX_STEPS
+            #check for end
+            if time.time() - self.startMoveTime > MAX_MOVE_TIME:
+                self.currentDirection = (self.currentDirection + 1) % 2
+                self.standing = True
+                self.standTime = time.time()
+
 
         super().update(up, down, left, right, shooting, world)
