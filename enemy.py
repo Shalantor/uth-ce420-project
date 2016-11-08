@@ -14,6 +14,7 @@ MAX_MOVE_TIME = 0.5
 DURATION = 1
 SPEED = 5
 MIN_DISTANCE = 10
+JUMP_FREQUENCY = 1
 
 class Enemy(Player,pygame.sprite.Sprite):
 
@@ -31,6 +32,10 @@ class Enemy(Player,pygame.sprite.Sprite):
         #Direction facing 0 for right, 1 for left
         self.currentDirection = 1
 
+        #Lets player jump only some times
+        self.lastJumpTime = time.time()
+
+
     #Override update function
     def update(self,player,world):
         #decide what to do depending on where the player stands
@@ -43,8 +48,14 @@ class Enemy(Player,pygame.sprite.Sprite):
                 self.standing = True
             elif player.rect.centerx < self.rect.centerx :
                 left = True
+                if time.time() - self.lastJumpTime > JUMP_FREQUENCY:
+                    up = bool(random.getrandbits(1))
+                    self.lastJumpTime = time.time()
             elif player.rect.centerx > self.rect.centerx:
                 right = True
+                if time.time() - self.lastJumpTime > JUMP_FREQUENCY:
+                    up = bool(random.getrandbits(1))
+                    self.lastJumpTime = time.time()
         elif self.standing : #Stand still
             left = right = False
             if time.time() - self.standTime > MAX_IDLE_TIME:
