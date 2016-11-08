@@ -21,14 +21,14 @@ pygame.init()
 screen = pygame.display.set_mode(SCREEN_SIZE, FULLSCREEN, 32)
 clock = pygame.time.Clock()
 
-"""Now set variables for gameplay """
+"""GAME LOOP"""
 while True:
-    playerId = showMenu(screen,clock)
+    #playerId = showMenu(screen,clock)
     pygame.mouse.set_visible(0)
     screen_rect = screen.get_rect()
     background = pygame.image.load("world/background2.jpg").convert_alpha()
     background_rect = background.get_rect()
-    level = Level("level/level.txt")
+    level = Level("level/level2.txt")
     level.create_level(0,0)
     world = level.world
     player = level.player

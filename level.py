@@ -4,6 +4,7 @@ import sys
 from level import *
 from player import *
 from camera import *
+from enemy import *
 
 class Obstacle(pygame.sprite.Sprite):
     '''Class for create obstacles'''
@@ -21,8 +22,10 @@ class Level(object):
     def __init__(self, open_level):
         self.level1 = []
         self.world = []
+        self.enemies= []
         self.all_sprite = pygame.sprite.Group()
         self.level = open(open_level, "r")
+        self.foundEnemy = False
 
     def create_level(self, x, y):
         for l in self.level:
@@ -37,6 +40,12 @@ class Level(object):
                 if col == "P":
                     self.player = Player(x,y)
                     self.all_sprite.add(self.player)
+                if col == "E":
+                    self.foundEnemy = True
+                if col == "1":
+                    enemy = Enemy(x-25,y)
+                    self.enemies.append(enemy)
+                    self.all_sprite.add(self.enemies)
                 x += 25
             y += 25
             x = 0
