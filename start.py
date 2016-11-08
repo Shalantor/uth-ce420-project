@@ -84,7 +84,7 @@ while True:
 
         #Update enemies
         for enemy in enemies:
-            enemy.update(False,False,False,False,False,world)
+            enemy.update(player,world)
 
         camera.update()
         pygame.display.flip()
