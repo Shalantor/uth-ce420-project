@@ -12,6 +12,8 @@ MAX_STEPS = 4
 MAX_IDLE_TIME = 2
 MAX_MOVE_TIME = 0.5
 DURATION = 1
+SPEED = 5
+MIN_DISTANCE = 10
 
 class Enemy(Player,pygame.sprite.Sprite):
 
@@ -20,7 +22,8 @@ class Enemy(Player,pygame.sprite.Sprite):
         #super constructor
         super().__init__(x,y)
         self.symbol = "e"
-        self.stepsTook = 0
+
+        #Variables used for idle enemy movement
         self.standTime = time.time()
         self.standing = True
         self.startMoveTime = 0
@@ -32,13 +35,15 @@ class Enemy(Player,pygame.sprite.Sprite):
     def update(self,player,world):
         #decide what to do depending on where the player stands
         #If player near move towards him for example
-        playerX = player.rect.centerx
-        playerY = player.rect.centery
         left = right = up = down = shooting = False
-        if abs(playerX - self.rect.centerx) < MAX_HORIZ_DISTANCE and abs(playerY - self.rect.centery) < MAX_VERT_DISTANCE:
-            if playerX < self.rect.centerx :
+        horizDiff = abs(player.rect.centerx - self.rect.centerx)
+        vertDiff = abs(player.rect.centery - self.rect.centery)
+        if horizDiff < MAX_HORIZ_DISTANCE and vertDiff < MAX_VERT_DISTANCE:
+            if horizDiff < MIN_DISTANCE :
+                self.standing = True
+            elif player.rect.centerx < self.rect.centerx :
                 left = True
-            elif playerX > self.rect.centerx:
+            elif player.rect.centerx > self.rect.centerx:
                 right = True
         elif self.standing : #Stand still
             left = right = False
@@ -57,4 +62,4 @@ class Enemy(Player,pygame.sprite.Sprite):
                 self.standTime = time.time()
 
 
-        super().update(up, down, left, right, shooting, world)
+        super().update(up, down, left, right, shooting, world, speed = SPEED)

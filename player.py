@@ -46,7 +46,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.topleft = [x, y]
         self.frame = 0
 
-    def update(self, up, down, left, right, shooting, world):
+    def update(self, up, down, left, right, shooting, world, speed = HORIZ_MOV_INCR):
         #Check for key presses
         self.isFlying = False
         if up:
@@ -74,7 +74,7 @@ class Player(pygame.sprite.Sprite):
 
         if left:
             self.direction = "left"
-            self.movx = -HORIZ_MOV_INCR
+            self.movx = -speed
             if self.contact:
                 self.frame += 1
                 self.image = pygame.image.load(self.run_left[self.frame]).convert_alpha()
@@ -84,7 +84,7 @@ class Player(pygame.sprite.Sprite):
 
         if right:
             self.direction = "right"
-            self.movx = +HORIZ_MOV_INCR
+            self.movx = +speed
             if self.contact:
                 self.frame += 1
                 self.image = pygame.image.load(self.run_right[self.frame]).convert_alpha()
@@ -128,7 +128,7 @@ class Player(pygame.sprite.Sprite):
 
         if self.isFlying:
             self.movy -= 1
-            self.rect.top -= HORIZ_MOV_INCR
+            self.rect.top -= speed
 
         self.collide(0, self.movy, world)
         self.movx = 0
