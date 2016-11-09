@@ -87,7 +87,8 @@ class Level(object):
                     self.all_sprite.add(self.player)
                 elif col == "E":
                     self.foundEnemy = True
-                elif col == "1":
+                elif col == "1" and self.foundEnemy:
+                    self.foundEnemy = False
                     enemy = Enemy(x-25,y)
                     self.enemies.append(enemy)
                     self.all_sprite.add(self.enemies)
