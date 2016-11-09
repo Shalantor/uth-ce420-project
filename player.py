@@ -6,8 +6,8 @@ from camera import *
 import time
 
 HORIZ_MOV_INCR = 10 #speed of movement
-JUMP_SPEEDS = 10 #number of different speeds for jumping
-MIN_VERTICAL_SPEED = HORIZ_MOV_INCR
+VERTICAL_MOV_INCR = 20
+MIN_VERTICAL_SPEED = 15
 SHOOTING_FREQUENCY = 0.5
 DAMAGE_DELAY = 2
 
@@ -28,12 +28,12 @@ class Player(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.fallSpeed = 0
-        self.jumpSpeed = HORIZ_MOV_INCR
+        self.jumpSpeed = VERTICAL_MOV_INCR
         self.contact = False
         self.jump = False
         self.image = pygame.image.load('actions/idle_right.png').convert()
         self.rect = self.image.get_rect()
-        self.maxJumpHeight = self.rect.height * 2
+        self.maxJumpHeight = self.rect.height * 1.5
         self.lastTimeDamaged = time.time()
         self.run_left = ["actions/run_left000.png","actions/run_left001.png",
                          "actions/run_left002.png", "actions/run_left003.png",
@@ -159,13 +159,13 @@ class Player(pygame.sprite.Sprite):
                     self.movy = 0
                     self.contact = True
                     self.fallSpeed = 0
-                    self.jumpSpeed = HORIZ_MOV_INCR
+                    self.jumpSpeed = VERTICAL_MOV_INCR
                     self.jump = False
                     self.maxJumpHeight = self.rect.height * 2
                 if movy < 0:
                     self.rect.top = o.rect.bottom
                     self.movy = 0
-                    self.jumpSpeed = HORIZ_MOV_INCR
+                    self.jumpSpeed = VERTICAL_MOV_INCR
                     self.jump = False
                     self.maxJumpHeight = self.rect.height * 2
 
