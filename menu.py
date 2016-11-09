@@ -27,7 +27,7 @@ def showPlayerInfo(screen,player):
     #Generate text
     healthText = font.render("HEALTH : ",1,(255,255,255))
     energyText = font.render("ENERGY : ",1,(255,255,255))
-    coinsText = font.render("COINS : ",1,(255,255,255))
+    coinsText = font.render("COINS : " + str(player.coins),1,(255,255,255))
 
     #get rectangles of text
     healthPos = healthText.get_rect()

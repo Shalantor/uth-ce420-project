@@ -19,6 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.symbol = "P"
         self.projectileImage = pygame.image.load("world/obstacle.png").convert()
         self.projectiles = []
+        self.coins = 0
         self.canFly = False
         self.isFlying = False
         self.health = 50
