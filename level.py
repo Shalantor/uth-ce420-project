@@ -6,6 +6,8 @@ from player import *
 from camera import *
 from enemy import *
 
+PLATFORM_STEPS = 30
+
 class PlatformVertical(pygame.sprite.Sprite):
     '''Class for platforms that move vertially'''
     def __init__(self,x,y):
@@ -17,6 +19,24 @@ class PlatformVertical(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image,(75,25))
         self.rect = self.image.get_rect()
         self.rect.topleft = [self.x, self.y]
+        self.maxTop = self.y - 3 * self.rect.h
+        self.minTop = self.y + 3 * self.rect.h
+        self.speed = (self.minTop - self.maxTop) // PLATFORM_STEPS
+        self.direction = "up"
+
+    #Makes platform move up and down periodically
+    def move(self):
+        if self.direction == "up":
+            self.rect.top -= self.speed
+            if self.rect.top <= self.maxTop:
+                self.rect.top = self.maxTop
+                self.direction = "down"
+        elif self.direction == "down":
+            self.rect.top += self.speed
+            if self.rect.top >= self.minTop:
+                self.rect.top = self.minTop
+                self.direction = "up"
+
 
 class Obstacle(pygame.sprite.Sprite):
     '''Class for create obstacles'''

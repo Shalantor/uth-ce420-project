@@ -33,6 +33,7 @@ while True:
     world = level.world
     player = level.player
     enemies = level.enemies
+    platformsVertical = level.platformsVertical
 
     camera = Camera(screen, player.rect, level.get_size()[0], level.get_size()[1])
     all_sprite = level.all_sprite
@@ -88,6 +89,10 @@ while True:
         #Update enemies
         for enemy in enemies:
             enemy.update(player,world)
+
+        #Update platforms
+        for platV in platformsVertical:
+            platV.move()
 
         camera.update()
         pygame.display.flip()
