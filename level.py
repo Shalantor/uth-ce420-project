@@ -36,6 +36,9 @@ class PlatformHorizontal(pygame.sprite.Sprite):
             if self.rect.left >= self.maxRight:
                 self.rect.left = self.maxRight
                 self.direction = "left"
+            #If colliding with player, push player to right
+            if player.rect.colliderect(self.rect):
+                player.rect.left = self.rect.right
         elif self.direction == "left":
             if player.rect.bottom == self.rect.top and player.rect.left < self.rect.right and player.rect.right > self.rect.left:
                 player.rect.left -= self.speed
@@ -44,6 +47,9 @@ class PlatformHorizontal(pygame.sprite.Sprite):
             if self.rect.left <= self.maxLeft:
                 self.rect.left = self.maxLeft
                 self.direction = "right"
+            #if colliding with player, push player to left
+            if player.rect.colliderect(self.rect):
+                player.rect.right = self.rect.left
 
 
 class PlatformVertical(pygame.sprite.Sprite):
@@ -98,6 +104,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.image = pygame.image.load("world/obstacle.png").convert()
         self.rect = self.image.get_rect()
         self.rect.topleft = [self.x, self.y]
+
 
 class Level(object):
     '''Read a map and create a level'''
