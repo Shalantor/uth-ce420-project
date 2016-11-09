@@ -8,8 +8,46 @@ from enemy import *
 
 PLATFORM_STEPS = 30
 
+class PlatformHorizontal(pygame.sprite.Sprite):
+    '''Class for platforms that move horizontally'''
+    def __init__(self,x,y):
+        self.symbol = "H"
+        self.x = x - 25
+        self.y = y
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("world/obstacle.png").convert()
+        self.image = pygame.transform.scale(self.image,(75,25))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [self.x, self.y]
+        self.maxLeft = self.rect.left - self.rect.w
+        self.maxRight = self.rect.left + self.rect.w
+        self.speed = (self.maxRight - self.maxLeft) // PLATFORM_STEPS
+        self.direction = "right"
+
+    #Makes platform move right and left periodically
+    #Platforms must move the player with them as well
+    def move(self,player):
+        onPlatform = False
+        if self.direction == "right":
+            if player.rect.bottom == self.rect.top and player.rect.left < self.rect.right and player.rect.right > self.rect.left:
+                player.rect.left += self.speed
+                onPlatform = True
+            self.rect.left += self.speed
+            if self.rect.left >= self.maxRight:
+                self.rect.left = self.maxRight
+                self.direction = "left"
+        elif self.direction == "left":
+            if player.rect.bottom == self.rect.top and player.rect.left < self.rect.right and player.rect.right > self.rect.left:
+                player.rect.left -= self.speed
+                onPlatform = True
+            self.rect.left -= self.speed
+            if self.rect.left <= self.maxLeft:
+                self.rect.left = self.maxLeft
+                self.direction = "right"
+
+
 class PlatformVertical(pygame.sprite.Sprite):
-    '''Class for platforms that move vertially'''
+    '''Class for platforms that move vertically'''
     def __init__(self,x,y):
         self.symbol = "V"
         self.x = x - 25
@@ -68,6 +106,7 @@ class Level(object):
         self.world = []
         self.enemies= []
         self.platformsVertical = []
+        self.platformsHorizontal = []
         self.all_sprite = pygame.sprite.Group()
         self.level = open(open_level, "r")
         self.foundEnemy = False
@@ -97,6 +136,11 @@ class Level(object):
                     self.platformsVertical.append(platformV)
                     self.world.append(platformV)
                     self.all_sprite.add(self.platformsVertical)
+                elif col == "H":
+                    platformH = PlatformHorizontal(x,y)
+                    self.platformsHorizontal.append(platformH)
+                    self.world.append(platformH)
+                    self.all_sprite.add(self.platformsHorizontal)
                 x += 25
             y += 25
             x = 0
