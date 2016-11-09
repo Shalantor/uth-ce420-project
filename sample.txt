@@ -1,0 +1,25 @@
+block (ground)    	X       
+block2			X2	
+block3			X3 	
+player   	 	P	
+life 	 	 	L	
+enemy1    	 	E1	
+enemy2			E2	
+enemy3			E3	
+breakable blocks 	B	
+coins 			C	
+spawn 			S	
+invincible		I	
+wings			W	
+jump higher		J	
+platform1(vertical) 	PV	
+platform2(horizontal)   PH	
+door			D
+key 			K
+boss1			B1
+boss2			B2
+
+
+
+
+ 
