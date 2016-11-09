@@ -82,6 +82,9 @@ while True:
         #Update player
         player.update(up, down, left, right, shooting, world)
 
+        #Check for collisions with player
+        player.collideEnemies(enemies)
+
         #Update enemies
         for enemy in enemies:
             enemy.update(player,world)

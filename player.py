@@ -9,6 +9,7 @@ HORIZ_MOV_INCR = 10 #speed of movement
 JUMP_SPEEDS = 10 #number of different speeds for jumping
 MIN_VERTICAL_SPEED = HORIZ_MOV_INCR
 SHOOTING_FREQUENCY = 0.5
+DAMAGE_DELAY = 2
 
 class Player(pygame.sprite.Sprite):
     '''class for player and collision'''
@@ -33,6 +34,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load('actions/idle_right.png').convert()
         self.rect = self.image.get_rect()
         self.maxJumpHeight = self.rect.height * 2
+        self.lastTimeDamaged = time.time()
         self.run_left = ["actions/run_left000.png","actions/run_left001.png",
                          "actions/run_left002.png", "actions/run_left003.png",
                          "actions/run_left004.png", "actions/run_left005.png",
@@ -173,3 +175,13 @@ class Player(pygame.sprite.Sprite):
             for p in projectiles[:]:
                 if p.get('projectile').colliderect(o):
                     projectiles.remove(p)
+
+    #checks for collisions with enemies
+    def collideEnemies(self,enemies):
+        for enemy in enemies:
+            if self.rect.colliderect(enemy.rect) and time.time() - self.lastTimeDamaged > DAMAGE_DELAY:
+                #TODO:Remove hardcoded reduction
+                self.health -= 10
+                self.lastTimeDamaged = time.time()
+                if self.health < 0:
+                    self.health = 0
