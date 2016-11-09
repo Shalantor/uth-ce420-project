@@ -92,7 +92,7 @@ while True:
 
         #Update platforms
         for platV in platformsVertical:
-            platV.move()
+            platV.move(player)
 
         camera.update()
         pygame.display.flip()

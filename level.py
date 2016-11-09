@@ -25,16 +25,28 @@ class PlatformVertical(pygame.sprite.Sprite):
         self.direction = "up"
 
     #Makes platform move up and down periodically
-    def move(self):
+    #Platforms must move the player with them as well
+    def move(self,player):
+        onPlatform = False
         if self.direction == "up":
+            if player.rect.bottom == self.rect.top and player.rect.left < self.rect.right and player.rect.right > self.rect.left:
+                player.rect.top -= self.speed
+                onPlatform = True
             self.rect.top -= self.speed
             if self.rect.top <= self.maxTop:
                 self.rect.top = self.maxTop
+                if onPlatform:
+                    player.rect.bottom = self.rect.top
                 self.direction = "down"
         elif self.direction == "down":
+            if player.rect.bottom == self.rect.top and player.rect.left < self.rect.right and player.rect.right > self.rect.left:
+                player.rect.top += self.speed
+                onPlatform = True
             self.rect.top += self.speed
             if self.rect.top >= self.minTop:
                 self.rect.top = self.minTop
+                if onPlatform:
+                    player.rect.bottom = self.rect.top
                 self.direction = "up"
 
 
