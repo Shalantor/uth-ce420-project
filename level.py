@@ -6,6 +6,18 @@ from player import *
 from camera import *
 from enemy import *
 
+class PlatformVertical(pygame.sprite.Sprite):
+    '''Class for platforms that move vertially'''
+    def __init__(self,x,y):
+        self.symbol = "V"
+        self.x = x - 25
+        self.y = y
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("world/obstacle.png").convert()
+        self.image = pygame.transform.scale(self.image,(75,25))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [self.x, self.y]
+
 class Obstacle(pygame.sprite.Sprite):
     '''Class for create obstacles'''
     def __init__(self, x, y):
@@ -23,6 +35,7 @@ class Level(object):
         self.level1 = []
         self.world = []
         self.enemies= []
+        self.platformsVertical = []
         self.all_sprite = pygame.sprite.Group()
         self.level = open(open_level, "r")
         self.foundEnemy = False
@@ -37,15 +50,20 @@ class Level(object):
                     obstacle = Obstacle(x, y)
                     self.world.append(obstacle)
                     self.all_sprite.add(self.world)
-                if col == "P":
+                elif col == "P":
                     self.player = Player(x,y)
                     self.all_sprite.add(self.player)
-                if col == "E":
+                elif col == "E":
                     self.foundEnemy = True
-                if col == "1":
+                elif col == "1":
                     enemy = Enemy(x-25,y)
                     self.enemies.append(enemy)
                     self.all_sprite.add(self.enemies)
+                elif col == "V":
+                    platformV = PlatformVertical(x,y)
+                    self.platformsVertical.append(platformV)
+                    self.world.append(platformV)
+                    self.all_sprite.add(self.platformsVertical)
                 x += 25
             y += 25
             x = 0
