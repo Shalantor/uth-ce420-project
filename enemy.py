@@ -35,6 +35,9 @@ class Enemy(Player,pygame.sprite.Sprite):
         #Lets player jump only some times
         self.lastJumpTime = time.time()
 
+        #health
+        self.health = 100
+
 
     #Override update function
     def update(self,player,world):

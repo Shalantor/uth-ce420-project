@@ -8,8 +8,9 @@ import time
 HORIZ_MOV_INCR = 10 #speed of movement
 VERTICAL_MOV_INCR = 20
 MIN_VERTICAL_SPEED = 15
-SHOOTING_FREQUENCY = 0.5
+SHOOTING_FREQUENCY = 0.2
 DAMAGE_DELAY = 2
+DAMAGE = 10
 
 class Player(pygame.sprite.Sprite):
     '''class for player and collision'''
@@ -22,8 +23,9 @@ class Player(pygame.sprite.Sprite):
         self.coins = 0
         self.canFly = False
         self.isFlying = False
-        self.health = 50
-        self.energy = 75
+        self.health = 100
+        self.energy = 100
+        self.damage = DAMAGE
         self.movy = 0
         self.movx = 0
         self.x = x

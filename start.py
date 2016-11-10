@@ -28,7 +28,7 @@ while True:
     screen_rect = screen.get_rect()
     background = pygame.image.load("world/background2.jpg").convert_alpha()
     background_rect = background.get_rect()
-    level = Level("level/test.txt")
+    level = Level("level/level2.txt")
     level.create_level(0,0)
     world = level.world
     player = level.player
@@ -84,7 +84,7 @@ while True:
         #Update player
         player.update(up, down, left, right, shooting, world)
 
-        #Check for collisions with player
+        #Check for enemy collisions with player
         player.collideEnemies(enemies)
 
         #Update enemies
@@ -98,6 +98,17 @@ while True:
         #Update horizontal platforms
         for platH in platformsHorizontal:
             platH.move(player)
+
+        #Check if player projectiles hit enemies
+        for p in player.projectiles[:]:
+            for e in enemies[:]:
+                if p.get('projectile').colliderect(e):
+                    e.health -= player.damage
+                    player.projectiles.remove(p)
+                    if e.health <= 0:
+                        enemies.remove(e)
+                        level.all_sprite.remove(e)
+                    break
 
         camera.update()
         pygame.display.flip()
