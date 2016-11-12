@@ -6,9 +6,9 @@ from camera import *
 import time,random
 from player import *
 
-SHOOTING_FREQUENCY = 3
-MAX_VERT_DISTANCE = 500
-MAX_HORIZ_DISTANCE = 200
+SHOOTING_FREQUENCY = 1
+MAX_VERT_DISTANCE = 200
+MAX_HORIZ_DISTANCE = 900
 
 class Enemy2(Player,pygame.sprite.Sprite):
 
@@ -42,6 +42,6 @@ class Enemy2(Player,pygame.sprite.Sprite):
                     if self.direction != "left":
                         self.direction = "left"
                         left = True
-                    shooting = True
+                shooting = True
 
-            super().update(up, down, left, right, shooting, world,SHOOTING_FREQUENCY)
+            super().update(up, down, left, right, shooting, world,shootTime = SHOOTING_FREQUENCY)
