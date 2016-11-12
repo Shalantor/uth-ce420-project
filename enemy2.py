@@ -6,9 +6,9 @@ from camera import *
 import time,random
 from player import *
 
-SHOOTING_FREQUENCY = 0.1
+SHOOTING_FREQUENCY = 3
 MAX_VERT_DISTANCE = 500
-MAX_HORIZ_DISTANCE = 500
+MAX_HORIZ_DISTANCE = 200
 
 class Enemy2(Player,pygame.sprite.Sprite):
 
@@ -16,7 +16,7 @@ class Enemy2(Player,pygame.sprite.Sprite):
         def __init__(self,x,y):
             #super constructor
             super().__init__(x,y)
-            self.symbol = "e1"
+            self.symbol = "e2"
 
             #time since last shot
             self.lastShotTime = time.time()
@@ -32,7 +32,7 @@ class Enemy2(Player,pygame.sprite.Sprite):
             vertDiff = abs(player.rect.centery - self.rect.centery)
 
             #Player is near
-            if horizDiff <= MAX_HORIZ_DISTANCE and vertDiff <= MAX_VERT_DISTANCE:
+            if horizDiff < MAX_HORIZ_DISTANCE and vertDiff < MAX_VERT_DISTANCE:
                 #turn to player
                 if player.rect.center >= self.rect.center:
                     if self.direction != "right":
