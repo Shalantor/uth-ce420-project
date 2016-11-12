@@ -73,6 +73,7 @@ class PlatformVertical(pygame.sprite.Sprite):
     def move(self,player):
         onPlatform = False
         if self.direction == "up":
+            #Check if player is on platform
             if player.rect.bottom == self.rect.top and player.rect.left < self.rect.right and player.rect.right > self.rect.left:
                 player.rect.top -= self.speed
                 onPlatform = True
@@ -83,10 +84,20 @@ class PlatformVertical(pygame.sprite.Sprite):
                     player.rect.bottom = self.rect.top
                 self.direction = "down"
         elif self.direction == "down":
+            #check if player is on platform
             if player.rect.bottom == self.rect.top and player.rect.left < self.rect.right and player.rect.right > self.rect.left:
                 player.rect.top += self.speed
                 onPlatform = True
             self.rect.top += self.speed
+
+            #Check if platform has hit player from top
+            if self.rect.colliderect(player.rect):
+                if player.contact:
+                    self.direction = "up"
+                    self.rect.bottom = player.rect.top
+                else:
+                    player.rect.top += self.speed
+
             if self.rect.top >= self.minTop:
                 self.rect.top = self.minTop
                 if onPlatform:

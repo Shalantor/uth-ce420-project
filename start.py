@@ -28,7 +28,7 @@ while True:
     screen_rect = screen.get_rect()
     background = pygame.image.load("world/background2.jpg").convert_alpha()
     background_rect = background.get_rect()
-    level = Level("level/level2.txt")
+    level = Level("level/test.txt")
     level.create_level(0,0)
     world = level.world
     player = level.player
