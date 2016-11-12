@@ -28,11 +28,12 @@ while True:
     screen_rect = screen.get_rect()
     background = pygame.image.load("world/background2.jpg").convert_alpha()
     background_rect = background.get_rect()
-    level = Level("level/test.txt")
+    level = Level("level/level2.txt")
     level.create_level(0,0)
     world = level.world
     player = level.player
     enemies = level.enemies
+    enemies2 = level.enemies2
     platformsVertical = level.platformsVertical
     platformsHorizontal = level.platformsHorizontal
 
@@ -89,6 +90,9 @@ while True:
 
         #Update enemies
         for enemy in enemies:
+            enemy.update(player,world)
+
+        for enemy in enemies2:
             enemy.update(player,world)
 
         #Update vertical platforms

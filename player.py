@@ -51,7 +51,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.topleft = [x, y]
         self.frame = 0
 
-    def update(self, up, down, left, right, shooting, world, speed = HORIZ_MOV_INCR):
+    def update(self, up, down, left, right, shooting, world, speed = HORIZ_MOV_INCR, shootTime = SHOOTING_FREQUENCY):
         #Check for key presses
         self.isFlying = False
         if up:
@@ -97,7 +97,7 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.image = pygame.image.load("actions/jump_right.png").convert_alpha()
 
-        if shooting and time.time() - self.lastShotTime > SHOOTING_FREQUENCY:
+        if shooting and time.time() - self.lastShotTime > shootTime:
             if self.direction == "right":
                 projectile = Rect(self.rect.right,self.rect.top,self.rect.w,self.rect.h // 10)
             else:

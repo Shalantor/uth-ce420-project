@@ -8,7 +8,6 @@ from player import *
 
 MAX_VERT_DISTANCE = 300
 MAX_HORIZ_DISTANCE = 300
-MAX_STEPS = 4
 MAX_IDLE_TIME = 2
 MAX_MOVE_TIME = 0.5
 DURATION = 1
@@ -22,7 +21,7 @@ class Enemy(Player,pygame.sprite.Sprite):
     def __init__(self,x,y):
         #super constructor
         super().__init__(x,y)
-        self.symbol = "e"
+        self.symbol = "e1"
 
         #Variables used for idle enemy movement
         self.standTime = time.time()

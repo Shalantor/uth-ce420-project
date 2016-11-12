@@ -5,6 +5,7 @@ from level import *
 from player import *
 from camera import *
 from enemy import *
+from enemy2 import *
 
 PLATFORM_STEPS = 30
 
@@ -128,6 +129,7 @@ class Level(object):
         self.all_sprite = pygame.sprite.Group()
         self.level = open(open_level, "r")
         self.foundEnemy = False
+        self.enemies2 = []
 
     def create_level(self, x, y):
         for l in self.level:
@@ -149,6 +151,11 @@ class Level(object):
                     enemy = Enemy(x-25,y)
                     self.enemies.append(enemy)
                     self.all_sprite.add(self.enemies)
+                elif col == "2" and self.foundEnemy:
+                    self.foundEnemy = False
+                    enemy = Enemy2(x-25,y)
+                    self.enemies2.append(enemy)
+                    self.all_sprite.add(self.enemies2)
                 elif col == "V":
                     platformV = PlatformVertical(x,y)
                     self.platformsVertical.append(platformV)
