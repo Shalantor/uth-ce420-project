@@ -114,5 +114,12 @@ while True:
                         level.all_sprite.remove(e)
                     break
 
+        #Check if enemy projectiles hit player
+        for e in enemies2:
+            for p in e.projectiles[:]:
+                if p.get('projectile').colliderect(player.rect):
+                    player.health -= e.damage
+                    e.projectiles.remove(p)
+
         camera.update()
         pygame.display.flip()
