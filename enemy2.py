@@ -9,6 +9,7 @@ from player import *
 SHOOTING_FREQUENCY = 1
 MAX_VERT_DISTANCE = 200
 MAX_HORIZ_DISTANCE = 900
+JUMP_FREQUENCY = 1
 
 class Enemy2(Player,pygame.sprite.Sprite):
 
@@ -20,6 +21,7 @@ class Enemy2(Player,pygame.sprite.Sprite):
 
             #time since last shot
             self.lastShotTime = time.time()
+            self.lastJumpTime = time.time()
 
             #health
             self.health = 100
@@ -43,5 +45,9 @@ class Enemy2(Player,pygame.sprite.Sprite):
                         self.direction = "left"
                         left = True
                 shooting = True
+                if player.rect.bottom < self.rect.top and time.time() - self.lastJumpTime > JUMP_FREQUENCY:
+                    self.lastJumpTime = time.time()
+                    if random.randint(0,1) == 1 :
+                        up = True
 
             super().update(up, down, left, right, shooting, world,shootTime = SHOOTING_FREQUENCY)
