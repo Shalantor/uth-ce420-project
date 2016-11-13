@@ -6,7 +6,7 @@ from camera import *
 import time,random
 from player import *
 
-SHOOTING_FREQUENCY = 1
+SHOOTING_FREQUENCY = 2
 MAX_VERT_DISTANCE = 200
 MAX_HORIZ_DISTANCE = 900
 JUMP_FREQUENCY = 1

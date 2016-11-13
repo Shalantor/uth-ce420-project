@@ -103,7 +103,7 @@ while True:
         for platH in platformsHorizontal:
             platH.move(player)
 
-        #Check if player projectiles hit enemies
+        #Check if player projectiles hit enemies 1
         for p in player.projectiles[:]:
             for e in enemies[:]:
                 if p.get('projectile').colliderect(e):
@@ -113,6 +113,18 @@ while True:
                         enemies.remove(e)
                         level.all_sprite.remove(e)
                     break
+
+        #Do same for enemies 2
+        for p in player.projectiles[:]:
+            for e in enemies2[:]:
+                if p.get('projectile').colliderect(e):
+                    e.health -= player.damage
+                    player.projectiles.remove(p)
+                    if e.health <= 0:
+                        enemies2.remove(e)
+                        level.all_sprite.remove(e)
+                    break
+
 
         #Check if enemy projectiles hit player
         for e in enemies2:

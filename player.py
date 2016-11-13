@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load('actions/idle_right.png').convert()
         self.rect = self.image.get_rect()
         self.maxJumpHeight = self.rect.height * 1.5
-        self.lastTimeDamaged = time.time()
+        self.lastTimeDamaged = time.time() - DAMAGE_DELAY
         self.run_left = ["actions/run_left000.png","actions/run_left001.png",
                          "actions/run_left002.png", "actions/run_left003.png",
                          "actions/run_left004.png", "actions/run_left005.png",
