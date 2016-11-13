@@ -42,7 +42,7 @@ class Enemy(Player,pygame.sprite.Sprite):
     def update(self,player,world):
         #decide what to do depending on where the player stands
         #If player near move towards him for example
-        left = right = up = down = shooting = False
+        left = right = up = down = shooting = shootUp = False
         horizDiff = abs(player.rect.centerx - self.rect.centerx)
         vertDiff = abs(player.rect.centery - self.rect.centery)
         if horizDiff < MAX_HORIZ_DISTANCE and vertDiff < MAX_VERT_DISTANCE:
@@ -75,4 +75,4 @@ class Enemy(Player,pygame.sprite.Sprite):
                 self.standTime = time.time()
 
 
-        super().update(up, down, left, right, shooting, world, speed = SPEED)
+        super().update(up, down, left, right, shooting, shootUp, world, speed = SPEED)

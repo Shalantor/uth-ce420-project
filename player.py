@@ -51,7 +51,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.topleft = [x, y]
         self.frame = 0
 
-    def update(self, up, down, left, right, shooting, world, speed = HORIZ_MOV_INCR, shootTime = SHOOTING_FREQUENCY):
+    def update(self, up, down, left, right, shooting, shootUp, world,  speed = HORIZ_MOV_INCR, shootTime = SHOOTING_FREQUENCY):
         #Check for key presses
         self.isFlying = False
         if up:
@@ -98,11 +98,15 @@ class Player(pygame.sprite.Sprite):
                 self.image = pygame.image.load("actions/jump_right.png").convert_alpha()
 
         if shooting and time.time() - self.lastShotTime > shootTime:
-            if self.direction == "right":
-                projectile = Rect(self.rect.right,self.rect.top,self.rect.w,self.rect.h // 10)
+            if not shootUp:
+                if self.direction == "right":
+                    projectile = Rect(self.rect.right,self.rect.top,self.rect.w,self.rect.h // 10)
+                else:
+                    projectile = Rect(self.rect.left - self.rect.w // 2,self.rect.top,self.rect.w,self.rect.h // 10)
+                info = {'projectile':projectile,'direction':self.direction}
             else:
-                projectile = Rect(self.rect.left - self.rect.w // 2,self.rect.top,self.rect.w,self.rect.h // 10)
-            info = {'projectile':projectile,'direction':self.direction}
+                projectile = Rect(self.rect.left,self.rect.top,self.rect.h // 10,self.rect.w)
+                info = {'projectile':projectile,'direction':"top"}
             self.projectiles.append(info)
             self.lastShotTime = time.time()
 
@@ -143,8 +147,11 @@ class Player(pygame.sprite.Sprite):
         for p in self.projectiles:
             if p.get('direction') == "right":
                 p.get('projectile').left += 2 * HORIZ_MOV_INCR
-            else:
+            elif p.get('direction') == "left":
                 p.get('projectile').left -= 2 * HORIZ_MOV_INCR
+            elif p.get('direction') == "top":
+                p.get('projectile').top -= 2 * HORIZ_MOV_INCR
+
 
         #now check for projectile collisions
         self.collideProjectiles(self.projectiles,world)
