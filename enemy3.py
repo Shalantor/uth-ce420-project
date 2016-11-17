@@ -7,11 +7,13 @@ import time,random
 from player import *
 
 MAX_VERT_DISTANCE = 200
-MAX_HORIZ_DISTANCE = 900
+MAX_HORIZ_DISTANCE = 100
 MAX_HEIGT_MULTIPLICATOR = 3
 MAX_HORIZONTAL_MULTIPLICATOR = 3
 SHOOTING_FREQUENCY = 1
 SPEED = 3
+MAX_STEPS = 20
+STAY_IDLE_TIME = 1
 
 class Enemy3(Player,pygame.sprite.Sprite):
 
@@ -24,6 +26,11 @@ class Enemy3(Player,pygame.sprite.Sprite):
 
         #time since last shot
         self.lastShotTime = time.time()
+
+        self.startHeight = self.rect.top
+        self.stepsRemaining = 0
+        self.lastMove = "up"
+        self.idleTime = time.time()
 
         self.health = 100
 
@@ -51,5 +58,29 @@ class Enemy3(Player,pygame.sprite.Sprite):
                 down = True
             if player.rect.centery < self.rect.centery:
                 up = True
+        #Idle movement
+        else:
+            if self.stepsRemaining == 0:
+                self.idleTime = time.time()
+                doWhat = ["up","down","left","right"]
+                self.lastMove = random.choice(doWhat)
+                self.stepsRemaining = MAX_STEPS
+            if time.time() - self.idleTime >= STAY_IDLE_TIME:
+                if self.lastMove == "up":
+                    if self.startHeight - MAX_HEIGT_MULTIPLICATOR * self.rect.h <= self.rect.top:
+                        up = True
+                    self.stepsRemaining -= 1
+                elif self.lastMove == "down":
+                    down = True
+                    self.stepsRemaining -= 1
+                elif self.lastMove == "right":
+                    right = True
+                    self.stepsRemaining -= 1
+                else:
+                    left = True
+                    self.stepsRemaining -= 1
+
+
+
 
         super().update(up, down, left, right, shooting, shootUp, world, shootTime = SHOOTING_FREQUENCY, speed = SPEED)
