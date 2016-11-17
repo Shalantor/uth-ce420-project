@@ -28,12 +28,13 @@ while True:
     screen_rect = screen.get_rect()
     background = pygame.image.load("world/background2.jpg").convert_alpha()
     background_rect = background.get_rect()
-    level = Level("level/level2.txt")
+    level = Level("level/test.txt")
     level.create_level(0,0)
     world = level.world
     player = level.player
     enemies = level.enemies
     enemies2 = level.enemies2
+    enemies3 = level.enemies3
     platformsVertical = level.platformsVertical
     platformsHorizontal = level.platformsHorizontal
 
@@ -48,6 +49,8 @@ while True:
     for e in enemies:
         e.initPosition(world)
     for e in enemies2:
+        e.initPosition(world)
+    for e in enemies3:
         e.initPosition(world)
 
     while not leaveLoop:
@@ -98,12 +101,17 @@ while True:
 
         #Check for enemy collisions with player
         player.collideEnemies(enemies)
+        player.collideEnemies(enemies2)
+        player.collideEnemies(enemies3)
 
         #Update enemies
         for enemy in enemies:
             enemy.update(player,world)
 
         for enemy in enemies2:
+            enemy.update(player,world)
+
+        for enemy in enemies3:
             enemy.update(player,world)
 
         #Update vertical platforms
@@ -136,9 +144,26 @@ while True:
                         level.all_sprite.remove(e)
                     break
 
+        #Same for enemies 3
+        for p in player.projectiles[:]:
+            for e in enemies3[:]:
+                if p.get('projectile').colliderect(e):
+                    e.health -= player.damage
+                    player.projectiles.remove(p)
+                    if e.health <= 0:
+                        enemies3.remove(e)
+                        level.all_sprite.remove(e)
+                    break
 
         #Check if enemy projectiles hit player
         for e in enemies2:
+            for p in e.projectiles[:]:
+                if p.get('projectile').colliderect(player.rect):
+                    player.health -= e.damage
+                    e.projectiles.remove(p)
+
+        #Do the same for enemies 3
+        for e in enemies3:
             for p in e.projectiles[:]:
                 if p.get('projectile').colliderect(player.rect):
                     player.health -= e.damage

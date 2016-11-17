@@ -26,7 +26,7 @@ class Camera(object):
             if s.rect.colliderect(self.rect):
                 surf.blit(s.image, self.RelRect(s, self))
                 #Check if it is the player
-                if s.symbol == "P" or s.symbol == "e2":
+                if s.symbol == "P" or s.symbol == "e2" or s.symbol == "e3":
                     for p in s.projectiles:
                         pRect = p.get('projectile')
                         if pRect.colliderect(self.rect):
