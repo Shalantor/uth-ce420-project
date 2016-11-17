@@ -10,6 +10,8 @@ MAX_VERT_DISTANCE = 200
 MAX_HORIZ_DISTANCE = 900
 MAX_HEIGT_MULTIPLICATOR = 3
 MAX_HORIZONTAL_MULTIPLICATOR = 3
+SHOOTING_FREQUENCY = 1
+SPEED = 3
 
 class Enemy3(Player,pygame.sprite.Sprite):
 
@@ -50,4 +52,4 @@ class Enemy3(Player,pygame.sprite.Sprite):
             if player.rect.centery < self.rect.centery:
                 up = True
 
-        super().update(up, down, left, right, shooting, shootUp, world, shootTime = SHOOTING_FREQUENCY)
+        super().update(up, down, left, right, shooting, shootUp, world, shootTime = SHOOTING_FREQUENCY, speed = SPEED)

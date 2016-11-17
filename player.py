@@ -145,7 +145,7 @@ class Player(pygame.sprite.Sprite):
 
         if self.flyDown:
             self.movy += 1
-            self.rect.top += HORIZ_MOV_INCR
+            self.rect.top += speed
 
         self.collide(0, self.movy, world)
         self.movx = 0
