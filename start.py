@@ -43,6 +43,13 @@ while True:
     x, y = 0, 0
     leaveLoop = False
 
+    #Correct positions of player and enemies
+    player.initPosition(world)
+    for e in enemies:
+        e.initPosition(world)
+    for e in enemies2:
+        e.initPosition(world)
+
     while not leaveLoop:
 
         for event in pygame.event.get():

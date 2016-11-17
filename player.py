@@ -23,6 +23,7 @@ class Player(pygame.sprite.Sprite):
         self.coins = 0
         self.canFly = False
         self.isFlying = False
+        self.flyDown = False
         self.health = 100
         self.energy = 100
         self.damage = DAMAGE
@@ -54,6 +55,7 @@ class Player(pygame.sprite.Sprite):
     def update(self, up, down, left, right, shooting, shootUp, world,  speed = HORIZ_MOV_INCR, shootTime = SHOOTING_FREQUENCY):
         #Check for key presses
         self.isFlying = False
+        self.flyDown = False
         if up:
             if self.canFly:
                 self.isFlying = True
@@ -70,6 +72,8 @@ class Player(pygame.sprite.Sprite):
                 self.image = pygame.image.load('actions/down_right.png').convert_alpha()
             if self.contact and self.direction == "left":
                 self.image = pygame.image.load('actions/down_left.png').convert_alpha()
+            if self.canFly and not self.contact:
+                self.flyDown = True
 
         if not down and self.direction == "right":
                 self.image = pygame.image.load('actions/idle_right.png').convert_alpha()
@@ -117,7 +121,7 @@ class Player(pygame.sprite.Sprite):
 
         self.collide(self.movx, 0, world)
 
-        if not self.contact and not self.jump and not self.isFlying:
+        if not self.contact and not self.jump and not self.canFly:
             self.movy += 1
             self.fallSpeed += 1
             if self.fallSpeed > MIN_VERTICAL_SPEED:
@@ -138,6 +142,10 @@ class Player(pygame.sprite.Sprite):
         if self.isFlying:
             self.movy -= 1
             self.rect.top -= speed
+
+        if self.flyDown:
+            self.movy += 1
+            self.rect.top += HORIZ_MOV_INCR
 
         self.collide(0, self.movy, world)
         self.movx = 0
@@ -195,3 +203,9 @@ class Player(pygame.sprite.Sprite):
                 self.lastTimeDamaged = time.time()
                 if self.health < 0:
                     self.health = 0
+
+    #initialize player position
+    def initPosition(self,world):
+        for o in world:
+            if self.rect.colliderect(o):
+                self.rect.bottom = o.rect.top
