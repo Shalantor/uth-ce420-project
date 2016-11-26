@@ -369,7 +369,7 @@ def showNameBox(screen,font):
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
-                        return False
+                        return False,None
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     for r in slots:
                         if r.collidepoint(pygame.mouse.get_pos()):
