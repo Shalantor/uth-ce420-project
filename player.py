@@ -104,21 +104,17 @@ class Player(pygame.sprite.Sprite):
                     self.isFlying = True
                 self.contact = False
         if down:
-            if self.contact and self.direction == "right":
-                self.image = pygame.image.load('actions/down_right.png').convert_alpha()
-            if self.contact and self.direction == "left":
-                self.image = pygame.image.load('actions/down_left.png').convert_alpha()
             if self.canFly and not self.contact:
                 self.flyDown = True
 
-        if not down and self.direction == "right":
+        if self.direction == "right":
             self.image = pygame.image.load(self.standRight[self.standFrame]).convert()
             self.image.set_colorkey((255,255,255))
             if time.time() - self.lastStandFrame > STAND_FRAMES_TIME:
                 self.standFrame = ( self.standFrame + 1 ) % 3
                 self.lastStandFrame = time.time()
 
-        if not down and self.direction == "left":
+        if self.direction == "left":
             self.image = pygame.image.load(self.standLeft[self.standFrame]).convert()
             self.image.set_colorkey((255,255,255))
             if time.time() - self.lastStandFrame > STAND_FRAMES_TIME:
