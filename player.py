@@ -14,6 +14,8 @@ DAMAGE = 10
 STAND_FRAMES = 3
 STAND_FRAMES_TIME = 0.2
 RUN_FRAMES = 16
+JUMP_FRAMES = 9
+JUMP_FRAMES_TIME = 0.4
 
 class Player(pygame.sprite.Sprite):
     '''class for player and collision'''
@@ -43,6 +45,16 @@ class Player(pygame.sprite.Sprite):
         self.maxJumpHeight = self.rect.height * 1.5
         self.lastTimeDamaged = time.time() - DAMAGE_DELAY
 
+        self.jump_left = ["megaman/jump_left/jl1.png","megaman/jump_left/jl2.png",
+                         "megaman/jump_left/jl3.png","megaman/jump_left/jl4.png",
+                         "megaman/jump_left/jl5.png","megaman/jump_left/jl6.png",
+                         "megaman/jump_left/jl7.png","megaman/jump_left/jl8.png","megaman/jump_left/jl9.png"]
+
+        self.jump_right = ["megaman/jump_right/jr1.png","megaman/jump_right/jr2.png",
+                         "megaman/jump_right/jr3.png","megaman/jump_right/jr4.png",
+                         "megaman/jump_right/jr5.png","megaman/jump_right/jr6.png",
+                         "megaman/jump_right/jr7.png","megaman/jump_right/jr8.png","megaman/jump_right/jr9.png"]
+
         self.run_left = ["megaman/move_left/ml1.png","megaman/move_left/ml2.png",
                          "megaman/move_left/ml3.png", "megaman/move_left/ml4.png",
                          "megaman/move_left/ml5.png", "megaman/move_left/ml6.png",
@@ -65,6 +77,8 @@ class Player(pygame.sprite.Sprite):
         self.standRight = ["megaman/stand/sr1.png","megaman/stand/sr2.png","megaman/stand/sr3.png"]
 
         self.standFrame = 0
+        self.jumpFrame = 0
+        self.lastJumpFrame = time.time()
         self.lastStandFrame = time.time()
         self.direction = "right"
         self.rect.topleft = [x, y]
@@ -79,7 +93,11 @@ class Player(pygame.sprite.Sprite):
                 self.isFlying = True
             if self.contact:
                 if self.direction == "right":
-                    self.image = pygame.image.load("actions/jump_right.png")
+                    self.image = pygame.image.load(self.jump_right[self.jumpFrame]).convert()
+                    self.image.set_colorkey((255,255,255))
+                    if time.time() - self.lastJumpFrame > JUMP_FRAMES_TIME:
+                        self.jumpFrame = (self.jumpFrame + 1) % JUMP_FRAMES
+                        self.lastJumpFrame = time.time()
                 if not self.canFly:
                     self.jump = True
                 else:
@@ -115,7 +133,11 @@ class Player(pygame.sprite.Sprite):
                 self.image = pygame.image.load(self.run_left[self.frame]).convert()
                 self.image.set_colorkey((255,255,255))
             else:
-                self.image = pygame.image.load("actions/jump_left.png").convert_alpha()
+                self.image = pygame.image.load(self.jump_left[self.jumpFrame]).convert()
+                self.image.set_colorkey((255,255,255))
+                if time.time() - self.lastJumpFrame > JUMP_FRAMES_TIME:
+                    self.jumpFrame = (self.jumpFrame + 1) % JUMP_FRAMES
+                    self.lastJumpFrame = time.time()
 
         if right:
             self.direction = "right"
@@ -125,7 +147,11 @@ class Player(pygame.sprite.Sprite):
                 self.image = pygame.image.load(self.run_right[self.frame]).convert()
                 self.image.set_colorkey((255,255,255))
             else:
-                self.image = pygame.image.load("actions/jump_right.png").convert_alpha()
+                self.image = pygame.image.load(self.jump_right[self.jumpFrame]).convert()
+                self.image.set_colorkey((255,255,255))
+                if time.time() - self.lastJumpFrame > JUMP_FRAMES_TIME:
+                    self.jumpFrame = (self.jumpFrame + 1) % JUMP_FRAMES
+                    self.lastJumpFrame = time.time()
 
         if shooting and time.time() - self.lastShotTime > shootTime:
             if not shootUp:
