@@ -13,6 +13,7 @@ DAMAGE_DELAY = 2
 DAMAGE = 10
 STAND_FRAMES = 3
 STAND_FRAMES_TIME = 0.2
+RUN_FRAMES = 16
 
 class Player(pygame.sprite.Sprite):
     '''class for player and collision'''
@@ -41,16 +42,28 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.maxJumpHeight = self.rect.height * 1.5
         self.lastTimeDamaged = time.time() - DAMAGE_DELAY
-        self.run_left = ["actions/run_left000.png","actions/run_left001.png",
-                         "actions/run_left002.png", "actions/run_left003.png",
-                         "actions/run_left004.png", "actions/run_left005.png",
-                         "actions/run_left006.png", "actions/run_left007.png"]
-        self.run_right = ["actions/run_right000.png","actions/run_right001.png",
-                         "actions/run_right002.png", "actions/run_right003.png",
-                         "actions/run_right004.png", "actions/run_right005.png",
-                         "actions/run_right006.png", "actions/run_right007.png"]
+
+        self.run_left = ["megaman/move_left/ml1.png","megaman/move_left/ml2.png",
+                         "megaman/move_left/ml3.png", "megaman/move_left/ml4.png",
+                         "megaman/move_left/ml5.png", "megaman/move_left/ml6.png",
+                         "megaman/move_left/ml7.png", "megaman/move_left/ml8.png",
+                         "megaman/move_left/ml9.png","megaman/move_left/ml10.png",
+                         "megaman/move_left/ml11.png","megaman/move_left/ml12.png",
+                         "megaman/move_left/ml13.png","megaman/move_left/ml14.png",
+                         "megaman/move_left/ml15.png","megaman/move_left/ml16.png"]
+
+        self.run_right = ["megaman/move_right/mr1.png","megaman/move_right/mr2.png",
+                         "megaman/move_right/mr3.png", "megaman/move_right/mr4.png",
+                         "megaman/move_right/mr5.png", "megaman/move_right/mr6.png",
+                         "megaman/move_right/mr7.png", "megaman/move_right/mr8.png",
+                         "megaman/move_right/mr9.png","megaman/move_right/mr10.png",
+                         "megaman/move_right/mr11.png","megaman/move_right/mr12.png",
+                         "megaman/move_right/mr13.png","megaman/move_right/mr14.png",
+                         "megaman/move_right/mr15.png","megaman/move_right/mr16.png"]
+
         self.standLeft = ["megaman/stand/sl1.png","megaman/stand/sl2.png","megaman/stand/sl3.png"]
         self.standRight = ["megaman/stand/sr1.png","megaman/stand/sr2.png","megaman/stand/sr3.png"]
+
         self.standFrame = 0
         self.lastStandFrame = time.time()
         self.direction = "right"
@@ -98,9 +111,9 @@ class Player(pygame.sprite.Sprite):
             self.direction = "left"
             self.movx = -speed
             if self.contact:
-                self.frame += 1
-                self.image = pygame.image.load(self.run_left[self.frame]).convert_alpha()
-                if self.frame == 6: self.frame = 0
+                self.frame = (self.frame + 1) % RUN_FRAMES
+                self.image = pygame.image.load(self.run_left[self.frame]).convert()
+                self.image.set_colorkey((255,255,255))
             else:
                 self.image = pygame.image.load("actions/jump_left.png").convert_alpha()
 
@@ -108,9 +121,9 @@ class Player(pygame.sprite.Sprite):
             self.direction = "right"
             self.movx = +speed
             if self.contact:
-                self.frame += 1
-                self.image = pygame.image.load(self.run_right[self.frame]).convert_alpha()
-                if self.frame == 6: self.frame = 0
+                self.frame = (self.frame + 1) % RUN_FRAMES
+                self.image = pygame.image.load(self.run_right[self.frame]).convert()
+                self.image.set_colorkey((255,255,255))
             else:
                 self.image = pygame.image.load("actions/jump_right.png").convert_alpha()
 
