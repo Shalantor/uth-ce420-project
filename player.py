@@ -11,6 +11,8 @@ MIN_VERTICAL_SPEED = 15
 SHOOTING_FREQUENCY = 0.2
 DAMAGE_DELAY = 2
 DAMAGE = 10
+STAND_FRAMES = 3
+STAND_FRAMES_TIME = 0.2
 
 class Player(pygame.sprite.Sprite):
     '''class for player and collision'''
@@ -47,7 +49,10 @@ class Player(pygame.sprite.Sprite):
                          "actions/run_right002.png", "actions/run_right003.png",
                          "actions/run_right004.png", "actions/run_right005.png",
                          "actions/run_right006.png", "actions/run_right007.png"]
-
+        self.standLeft = ["megaman/stand/sl1.png","megaman/stand/sl2.png","megaman/stand/sl3.png"]
+        self.standRight = ["megaman/stand/sr1.png","megaman/stand/sr2.png","megaman/stand/sr3.png"]
+        self.standFrame = 0
+        self.lastStandFrame = time.time()
         self.direction = "right"
         self.rect.topleft = [x, y]
         self.frame = 0
@@ -76,10 +81,18 @@ class Player(pygame.sprite.Sprite):
                 self.flyDown = True
 
         if not down and self.direction == "right":
-                self.image = pygame.image.load('actions/idle_right.png').convert_alpha()
+            self.image = pygame.image.load(self.standRight[self.standFrame]).convert()
+            self.image.set_colorkey((255,255,255))
+            if time.time() - self.lastStandFrame > STAND_FRAMES_TIME:
+                self.standFrame = ( self.standFrame + 1 ) % 3
+                self.lastStandFrame = time.time()
 
         if not down and self.direction == "left":
-            self.image = pygame.image.load('actions/idle_left.png').convert_alpha()
+            self.image = pygame.image.load(self.standLeft[self.standFrame]).convert()
+            self.image.set_colorkey((255,255,255))
+            if time.time() - self.lastStandFrame > STAND_FRAMES_TIME:
+                self.standFrame = ( self.standFrame + 1 ) % 3
+                self.lastStandFrame = time.time()
 
         if left:
             self.direction = "left"
