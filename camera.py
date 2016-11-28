@@ -30,7 +30,7 @@ class Camera(object):
                     for p in s.projectiles:
                         pRect = p.get('projectile')
                         if pRect.colliderect(self.rect):
-                            image = s.projectileImage
+                            image = p.get('image')
                             image = pygame.transform.scale(image,(pRect.w,pRect.h))
                             surf.blit(image,self.RelRectProject(p.get('projectile'),self))
 

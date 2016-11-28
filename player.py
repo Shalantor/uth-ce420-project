@@ -16,6 +16,8 @@ STAND_FRAMES_TIME = 0.2
 RUN_FRAMES = 16
 JUMP_FRAMES = 9
 JUMP_FRAMES_TIME = 0.4
+PLAYER_WIDTH = 50
+PLAYER_HEIGHT = 80
 
 class Player(pygame.sprite.Sprite):
     '''class for player and collision'''
@@ -42,6 +44,8 @@ class Player(pygame.sprite.Sprite):
         self.contact = False
         self.jump = False
         self.image = pygame.image.load("megaman/stand/sr1.png").convert()
+        self.image = pygame.transform.scale(self.image,(50,80))
+        self.image.set_colorkey((255,255,255))
         self.rect = self.image.get_rect()
         self.maxJumpHeight = self.rect.height * 1.5
         self.lastTimeDamaged = time.time() - DAMAGE_DELAY
@@ -95,7 +99,6 @@ class Player(pygame.sprite.Sprite):
             if self.contact:
                 if self.direction == "right":
                     self.image = pygame.image.load(self.jump_right[self.jumpFrame]).convert()
-                    self.image.set_colorkey((255,255,255))
                     if time.time() - self.lastJumpFrame > JUMP_FRAMES_TIME:
                         self.jumpFrame = (self.jumpFrame + 1) % JUMP_FRAMES
                         self.lastJumpFrame = time.time()
@@ -110,14 +113,12 @@ class Player(pygame.sprite.Sprite):
 
         if self.direction == "right":
             self.image = pygame.image.load(self.standRight[self.standFrame]).convert()
-            self.image.set_colorkey((255,255,255))
             if time.time() - self.lastStandFrame > STAND_FRAMES_TIME:
                 self.standFrame = ( self.standFrame + 1 ) % 3
                 self.lastStandFrame = time.time()
 
         if self.direction == "left":
             self.image = pygame.image.load(self.standLeft[self.standFrame]).convert()
-            self.image.set_colorkey((255,255,255))
             if time.time() - self.lastStandFrame > STAND_FRAMES_TIME:
                 self.standFrame = ( self.standFrame + 1 ) % 3
                 self.lastStandFrame = time.time()
@@ -128,10 +129,8 @@ class Player(pygame.sprite.Sprite):
             if self.contact:
                 self.frame = (self.frame + 1) % RUN_FRAMES
                 self.image = pygame.image.load(self.run_left[self.frame]).convert()
-                self.image.set_colorkey((255,255,255))
             else:
                 self.image = pygame.image.load(self.jump_left[self.jumpFrame]).convert()
-                self.image.set_colorkey((255,255,255))
                 if time.time() - self.lastJumpFrame > JUMP_FRAMES_TIME:
                     self.jumpFrame = (self.jumpFrame + 1) % JUMP_FRAMES
                     self.lastJumpFrame = time.time()
@@ -142,10 +141,8 @@ class Player(pygame.sprite.Sprite):
             if self.contact:
                 self.frame = (self.frame + 1) % RUN_FRAMES
                 self.image = pygame.image.load(self.run_right[self.frame]).convert()
-                self.image.set_colorkey((255,255,255))
             else:
                 self.image = pygame.image.load(self.jump_right[self.jumpFrame]).convert()
-                self.image.set_colorkey((255,255,255))
                 if time.time() - self.lastJumpFrame > JUMP_FRAMES_TIME:
                     self.jumpFrame = (self.jumpFrame + 1) % JUMP_FRAMES
                     self.lastJumpFrame = time.time()
@@ -154,12 +151,16 @@ class Player(pygame.sprite.Sprite):
             if not shootUp:
                 if self.direction == "right":
                     projectile = Rect(self.rect.right,self.rect.top,self.rect.w,self.rect.h // 10)
+                    image = pygame.image.load("megaman/fires/fr1.png")
+                    image.set_colorkey((255,255,255))
                 else:
                     projectile = Rect(self.rect.left - self.rect.w // 2,self.rect.top,self.rect.w,self.rect.h // 10)
-                info = {'projectile':projectile,'direction':self.direction}
+                    image = pygame.image.load("megaman/fires/fl1.png")
+                    image.set_colorkey((255,255,255))
+                info = {'projectile':projectile,'direction':self.direction,'image': image}
             else:
                 projectile = Rect(self.rect.left,self.rect.top,self.rect.h // 10,self.rect.w)
-                info = {'projectile':projectile,'direction':"top"}
+                info = {'projectile':projectile,'direction':"top",'image':pygame.image.load("megaman/fires/fl1.png")}
             self.projectiles.append(info)
             self.lastShotTime = time.time()
 
@@ -199,6 +200,10 @@ class Player(pygame.sprite.Sprite):
         self.collide(0, self.movy, world)
         self.movx = 0
         self.movy = 0
+
+        #Transform image
+        self.image = pygame.transform.scale(self.image,(PLAYER_WIDTH,PLAYER_HEIGHT))
+        self.image.set_colorkey((255,255,255))
 
         #Update projectiles
         for p in self.projectiles:

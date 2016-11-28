@@ -1,0 +1,94 @@
+
+
+
+
+
+
+
+
+
+X                                                                                                                                                                                        
+X                                          C C C C C C                                                                                                                                  
+X P                         XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                                                                                                                                  
+XXXX                                                         X                                                                                                                              
+X C                 XXXXXXXXX                                X                                                                                                                                                    XX
+X C                                                          X                                                                                                                                                    XX
+X C            X                                E1  L                                                                                                   BBXXXXXXXBB                                               XX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                                                                               BBBBBBBBBBB                                     XX        XX
+X                                                                        X                                                                              BBBBBLBBBBB                                    XXX        XX
+X                                                                         X                                                                             BBBBBBBBBBB                                   XXXX
+X                                                                          XBBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX   XX
+X                                                                           X                                                                                                                                     XX    
+X                                                                            X                                                                                                                                    XX                                                                                                    
+X                                                                             X           C                                                                                                                       XX       
+X                                                                              X         C C                                                                                                                      XX 
+X                                                                               X      C C C C                                                                                  C                                 XX       
+X                                                                                XXXXXXXXXXXXXXXXX                                                                              C                                 XX    
+X                                            C C                                                                                                                                C                                 XX     
+X                                            C C                                                                     XX                                                         XX                                XX
+X                                            C C                                                                     XX E2                                                    XXXX                                XX
+X   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX      
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                                                                    XXXXXXXXXXXXXXXXXXXXX                                                          XX
+X C                BBB                                      BBB                                                                    B         L         B                                                          XX
+X C                BBB                                      BBB                                                                    B                   B                                                          XX
+X C                BBB             E2          W            BBB                                                                    B C   C   C   C   C B             E2                                           XX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX    XX      
+X                                                                                                    X    X                                                                                                       XX
+X                                                                                                    X    X                                                                                                       XX
+X                                                                                                    X    X                                                                                                       XX
+X                                                                                                    X  E2X                                                                                                       XX
+X                                                                                                    XXXXXX                                                                                                       XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                          C C C                  XX
+X                                                                                                                                                                                          C C C                  XX
+X                                                                                                                                                                                          C C C                  XX
+X                                                                                                                                                                                        X2X2X2X2X2               XX
+X                                                                                                                                                                                        X2X2X2X2X2               XX
+X                                                                                                  BBBBBBBBBBBBBBBBBBBBBB                                                                X2X2X2X2X2               XX
+X                        XXXBBXXX                         J                                        BBBBBBBBBBBBBBBBBBBBBB                                                                                         XX
+X        XXXXX           B   C    X                    XXXXXXX                                     BBL E1              BB                                                                                         XX
+XBBBBB   XXXXXX          B   C      X                  XXXXXXX                                    XXXXXXXXXXXBBBBBBBXXXXXXXXXXX                                                      X2        E3    X2           XX
+XKBBBBB  XXXXXXXX        B   C        X      E3        XXXXXXX                                                 CCCC                                                                  X2X2X2X2X2X2X2X2X2           XX
+XBBBBBBBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                                                                 XX
+X                                                                                                                                                                           X2                                    XX
+X                                                                                                                                                                          CX2                                    XX
+X                                                                                                                                                                          CX2                                    XX
+X                                                                                                                                                                          CX2                                    XX
+X                                           B                                                                                                                             X2X2                                    XX
+X                                           B                                                                                                                                                                     XX
+X                L                          B E2                                                       C C C C C C C C C C C C C C                                                                                XX
+X            XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                                                                      XXXXXXXXXXXXX
+X                                    BB     BB                      BB            C                                                        BB                    X2X2X2X2X2X2                                       
+X                                    BB     BB                      BB            C                                                        BB                    X2X2X2X2X2X2                                       
+X                                    BB  L  BB                      BB            C                                          E2       L    BB                    X2X2X2X2X2X2                                     D 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                                                                                                                                                                                                    XX
