@@ -290,10 +290,6 @@ class Player(pygame.sprite.Sprite):
             elif p.get('direction') == "top":
                 p.get('projectile').top -= 2 * HORIZ_MOV_INCR
 
-
-        #now check for projectile collisions
-        self.collideProjectiles(self.projectiles,world)
-
     def collide(self, movx, movy, world):
         self.contact = False
         for o in world:
@@ -318,7 +314,17 @@ class Player(pygame.sprite.Sprite):
                     self.maxJumpHeight = self.rect.height * 2
 
     #Checks for collided projectiles
-    def collideProjectiles(self,projectiles,world):
+    def collideProjectiles(self,projectiles,world,all_sprite,breakBlocks):
+
+        if self.symbol == "P":
+            for b in breakBlocks:
+                for p in projectiles[:]:
+                    if p.get('projectile').colliderect(b):
+                        projectiles.remove(p)
+                        world.remove(b)
+                        breakBlocks.remove(b)
+                        all_sprite.remove(b)
+
         for o in world:
             for p in projectiles[:]:
                 if p.get('projectile').colliderect(o):

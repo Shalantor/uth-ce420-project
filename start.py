@@ -37,6 +37,7 @@ while True:
     enemies3 = level.enemies3
     platformsVertical = level.platformsVertical
     platformsHorizontal = level.platformsHorizontal
+    breakBlocks = level.breakBlocks
 
     camera = Camera(screen, player.rect, level.get_size()[0], level.get_size()[1])
     all_sprite = level.all_sprite
@@ -99,6 +100,9 @@ while True:
         #Update player
         player.update(up, down, left, right, shooting, shootUp, world)
 
+        #Update player projectiles collisions
+        player.collideProjectiles(player.projectiles,world,level.all_sprite,breakBlocks)
+
         #Check for enemy collisions with player
         player.collideEnemies(enemies)
         player.collideEnemies(enemies2)
@@ -107,12 +111,15 @@ while True:
         #Update enemies
         for enemy in enemies:
             enemy.update(player,world)
+            enemy.collideProjectiles(enemy.projectiles,world,all_sprite,breakBlocks)
 
         for enemy in enemies2:
             enemy.update(player,world)
+            enemy.collideProjectiles(enemy.projectiles,world,all_sprite,breakBlocks)
 
         for enemy in enemies3:
             enemy.update(player,world)
+            enemy.collideProjectiles(enemy.projectiles,world,all_sprite,breakBlocks)
 
         #Update vertical platforms
         for platV in platformsVertical:
