@@ -266,6 +266,10 @@ def showOptions(screen,font):
                     volumeProgress.width = pygame.mouse.get_pos()[0] - volumeBar.left
                     volumeProgress.topleft = volumeBar.topleft
                     volumeButton.centerx = volumeProgress.right
+
+                    #Change volume based on progress
+                    pygame.mixer.music.set_volume(volumeProgress.width / volumeBar.width )
+
         screen.fill((0,0,0))
         screen.blit(volumeText,volumePos)
         screen.blit(controlsText,controlsPos)
@@ -436,6 +440,13 @@ def showNameBox(screen,font):
 def showMenu(screen,clock):
 
     pygame.mouse.set_visible(1)
+
+    #Playback music
+    pygame.mixer.init()
+    pygame.mixer.music.load("soundtracks/menu.ogg")
+    pygame.mixer.music.play(-1,0)
+    pygame.mixer.music.set_volume(1.0)
+
     startBackground = pygame.Surface(screen.get_size()).convert()
     width,height = screen.get_size()
     font = pygame.font.Font(None,height // 10)
