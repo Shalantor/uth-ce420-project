@@ -19,6 +19,7 @@ JUMP_FRAMES_TIME = 0.4
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 80
 SHOOT_FRAMES = 8
+WALK_SHOOT_FRAMES = 15
 
 class Player(pygame.sprite.Sprite):
     '''class for player and collision'''
@@ -92,9 +93,26 @@ class Player(pygame.sprite.Sprite):
                           "megaman/shoot_right/shr5.png","megaman/shoot_right/shr6.png",
                           "megaman/shoot_right/shr7.png","megaman/shoot_right/shr8.png"]
 
+        self.shootRightWalk = ["megaman/shoot_walk_right/swr1.png","megaman/shoot_walk_right/swr2.png",
+                               "megaman/shoot_walk_right/swr3.png","megaman/shoot_walk_right/swr4.png",
+                               "megaman/shoot_walk_right/swr5.png","megaman/shoot_walk_right/swr6.png",
+                               "megaman/shoot_walk_right/swr7.png","megaman/shoot_walk_right/swr8.png",
+                               "megaman/shoot_walk_right/swr9.png","megaman/shoot_walk_right/swr10.png",
+                               "megaman/shoot_walk_right/swr11.png","megaman/shoot_walk_right/swr12.png",
+                               "megaman/shoot_walk_right/swr13.png","megaman/shoot_walk_right/swr14.png","megaman/shoot_walk_right/swr15.png"]
+
+        self.shootLeftWalk = ["megaman/shoot_walk_left/swl1.png","megaman/shoot_walk_left/swl2.png",
+                               "megaman/shoot_walk_left/swl3.png","megaman/shoot_walk_left/swl4.png",
+                               "megaman/shoot_walk_left/swl5.png","megaman/shoot_walk_left/swl6.png",
+                               "megaman/shoot_walk_left/swl7.png","megaman/shoot_walk_left/swl8.png",
+                               "megaman/shoot_walk_left/swl9.png","megaman/shoot_walk_left/swl10.png",
+                               "megaman/shoot_walk_left/swl11.png","megaman/shoot_walk_left/swl12.png",
+                               "megaman/shoot_walk_left/swl13.png","megaman/shoot_walk_left/swl14.png","megaman/shoot_walk_left/swl15.png"]
+
         self.standFrame = 0
         self.jumpFrame = 0
         self.shootFrame = 0
+        self.shootWalkFrame = 0
         self.lastJumpFrame = time.time()
         self.lastStandFrame = time.time()
         self.direction = "right"
@@ -229,6 +247,14 @@ class Player(pygame.sprite.Sprite):
                     self.image = pygame.image.load(self.shootLeft[self.shootFrame])
                 self.shootFrame = (self.shootFrame + 1) % SHOOT_FRAMES
                 if self.shootFrame == 0:
+                    self.isShooting = False
+            elif self.contact:
+                if self.direction == "left":
+                    self.image = pygame.image.load(self.shootLeftWalk[self.shootWalkFrame])
+                else:
+                    self.image = pygame.image.load(self.shootRightWalk[self.shootWalkFrame])
+                self.shootWalkFrame = (self.shootWalkFrame + 1) % WALK_SHOOT_FRAMES
+                if self.shootWalkFrame == 0:
                     self.isShooting = False
 
         #Transform image
