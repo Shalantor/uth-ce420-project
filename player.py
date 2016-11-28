@@ -20,6 +20,7 @@ PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 80
 SHOOT_FRAMES = 8
 WALK_SHOOT_FRAMES = 15
+JUMP_SHOOT_FRAMES = 9
 
 class Player(pygame.sprite.Sprite):
     '''class for player and collision'''
@@ -109,10 +110,21 @@ class Player(pygame.sprite.Sprite):
                                "megaman/shoot_walk_left/swl11.png","megaman/shoot_walk_left/swl12.png",
                                "megaman/shoot_walk_left/swl13.png","megaman/shoot_walk_left/swl14.png","megaman/shoot_walk_left/swl15.png"]
 
+        self.shootJumpRight = ["megaman/jump_shoot_right/jsr1.png","megaman/jump_shoot_right/jsr2.png",
+                              "megaman/jump_shoot_right/jsr3.png","megaman/jump_shoot_right/jsr4.png",
+                              "megaman/jump_shoot_right/jsr5.png","megaman/jump_shoot_right/jsr6.png",
+                              "megaman/jump_shoot_right/jsr7.png","megaman/jump_shoot_right/jsr8.png","megaman/jump_shoot_right/jsr9.png"]
+
+        self.shootJumpLeft = ["megaman/jump_shoot_left/jsl1.png","megaman/jump_shoot_left/jsl2.png",
+                              "megaman/jump_shoot_left/jsl3.png","megaman/jump_shoot_left/jsl4.png",
+                              "megaman/jump_shoot_left/jsl5.png","megaman/jump_shoot_left/jsl6.png",
+                              "megaman/jump_shoot_left/jsl7.png","megaman/jump_shoot_left/jsl8.png","megaman/jump_shoot_left/jsl9.png"]
+
         self.standFrame = 0
         self.jumpFrame = 0
         self.shootFrame = 0
         self.shootWalkFrame = 0
+        self.shootJumpFrame = 0
         self.lastJumpFrame = time.time()
         self.lastStandFrame = time.time()
         self.direction = "right"
@@ -255,6 +267,14 @@ class Player(pygame.sprite.Sprite):
                     self.image = pygame.image.load(self.shootRightWalk[self.shootWalkFrame])
                 self.shootWalkFrame = (self.shootWalkFrame + 1) % WALK_SHOOT_FRAMES
                 if self.shootWalkFrame == 0:
+                    self.isShooting = False
+            elif not self.contact:
+                if self.direction == "left":
+                    self.image = pygame.image.load(self.shootJumpLeft[self.shootJumpFrame])
+                else:
+                    self.image = pygame.image.load(self.shootJumpRight[self.shootJumpFrame])
+                self.shootJumpFrame = (self.shootJumpFrame + 1) % JUMP_SHOOT_FRAMES
+                if self.shootJumpFrame == 0:
                     self.isShooting = False
 
         #Transform image
