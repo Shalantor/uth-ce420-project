@@ -18,6 +18,7 @@ JUMP_FRAMES = 9
 JUMP_FRAMES_TIME = 0.4
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 80
+SHOOT_FRAMES = 8
 
 class Player(pygame.sprite.Sprite):
     '''class for player and collision'''
@@ -81,8 +82,19 @@ class Player(pygame.sprite.Sprite):
         self.standLeft = ["megaman/stand/sl1.png","megaman/stand/sl2.png","megaman/stand/sl3.png"]
         self.standRight = ["megaman/stand/sr1.png","megaman/stand/sr2.png","megaman/stand/sr3.png"]
 
+        self.shootLeft = ["megaman/shoot_left/shl1.png","megaman/shoot_left/shl2.png",
+                          "megaman/shoot_left/shl3.png","megaman/shoot_left/shl4.png",
+                          "megaman/shoot_left/shl5.png","megaman/shoot_left/shl6.png",
+                          "megaman/shoot_left/shl7.png","megaman/shoot_left/shl8.png"]
+
+        self.shootRight = ["megaman/shoot_right/shr1.png","megaman/shoot_right/shr2.png",
+                          "megaman/shoot_right/shr3.png","megaman/shoot_right/shr4.png",
+                          "megaman/shoot_right/shr5.png","megaman/shoot_right/shr6.png",
+                          "megaman/shoot_right/shr7.png","megaman/shoot_right/shr8.png"]
+
         self.standFrame = 0
         self.jumpFrame = 0
+        self.shootFrame = 0
         self.lastJumpFrame = time.time()
         self.lastStandFrame = time.time()
         self.direction = "right"
@@ -153,14 +165,19 @@ class Player(pygame.sprite.Sprite):
                     projectile = Rect(self.rect.right,self.rect.top,self.rect.w,self.rect.h // 10)
                     image = pygame.image.load("megaman/fires/fr1.png")
                     image.set_colorkey((255,255,255))
+
                 else:
                     projectile = Rect(self.rect.left - self.rect.w // 2,self.rect.top,self.rect.w,self.rect.h // 10)
                     image = pygame.image.load("megaman/fires/fl1.png")
                     image.set_colorkey((255,255,255))
+
                 info = {'projectile':projectile,'direction':self.direction,'image': image}
             else:
                 projectile = Rect(self.rect.left,self.rect.top,self.rect.h // 10,self.rect.w)
-                info = {'projectile':projectile,'direction':"top",'image':pygame.image.load("megaman/fires/fl1.png")}
+                image = pygame.image.load("megaman/fires/fr1.png")
+                image = pygame.transform.rotate(image,90)
+                image.set_colorkey((255,255,255))
+                info = {'projectile':projectile,'direction':"top",'image': image}
             self.projectiles.append(info)
             self.lastShotTime = time.time()
 
