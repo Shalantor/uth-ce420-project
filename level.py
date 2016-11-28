@@ -10,6 +10,31 @@ from enemy3 import *
 
 PLATFORM_STEPS = 30
 
+class Star(pygame.sprite.Sprite):
+    '''Class for a star, that makes player invincible for a while'''
+    def __init__(self,x,y):
+        self.symbol = "I"
+        self.x = x
+        self.y = y
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("megaman/star/star1.png").convert()
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [self.x, self.y]
+        self.starFrames = 8
+        self.curFrame = 0
+        self.lastSpinTime = time.time()
+        self.spinFrequency = 0.3
+        self.starImages = ["megaman/star/star1.png","megaman/star/star2.png",
+                           "megaman/star/star3.png","megaman/star/star4.png",
+                           "megaman/star/star5.png","megaman/star/star6.png",
+                           "megaman/star/star7.png","megaman/star/star8.png"]
+
+    def update(self):
+        if time.time() - self.lastSpinTime > self.spinFrequency:
+            self.curFrame = (self.curFrame + 1) % self.starFrames
+            self.image = pygame.image.load(self.starImages[self.curFrame])
+
+
 class BreakableBlock(pygame.sprite.Sprite):
     '''Class for breakable blocks'''
     def __init__(self,x,y):
@@ -144,6 +169,7 @@ class Level(object):
         self.enemies2 = []
         self.enemies3 = []
         self.breakBlocks = []
+        self.stars = []
 
     def create_level(self, x, y):
         for l in self.level:
@@ -190,6 +216,8 @@ class Level(object):
                     self.breakBlocks.append(breakBlock)
                     self.world.append(breakBlock)
                     self.all_sprite.add(self.breakBlocks)
+                elif col == "I":
+
                 x += 25
             y += 25
             x = 0
