@@ -552,4 +552,5 @@ def showMenu(screen,clock):
 
         pygame.display.flip()
         time_spent = tps(clock, FPS)
+    pygame.mixer.music.stop()
     return playerId
