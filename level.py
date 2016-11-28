@@ -18,12 +18,14 @@ class Star(pygame.sprite.Sprite):
         self.y = y
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("megaman/star/star1.png").convert()
+        self.image = pygame.transform.scale(self.image,(30,30))
+        self.image.set_colorkey((255,255,255))
         self.rect = self.image.get_rect()
         self.rect.topleft = [self.x, self.y]
         self.starFrames = 8
         self.curFrame = 0
         self.lastSpinTime = time.time()
-        self.spinFrequency = 0.3
+        self.spinFrequency = 0.1
         self.starImages = ["megaman/star/star1.png","megaman/star/star2.png",
                            "megaman/star/star3.png","megaman/star/star4.png",
                            "megaman/star/star5.png","megaman/star/star6.png",
@@ -31,8 +33,19 @@ class Star(pygame.sprite.Sprite):
 
     def update(self):
         if time.time() - self.lastSpinTime > self.spinFrequency:
+            oldCenter = self.rect.center
             self.curFrame = (self.curFrame + 1) % self.starFrames
             self.image = pygame.image.load(self.starImages[self.curFrame])
+            if self.curFrame == 2 or self.curFrame == 4:
+                self.image = pygame.transform.scale(self.image,(30,40))
+            elif self.curFrame == 3:
+                self.image = pygame.transform.scale(self.image,(15,40))
+            else:
+                self.image = pygame.transform.scale(self.image,(40,40))
+            self.image.set_colorkey((255,255,255))
+            self.lastSpinTime = time.time()
+            self.rect = self.image.get_rect()
+            self.rect.center = oldCenter
 
 
 class BreakableBlock(pygame.sprite.Sprite):
@@ -217,7 +230,9 @@ class Level(object):
                     self.world.append(breakBlock)
                     self.all_sprite.add(self.breakBlocks)
                 elif col == "I":
-
+                    star = Star(x,y)
+                    self.stars.append(star)
+                    self.all_sprite.add(self.stars)
                 x += 25
             y += 25
             x = 0

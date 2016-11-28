@@ -38,6 +38,7 @@ while True:
     platformsVertical = level.platformsVertical
     platformsHorizontal = level.platformsHorizontal
     breakBlocks = level.breakBlocks
+    stars = level.stars
 
     camera = Camera(screen, player.rect, level.get_size()[0], level.get_size()[1])
     all_sprite = level.all_sprite
@@ -175,6 +176,10 @@ while True:
                 if p.get('projectile').colliderect(player.rect):
                     player.health -= e.damage
                     e.projectiles.remove(p)
+
+        #Update spin of stars
+        for s in stars:
+            s.update()
 
         camera.update()
         pygame.display.flip()
