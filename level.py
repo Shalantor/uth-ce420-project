@@ -10,6 +10,20 @@ from enemy3 import *
 
 PLATFORM_STEPS = 30
 
+class Coin(pygame.sprite.Sprite):
+    '''Class for coins , for player to collect in levels'''
+    def __init__(self,x,y):
+        self.symbol = "C"
+        self.x = x
+        self.y = y
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("megaman/coin.png").convert()
+        self.image = pygame.transform.scale(self.image,(25,25))
+        self.image.set_colorkey((255,255,255))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [self.x, self.y]
+
+
 class Star(pygame.sprite.Sprite):
     '''Class for a star, that makes player invincible for a while'''
     def __init__(self,x,y):
@@ -183,6 +197,7 @@ class Level(object):
         self.enemies3 = []
         self.breakBlocks = []
         self.stars = []
+        self.coins = []
 
     def create_level(self, x, y):
         for l in self.level:
@@ -233,6 +248,10 @@ class Level(object):
                     star = Star(x,y)
                     self.stars.append(star)
                     self.all_sprite.add(self.stars)
+                elif col == "C":
+                    coin = Coin(x,y)
+                    self.coins.append(coin)
+                    self.all_sprite.add(self.coins)
                 x += 25
             y += 25
             x = 0

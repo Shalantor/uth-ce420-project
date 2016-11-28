@@ -363,3 +363,7 @@ class Player(pygame.sprite.Sprite):
     def setInvincible(self):
         self.isInvincible = True
         self.startInvincibility = time.time()
+
+    #Add a coin to player stats
+    def addCoin(self):
+        self.coins += 1

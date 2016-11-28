@@ -39,6 +39,7 @@ while True:
     platformsHorizontal = level.platformsHorizontal
     breakBlocks = level.breakBlocks
     stars = level.stars
+    coins = level.coins
 
     camera = Camera(screen, player.rect, level.get_size()[0], level.get_size()[1])
     all_sprite = level.all_sprite
@@ -180,11 +181,21 @@ while True:
                     e.projectiles.remove(p)
 
         #Update spin of stars
-        for s in stars:
+        for s in stars[:]:
             s.update()
             if player.rect.colliderect(s):
                 player.setInvincible()
                 level.all_sprite.remove(s)
+                stars.remove(s)
+
+        #Check if player collided with coin
+        for c in coins[:]:
+            if player.rect.colliderect(c):
+                player.addCoin()
+                level.all_sprite.remove(c)
+                coins.remove(c)
+
+
 
         camera.update()
         pygame.display.flip()
