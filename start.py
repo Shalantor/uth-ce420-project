@@ -167,19 +167,24 @@ while True:
         for e in enemies2:
             for p in e.projectiles[:]:
                 if p.get('projectile').colliderect(player.rect):
-                    player.health -= e.damage
+                    if not player.isInvincible:
+                        player.health -= e.damage
                     e.projectiles.remove(p)
 
         #Do the same for enemies 3
         for e in enemies3:
             for p in e.projectiles[:]:
                 if p.get('projectile').colliderect(player.rect):
-                    player.health -= e.damage
+                    if not player.isInvincible:
+                        player.health -= e.damage
                     e.projectiles.remove(p)
 
         #Update spin of stars
         for s in stars:
             s.update()
+            if player.rect.colliderect(s):
+                player.setInvincible()
+                level.all_sprite.remove(s)
 
         camera.update()
         pygame.display.flip()

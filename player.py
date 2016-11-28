@@ -52,6 +52,9 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.maxJumpHeight = self.rect.height * 1.5
         self.lastTimeDamaged = time.time() - DAMAGE_DELAY
+        self.isInvincible = False
+        self.invincibilityTime = 20 #TODO:Change time
+        self.startInvincibility = 0
 
         self.jump_left = ["megaman/jump_left/jl1.png","megaman/jump_left/jl2.png",
                          "megaman/jump_left/jl3.png","megaman/jump_left/jl4.png",
@@ -281,6 +284,12 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image,(PLAYER_WIDTH,PLAYER_HEIGHT))
         self.image.set_colorkey((255,255,255))
 
+        #Check if invincibility must be disabled
+        if self.startInvincibility != 0:
+            if time.time() - self.startInvincibility > self.invincibilityTime:
+                self.isInvincible = False
+                self.startInvincibility = 0
+
         #Update projectiles
         for p in self.projectiles:
             if p.get('direction') == "right":
@@ -332,6 +341,10 @@ class Player(pygame.sprite.Sprite):
 
     #checks for collisions with enemies
     def collideEnemies(self,enemies):
+        #No need if player is invincible
+        if self.isInvincible:
+            return
+
         for enemy in enemies:
             if self.rect.colliderect(enemy.rect) and time.time() - self.lastTimeDamaged > DAMAGE_DELAY:
                 #TODO:Remove hardcoded reduction
@@ -345,3 +358,8 @@ class Player(pygame.sprite.Sprite):
         for o in world:
             if self.rect.colliderect(o):
                 self.rect.bottom = o.rect.top
+
+    #Makes player invincible for a while
+    def setInvincible(self):
+        self.isInvincible = True
+        self.startInvincibility = time.time()
