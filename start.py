@@ -28,7 +28,7 @@ while True:
     screen_rect = screen.get_rect()
     background = pygame.image.load("world/background2.jpg").convert_alpha()
     background_rect = background.get_rect()
-    level = Level("level/test.txt")
+    level = Level("level/pista4.txt")
     level.create_level(0,0)
     world = level.world
     player = level.player
@@ -100,11 +100,13 @@ while True:
         camera.draw_sprites(screen, all_sprite)
         showPlayerInfo(screen,player)
 
+        visibleObjects = camera.getVisibleObjects(world)
+
         #Update player
-        player.update(up, down, left, right, shooting, shootUp, world)
+        player.update(up, down, left, right, shooting, shootUp,visibleObjects)
 
         #Update player projectiles collisions
-        player.collideProjectiles(player.projectiles,world,level.all_sprite,breakBlocks)
+        player.collideProjectiles(player.projectiles,visibleObjects,level.all_sprite,breakBlocks)
 
         #Check for enemy collisions with player
         player.collideEnemies(enemies)
@@ -114,15 +116,15 @@ while True:
         #Update enemies
         for enemy in enemies:
             enemy.update(player,world)
-            enemy.collideProjectiles(enemy.projectiles,world,all_sprite,breakBlocks)
+            enemy.collideProjectiles(enemy.projectiles,visibleObjects,all_sprite,breakBlocks)
 
         for enemy in enemies2:
             enemy.update(player,world)
-            enemy.collideProjectiles(enemy.projectiles,world,all_sprite,breakBlocks)
+            enemy.collideProjectiles(enemy.projectiles,visibleObjects,all_sprite,breakBlocks)
 
         for enemy in enemies3:
             enemy.update(player,world)
-            enemy.collideProjectiles(enemy.projectiles,world,all_sprite,breakBlocks)
+            enemy.collideProjectiles(enemy.projectiles,visibleObjects,all_sprite,breakBlocks)
 
         #Update vertical platforms
         for platV in platformsVertical:
