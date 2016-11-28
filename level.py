@@ -10,6 +10,17 @@ from enemy3 import *
 
 PLATFORM_STEPS = 30
 
+class BreakableBlock(pygame.sprite.Sprite):
+    '''Class for breakable blocks'''
+    def __init__(self,x,y):
+        self.symbol = "B"
+        self.x = x
+        self.y = y
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("world/obstacle.png").convert()
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [self.x, self.y]
+
 class PlatformHorizontal(pygame.sprite.Sprite):
     '''Class for platforms that move horizontally'''
     def __init__(self,x,y):
@@ -132,6 +143,7 @@ class Level(object):
         self.foundEnemy = False
         self.enemies2 = []
         self.enemies3 = []
+        self.breakBlocks = []
 
     def create_level(self, x, y):
         for l in self.level:
@@ -173,6 +185,11 @@ class Level(object):
                     self.platformsHorizontal.append(platformH)
                     self.world.append(platformH)
                     self.all_sprite.add(self.platformsHorizontal)
+                elif col == "B":
+                    breakBlock = BreakableBlock(x,y)
+                    self.breakBlocks.append(breakBlock)
+                    self.world.append(breakBlock)
+                    self.all_sprite.add(self.breakBlocks)
                 x += 25
             y += 25
             x = 0
