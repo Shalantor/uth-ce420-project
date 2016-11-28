@@ -100,6 +100,7 @@ class Player(pygame.sprite.Sprite):
         self.direction = "right"
         self.rect.topleft = [x, y]
         self.frame = 0
+        self.isShooting = False
 
     def update(self, up, down, left, right, shooting, shootUp, world,  speed = HORIZ_MOV_INCR, shootTime = SHOOTING_FREQUENCY):
         #Check for key presses
@@ -160,14 +161,15 @@ class Player(pygame.sprite.Sprite):
                     self.lastJumpFrame = time.time()
 
         if shooting and time.time() - self.lastShotTime > shootTime:
+            self.isShooting = True
             if not shootUp:
                 if self.direction == "right":
-                    projectile = Rect(self.rect.right,self.rect.top,self.rect.w,self.rect.h // 10)
+                    projectile = Rect(self.rect.right,self.rect.top + self.rect.h // 4,self.rect.w,self.rect.h // 10)
                     image = pygame.image.load("megaman/fires/fr1.png")
                     image.set_colorkey((255,255,255))
 
                 else:
-                    projectile = Rect(self.rect.left - self.rect.w // 2,self.rect.top,self.rect.w,self.rect.h // 10)
+                    projectile = Rect(self.rect.left - self.rect.w // 2,self.rect.top + self.rect.h // 4,self.rect.w,self.rect.h // 10)
                     image = pygame.image.load("megaman/fires/fl1.png")
                     image.set_colorkey((255,255,255))
 
@@ -217,6 +219,17 @@ class Player(pygame.sprite.Sprite):
         self.collide(0, self.movy, world)
         self.movx = 0
         self.movy = 0
+
+        #If player is in shooting animation change image
+        if self.isShooting:
+            if self.contact and not left and not right:
+                if self.direction == "right":
+                    self.image = pygame.image.load(self.shootRight[self.shootFrame])
+                else:
+                    self.image = pygame.image.load(self.shootLeft[self.shootFrame])
+                self.shootFrame = (self.shootFrame + 1) % SHOOT_FRAMES
+                if self.shootFrame == 0:
+                    self.isShooting = False
 
         #Transform image
         self.image = pygame.transform.scale(self.image,(PLAYER_WIDTH,PLAYER_HEIGHT))
