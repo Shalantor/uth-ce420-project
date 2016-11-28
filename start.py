@@ -96,17 +96,16 @@ while True:
             for y in range(0, asize[1], background_rect.h):
                 screen.blit(background, (x, y))
 
+        visibleObjects,visibleSprites = camera.getVisibleObjects(world,all_sprite)
         time_spent = tps(clock, FPS)
-        camera.draw_sprites(screen, all_sprite)
+        camera.draw_sprites(screen, visibleSprites)
         showPlayerInfo(screen,player)
-
-        visibleObjects = camera.getVisibleObjects(world)
 
         #Update player
         player.update(up, down, left, right, shooting, shootUp,visibleObjects)
 
         #Update player projectiles collisions
-        player.collideProjectiles(player.projectiles,visibleObjects,level.all_sprite,breakBlocks)
+        player.collideProjectiles(player.projectiles,world,level.all_sprite,breakBlocks)
 
         #Check for enemy collisions with player
         player.collideEnemies(enemies)
@@ -115,15 +114,15 @@ while True:
 
         #Update enemies
         for enemy in enemies:
-            enemy.update(player,world)
+            enemy.update(player,visibleObjects)
             enemy.collideProjectiles(enemy.projectiles,visibleObjects,all_sprite,breakBlocks)
 
         for enemy in enemies2:
-            enemy.update(player,world)
+            enemy.update(player,visibleObjects)
             enemy.collideProjectiles(enemy.projectiles,visibleObjects,all_sprite,breakBlocks)
 
         for enemy in enemies3:
-            enemy.update(player,world)
+            enemy.update(player,visibleObjects)
             enemy.collideProjectiles(enemy.projectiles,visibleObjects,all_sprite,breakBlocks)
 
         #Update vertical platforms

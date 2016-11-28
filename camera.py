@@ -41,9 +41,13 @@ class Camera(object):
     def RelRectProject(self,projectile,camera):
         return pygame.Rect(projectile.x-camera.rect.x, projectile.y-camera.rect.y, projectile.w, projectile.h)
 
-    def getVisibleObjects(self,world):
+    def getVisibleObjects(self,world,sprites):
         visibleObjects = []
+        visibleSprites = []
         for o in world:
             if o.rect.colliderect(self.rect):
                 visibleObjects.append(o)
-        return visibleObjects
+        for s in sprites:
+            if s.rect.colliderect(self.rect):
+                visibleSprites.append(s)
+        return visibleObjects,visibleSprites
