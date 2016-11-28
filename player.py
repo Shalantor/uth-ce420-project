@@ -367,3 +367,13 @@ class Player(pygame.sprite.Sprite):
     #Add a coin to player stats
     def addCoin(self):
         self.coins += 1
+
+    #Replenish health
+    def replenishHealth(self,heart):
+        if self.health == 100:
+            return False
+
+        self.health += heart.healthValue
+        if self.health > 100:
+            self.health = 100
+        return True

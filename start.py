@@ -40,6 +40,7 @@ while True:
     breakBlocks = level.breakBlocks
     stars = level.stars
     coins = level.coins
+    hearts = level.hearts
 
     camera = Camera(screen, player.rect, level.get_size()[0], level.get_size()[1])
     all_sprite = level.all_sprite
@@ -195,7 +196,12 @@ while True:
                 level.all_sprite.remove(c)
                 coins.remove(c)
 
-
+        #Check if player collide with heart:
+        for h in hearts[:]:
+            if player.rect.colliderect(h):
+                if player.replenishHealth(h):
+                    level.all_sprite.remove(h)
+                    hearts.remove(h)
 
         camera.update()
         pygame.display.flip()

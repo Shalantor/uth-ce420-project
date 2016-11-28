@@ -10,6 +10,20 @@ from enemy3 import *
 
 PLATFORM_STEPS = 30
 
+class Heart(pygame.sprite.Sprite):
+    '''Class for heart that replenishes player health'''
+    def __init__(self,x,y):
+        self.symbol = "L"
+        self.x = x
+        self.y = y
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("megaman/heart.png").convert()
+        self.image = pygame.transform.scale(self.image,(25,25))
+        self.image.set_colorkey((255,255,255))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [self.x, self.y]
+        self.healthValue = 30 #TODO:remove hardcoded value
+
 class Coin(pygame.sprite.Sprite):
     '''Class for coins , for player to collect in levels'''
     def __init__(self,x,y):
@@ -198,6 +212,7 @@ class Level(object):
         self.breakBlocks = []
         self.stars = []
         self.coins = []
+        self.hearts = []
 
     def create_level(self, x, y):
         for l in self.level:
@@ -252,6 +267,10 @@ class Level(object):
                     coin = Coin(x,y)
                     self.coins.append(coin)
                     self.all_sprite.add(self.coins)
+                elif col == "L":
+                    heart = Heart(x,y)
+                    self.hearts.append(heart)
+                    self.all_sprite.add(self.hearts)
                 x += 25
             y += 25
             x = 0
