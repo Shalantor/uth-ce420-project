@@ -23,7 +23,8 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.lastShotTime = 0
         self.symbol = "P"
-        self.projectileImage = pygame.image.load("world/obstacle.png").convert()
+        self.projectileImage = pygame.image.load("megaman/fires/fr1.png").convert()
+        self.projectileImage.set_colorkey((255,255,255))
         self.projectiles = []
         self.coins = 0
         self.canFly = False
@@ -40,7 +41,7 @@ class Player(pygame.sprite.Sprite):
         self.jumpSpeed = VERTICAL_MOV_INCR
         self.contact = False
         self.jump = False
-        self.image = pygame.image.load('actions/idle_right.png').convert()
+        self.image = pygame.image.load("megaman/stand/sr1.png").convert()
         self.rect = self.image.get_rect()
         self.maxJumpHeight = self.rect.height * 1.5
         self.lastTimeDamaged = time.time() - DAMAGE_DELAY
