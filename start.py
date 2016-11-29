@@ -7,7 +7,7 @@ from camera import *
 from menu import *
 from databaseUtils import *
 
-SCREEN_SIZE = (1280, 720) #resolution of the game
+SCREEN_SIZE = (0,0) #resolution of the game
 FPS = 30
 
 """SETUP DATABASE"""
