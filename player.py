@@ -44,6 +44,8 @@ class Player(pygame.sprite.Sprite):
         self.movx = 0
         self.x = x
         self.y = y
+        self.startX = x
+        self.startY = y
         self.fallSpeed = 0
         self.jumpSpeed = self.vertical_mov_incr
         self.contact = False
@@ -344,18 +346,22 @@ class Player(pygame.sprite.Sprite):
                     projectiles.remove(p)
 
     #checks for collisions with enemies
-    def collideEnemies(self,enemies):
+    def collideEnemies(self,enemies,visibleObjects):
         #No need if player is invincible
         if self.isInvincible:
             return
 
         for enemy in enemies:
             if self.rect.colliderect(enemy.rect) and time.time() - self.lastTimeDamaged > self.damage_delay:
-                #TODO:Remove hardcoded reduction
-                self.health -= 10
+                self.health -= enemy.damage
                 self.lastTimeDamaged = time.time()
-                if self.health < 0:
-                    self.health = 0
+                if self.health <= 0:
+                    self.health = 100
+                    self.x = self.startX
+                    self.y = self.startY
+                    self.rect.left = self.startX
+                    self.rect.right = self.startY
+                    self.initPosition(visibleObjects)
 
     #initialize player position
     def initPosition(self,world):

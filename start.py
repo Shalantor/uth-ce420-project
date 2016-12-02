@@ -108,9 +108,9 @@ while True:
         player.collideProjectiles(player.projectiles,world,level.all_sprite,breakBlocks)
 
         #Check for enemy collisions with player
-        player.collideEnemies(enemies)
-        player.collideEnemies(enemies2)
-        player.collideEnemies(enemies3)
+        player.collideEnemies(enemies,visibleObjects)
+        player.collideEnemies(enemies2,visibleObjects)
+        player.collideEnemies(enemies3,visibleObjects)
 
         #Update enemies
         for enemy in enemies:
@@ -172,6 +172,13 @@ while True:
                 if p.get('projectile').colliderect(player.rect):
                     if not player.isInvincible:
                         player.health -= e.damage
+                        if player.health <= 0:
+                            player.health = 100
+                            player.x = player.startX
+                            player.y = player.startY
+                            player.rect.left = player.startX
+                            player.rect.right = player.startY
+                            player.initPosition(visibleObjects)
                     e.projectiles.remove(p)
 
         #Do the same for enemies 3
@@ -180,6 +187,13 @@ while True:
                 if p.get('projectile').colliderect(player.rect):
                     if not player.isInvincible:
                         player.health -= e.damage
+                        if player.health <= 0:
+                            player.health = 100
+                            player.x = player.startX
+                            player.y = player.startY
+                            player.rect.left = player.startX
+                            player.rect.right = player.startY
+                            player.initPosition(visibleObjects)
                     e.projectiles.remove(p)
 
         #Update spin of stars
