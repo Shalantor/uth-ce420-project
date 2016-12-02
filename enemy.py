@@ -5,6 +5,7 @@ from level import *
 from camera import *
 import time,random
 from player import *
+from databaseUtils import *
 
 MAX_VERT_DISTANCE = 300
 MAX_HORIZ_DISTANCE = 300
@@ -16,7 +17,7 @@ JUMP_FREQUENCY = 1
 class Enemy(Player,pygame.sprite.Sprite):
 
     #constructor
-    def __init__(self,x,y):
+    def __init__(self,x,y,playerId):
         #super constructor
         super().__init__(x,y)
         self.symbol = "e1"
@@ -33,7 +34,8 @@ class Enemy(Player,pygame.sprite.Sprite):
         self.lastJumpTime = time.time()
 
         #health
-        self.health = 100
+        difficulty = getDifficulty(playerId)
+        self.health = 50 * (difficulty + 1)
 
         #movement speed
         self.horiz_mov_incr = 3

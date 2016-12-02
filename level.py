@@ -214,7 +214,7 @@ class Level(object):
         self.coins = []
         self.hearts = []
 
-    def create_level(self, x, y):
+    def create_level(self, x, y,playerId):
         for l in self.level:
             self.level1.append(l)
 
@@ -231,17 +231,17 @@ class Level(object):
                     self.foundEnemy = True
                 elif col == "1" and self.foundEnemy:
                     self.foundEnemy = False
-                    enemy = Enemy(x-25,y)
+                    enemy = Enemy(x-25,y,playerId)
                     self.enemies.append(enemy)
                     self.all_sprite.add(self.enemies)
                 elif col == "2" and self.foundEnemy:
                     self.foundEnemy = False
-                    enemy = Enemy2(x-25,y)
+                    enemy = Enemy2(x-25,y,playerId)
                     self.enemies2.append(enemy)
                     self.all_sprite.add(self.enemies2)
                 elif col == "3" and self.foundEnemy:
                     self.foundEnemy = False
-                    enemy = Enemy3(x-25,y)
+                    enemy = Enemy3(x-25,y,playerId)
                     self.enemies3.append(enemy)
                     self.all_sprite.add(self.enemies3)
                 elif col == "V":

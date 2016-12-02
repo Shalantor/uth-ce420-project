@@ -16,7 +16,7 @@ STAY_IDLE_TIME = 1
 class Enemy3(Player,pygame.sprite.Sprite):
 
     #constructor
-    def __init__(self,x,y):
+    def __init__(self,x,y,playerId):
         #super constructor
         super().__init__(x,y)
         self.symbol = "e3"
@@ -30,7 +30,8 @@ class Enemy3(Player,pygame.sprite.Sprite):
         self.lastMove = "up"
         self.idleTime = time.time()
 
-        self.health = 100
+        difficulty = getDifficulty(playerId)
+        self.health = 50 * (difficulty + 1)
         self.horiz_mov_incr = 3
         self.shooting_frequency = 1
 

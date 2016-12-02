@@ -13,7 +13,7 @@ JUMP_FREQUENCY = 1
 class Enemy2(Player,pygame.sprite.Sprite):
 
         #constructor
-        def __init__(self,x,y):
+        def __init__(self,x,y,playerId):
             #super constructor
             super().__init__(x,y)
             self.symbol = "e2"
@@ -23,7 +23,8 @@ class Enemy2(Player,pygame.sprite.Sprite):
             self.lastJumpTime = time.time()
 
             #health
-            self.health = 100
+            difficulty = getDifficulty(playerId)
+            self.health = 50 * (difficulty + 1)
 
             #shooting frequency
             self.shooting_frequency = 2

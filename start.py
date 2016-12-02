@@ -23,13 +23,13 @@ clock = pygame.time.Clock()
 
 """GAME LOOP"""
 while True:
-    #playerId = showMenu(screen,clock)
+    playerId = showMenu(screen,clock)
     pygame.mouse.set_visible(0)
     screen_rect = screen.get_rect()
     background = pygame.image.load("world/background2.jpg").convert_alpha()
     background_rect = background.get_rect()
     level = Level("level/test.txt")
-    level.create_level(0,0)
+    level.create_level(0,0,playerId)
     world = level.world
     player = level.player
     enemies = level.enemies
