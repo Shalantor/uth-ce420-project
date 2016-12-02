@@ -6,7 +6,6 @@ from camera import *
 import time,random
 from player import *
 
-SHOOTING_FREQUENCY = 2
 MAX_VERT_DISTANCE = 200
 MAX_HORIZ_DISTANCE = 900
 JUMP_FREQUENCY = 1
@@ -25,6 +24,9 @@ class Enemy2(Player,pygame.sprite.Sprite):
 
             #health
             self.health = 100
+
+            #shooting frequency
+            self.shooting_frequency = 2
 
         #Override update function
         def update(self,player,world):
@@ -50,4 +52,4 @@ class Enemy2(Player,pygame.sprite.Sprite):
                     if random.randint(0,1) == 1 :
                         up = True
 
-            super().update(up, down, left, right, shooting, shootUp, world, shootTime = SHOOTING_FREQUENCY)
+            super().update(up, down, left, right, shooting, shootUp, world)

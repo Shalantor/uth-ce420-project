@@ -5,27 +5,30 @@ from level import *
 from camera import *
 import time
 
-HORIZ_MOV_INCR = 10 #speed of movement
-VERTICAL_MOV_INCR = 20
-MIN_VERTICAL_SPEED = 15
-SHOOTING_FREQUENCY = 0.2
-DAMAGE_DELAY = 2
-DAMAGE = 10
-STAND_FRAMES = 3
-STAND_FRAMES_TIME = 0.2
-RUN_FRAMES = 16
-JUMP_FRAMES = 9
-JUMP_FRAMES_TIME = 0.4
-PLAYER_WIDTH = 50
-PLAYER_HEIGHT = 80
-SHOOT_FRAMES = 8
-WALK_SHOOT_FRAMES = 15
-JUMP_SHOOT_FRAMES = 9
-
 class Player(pygame.sprite.Sprite):
     '''class for player and collision'''
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
+
+        #Player specific constants
+        self.horiz_mov_incr = 10
+        self.vertical_mov_incr = 20
+        self.min_vertical_speed = 15
+        self.shooting_frequency = 0.2
+        self.damage_delay = 2
+        self.damage = 20
+        self.stand_frames = 3
+        self.stand_frames_time = 0.2
+        self.run_frames = 16
+        self.jump_frames = 9
+        self.jump_frames_time = 0.4
+        self.player_width = 50
+        self.player_height = 80
+        self.shoot_frames = 8
+        self.walk_shoot_frames = 15
+        self.jump_shoot_frames = 9
+
+        #Other player variables
         self.lastShotTime = 0
         self.symbol = "P"
         self.projectileImage = pygame.image.load("megaman/fires/fr1.png").convert()
@@ -37,13 +40,12 @@ class Player(pygame.sprite.Sprite):
         self.flyDown = False
         self.health = 100
         self.energy = 100
-        self.damage = DAMAGE
         self.movy = 0
         self.movx = 0
         self.x = x
         self.y = y
         self.fallSpeed = 0
-        self.jumpSpeed = VERTICAL_MOV_INCR
+        self.jumpSpeed = self.vertical_mov_incr
         self.contact = False
         self.jump = False
         self.image = pygame.image.load("megaman/stand/sr1.png").convert()
@@ -51,7 +53,7 @@ class Player(pygame.sprite.Sprite):
         self.image.set_colorkey((255,255,255))
         self.rect = self.image.get_rect()
         self.maxJumpHeight = self.rect.height * 1.5
-        self.lastTimeDamaged = time.time() - DAMAGE_DELAY
+        self.lastTimeDamaged = time.time() - self.damage_delay
         self.isInvincible = False
         self.invincibilityTime = 20 #TODO:Change time
         self.startInvincibility = 0
@@ -135,7 +137,7 @@ class Player(pygame.sprite.Sprite):
         self.frame = 0
         self.isShooting = False
 
-    def update(self, up, down, left, right, shooting, shootUp, world,  speed = HORIZ_MOV_INCR, shootTime = SHOOTING_FREQUENCY):
+    def update(self, up, down, left, right, shooting, shootUp, world):
         #Check for key presses
         self.isFlying = False
         self.flyDown = False
@@ -145,8 +147,8 @@ class Player(pygame.sprite.Sprite):
             if self.contact:
                 if self.direction == "right":
                     self.image = pygame.image.load(self.jump_right[self.jumpFrame]).convert()
-                    if time.time() - self.lastJumpFrame > JUMP_FRAMES_TIME:
-                        self.jumpFrame = (self.jumpFrame + 1) % JUMP_FRAMES
+                    if time.time() - self.lastJumpFrame > self.jump_frames_time:
+                        self.jumpFrame = (self.jumpFrame + 1) % self.jump_frames
                         self.lastJumpFrame = time.time()
                 if not self.canFly:
                     self.jump = True
@@ -159,41 +161,41 @@ class Player(pygame.sprite.Sprite):
 
         if self.direction == "right":
             self.image = pygame.image.load(self.standRight[self.standFrame]).convert()
-            if time.time() - self.lastStandFrame > STAND_FRAMES_TIME:
-                self.standFrame = ( self.standFrame + 1 ) % 3
+            if time.time() - self.lastStandFrame > self.stand_frames_time:
+                self.standFrame = ( self.standFrame + 1 ) % self.stand_frames
                 self.lastStandFrame = time.time()
 
         if self.direction == "left":
             self.image = pygame.image.load(self.standLeft[self.standFrame]).convert()
-            if time.time() - self.lastStandFrame > STAND_FRAMES_TIME:
-                self.standFrame = ( self.standFrame + 1 ) % 3
+            if time.time() - self.lastStandFrame > self.stand_frames_time:
+                self.standFrame = ( self.standFrame + 1 ) % self.stand_frames
                 self.lastStandFrame = time.time()
 
         if left:
             self.direction = "left"
-            self.movx = -speed
+            self.movx = - self.horiz_mov_incr
             if self.contact:
-                self.frame = (self.frame + 1) % RUN_FRAMES
+                self.frame = (self.frame + 1) % self.run_frames
                 self.image = pygame.image.load(self.run_left[self.frame]).convert()
             else:
                 self.image = pygame.image.load(self.jump_left[self.jumpFrame]).convert()
-                if time.time() - self.lastJumpFrame > JUMP_FRAMES_TIME:
-                    self.jumpFrame = (self.jumpFrame + 1) % JUMP_FRAMES
+                if time.time() - self.lastJumpFrame > self.jump_frames_time:
+                    self.jumpFrame = (self.jumpFrame + 1) % self.jump_frames
                     self.lastJumpFrame = time.time()
 
         if right:
             self.direction = "right"
-            self.movx = +speed
+            self.movx = + self.horiz_mov_incr
             if self.contact:
-                self.frame = (self.frame + 1) % RUN_FRAMES
+                self.frame = (self.frame + 1) % self.run_frames
                 self.image = pygame.image.load(self.run_right[self.frame]).convert()
             else:
                 self.image = pygame.image.load(self.jump_right[self.jumpFrame]).convert()
-                if time.time() - self.lastJumpFrame > JUMP_FRAMES_TIME:
-                    self.jumpFrame = (self.jumpFrame + 1) % JUMP_FRAMES
+                if time.time() - self.lastJumpFrame > self.jump_frames_time:
+                    self.jumpFrame = (self.jumpFrame + 1) % self.jump_frames
                     self.lastJumpFrame = time.time()
 
-        if shooting and time.time() - self.lastShotTime > shootTime:
+        if shooting and time.time() - self.lastShotTime > self.shooting_frequency:
             self.isShooting = True
             if not shootUp:
                 if self.direction == "right":
@@ -226,8 +228,8 @@ class Player(pygame.sprite.Sprite):
         if not self.contact and not self.jump and not self.canFly:
             self.movy += 1
             self.fallSpeed += 1
-            if self.fallSpeed > MIN_VERTICAL_SPEED:
-                self.fallSpeed = MIN_VERTICAL_SPEED
+            if self.fallSpeed > self.min_vertical_speed:
+                self.fallSpeed = self.min_vertical_speed
             self.rect.top += self.fallSpeed
 
         if self.jump:
@@ -235,19 +237,19 @@ class Player(pygame.sprite.Sprite):
             self.rect.top -= self.jumpSpeed
             self.maxJumpHeight -= self.jumpSpeed
             self.jumpSpeed -= 1
-            if self.jumpSpeed <= MIN_VERTICAL_SPEED:
-                self.jumpSpeed = MIN_VERTICAL_SPEED
+            if self.jumpSpeed <= self.min_vertical_speed:
+                self.jumpSpeed = self.min_vertical_speed
             if self.maxJumpHeight <= 0:
                 self.maxJumpHeight = self.rect.height * 2
                 self.jump = False
 
         if self.isFlying:
             self.movy -= 1
-            self.rect.top -= speed
+            self.rect.top -= self.horiz_mov_incr
 
         if self.flyDown:
             self.movy += 1
-            self.rect.top += speed
+            self.rect.top += self.horiz_mov_incr
 
         self.collide(0, self.movy, world)
         self.movx = 0
@@ -260,7 +262,7 @@ class Player(pygame.sprite.Sprite):
                     self.image = pygame.image.load(self.shootRight[self.shootFrame])
                 else:
                     self.image = pygame.image.load(self.shootLeft[self.shootFrame])
-                self.shootFrame = (self.shootFrame + 1) % SHOOT_FRAMES
+                self.shootFrame = (self.shootFrame + 1) % self.shoot_frames
                 if self.shootFrame == 0:
                     self.isShooting = False
             elif self.contact:
@@ -268,7 +270,7 @@ class Player(pygame.sprite.Sprite):
                     self.image = pygame.image.load(self.shootLeftWalk[self.shootWalkFrame])
                 else:
                     self.image = pygame.image.load(self.shootRightWalk[self.shootWalkFrame])
-                self.shootWalkFrame = (self.shootWalkFrame + 1) % WALK_SHOOT_FRAMES
+                self.shootWalkFrame = (self.shootWalkFrame + 1) % self.walk_shoot_frames
                 if self.shootWalkFrame == 0:
                     self.isShooting = False
             elif not self.contact:
@@ -276,12 +278,12 @@ class Player(pygame.sprite.Sprite):
                     self.image = pygame.image.load(self.shootJumpLeft[self.shootJumpFrame])
                 else:
                     self.image = pygame.image.load(self.shootJumpRight[self.shootJumpFrame])
-                self.shootJumpFrame = (self.shootJumpFrame + 1) % JUMP_SHOOT_FRAMES
+                self.shootJumpFrame = (self.shootJumpFrame + 1) % self.jump_shoot_frames
                 if self.shootJumpFrame == 0:
                     self.isShooting = False
 
         #Transform image
-        self.image = pygame.transform.scale(self.image,(PLAYER_WIDTH,PLAYER_HEIGHT))
+        self.image = pygame.transform.scale(self.image,(self.player_width,self.player_height))
         self.image.set_colorkey((255,255,255))
 
         #Check if invincibility must be disabled
@@ -293,11 +295,11 @@ class Player(pygame.sprite.Sprite):
         #Update projectiles
         for p in self.projectiles:
             if p.get('direction') == "right":
-                p.get('projectile').left += 2 * HORIZ_MOV_INCR
+                p.get('projectile').left += 2 * self.horiz_mov_incr
             elif p.get('direction') == "left":
-                p.get('projectile').left -= 2 * HORIZ_MOV_INCR
+                p.get('projectile').left -= 2 * self.horiz_mov_incr
             elif p.get('direction') == "top":
-                p.get('projectile').top -= 2 * HORIZ_MOV_INCR
+                p.get('projectile').top -= 2 * self.horiz_mov_incr
 
     def collide(self, movx, movy, world):
         self.contact = False
@@ -312,13 +314,13 @@ class Player(pygame.sprite.Sprite):
                     self.movy = 0
                     self.contact = True
                     self.fallSpeed = 0
-                    self.jumpSpeed = VERTICAL_MOV_INCR
+                    self.jumpSpeed = self.vertical_mov_incr
                     self.jump = False
                     self.maxJumpHeight = self.rect.height * 2
                 if movy < 0:
                     self.rect.top = o.rect.bottom
                     self.movy = 0
-                    self.jumpSpeed = VERTICAL_MOV_INCR
+                    self.jumpSpeed = self.vertical_mov_incr
                     self.jump = False
                     self.maxJumpHeight = self.rect.height * 2
 
@@ -346,7 +348,7 @@ class Player(pygame.sprite.Sprite):
             return
 
         for enemy in enemies:
-            if self.rect.colliderect(enemy.rect) and time.time() - self.lastTimeDamaged > DAMAGE_DELAY:
+            if self.rect.colliderect(enemy.rect) and time.time() - self.lastTimeDamaged > self.damage_delay:
                 #TODO:Remove hardcoded reduction
                 self.health -= 10
                 self.lastTimeDamaged = time.time()

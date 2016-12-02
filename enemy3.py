@@ -8,10 +8,8 @@ from player import *
 
 MAX_VERT_DISTANCE = 200
 MAX_HORIZ_DISTANCE = 100
-MAX_HEIGT_MULTIPLICATOR = 3
+MAX_HEIGHT_MULTIPLICATOR = 3
 MAX_HORIZONTAL_MULTIPLICATOR = 3
-SHOOTING_FREQUENCY = 1
-SPEED = 3
 MAX_STEPS = 20
 STAY_IDLE_TIME = 1
 
@@ -33,6 +31,8 @@ class Enemy3(Player,pygame.sprite.Sprite):
         self.idleTime = time.time()
 
         self.health = 100
+        self.horiz_mov_incr = 3
+        self.shooting_frequency = 1
 
     #Override update function
     def update(self,player,world):
@@ -67,7 +67,7 @@ class Enemy3(Player,pygame.sprite.Sprite):
                 self.stepsRemaining = MAX_STEPS
             if time.time() - self.idleTime >= STAY_IDLE_TIME:
                 if self.lastMove == "up":
-                    if self.startHeight - MAX_HEIGT_MULTIPLICATOR * self.rect.h <= self.rect.top:
+                    if self.startHeight - MAX_HEIGHT_MULTIPLICATOR * self.rect.h <= self.rect.top:
                         up = True
                     self.stepsRemaining -= 1
                 elif self.lastMove == "down":
@@ -80,7 +80,4 @@ class Enemy3(Player,pygame.sprite.Sprite):
                     left = True
                     self.stepsRemaining -= 1
 
-
-
-
-        super().update(up, down, left, right, shooting, shootUp, world, shootTime = SHOOTING_FREQUENCY, speed = SPEED)
+        super().update(up, down, left, right, shooting, shootUp, world)

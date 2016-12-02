@@ -10,8 +10,6 @@ MAX_VERT_DISTANCE = 300
 MAX_HORIZ_DISTANCE = 300
 MAX_IDLE_TIME = 2
 MAX_MOVE_TIME = 0.5
-DURATION = 1
-SPEED = 3
 MIN_DISTANCE = 10
 JUMP_FREQUENCY = 1
 
@@ -36,6 +34,9 @@ class Enemy(Player,pygame.sprite.Sprite):
 
         #health
         self.health = 100
+
+        #movement speed
+        self.horiz_mov_incr = 3
 
 
     #Override update function
@@ -75,4 +76,4 @@ class Enemy(Player,pygame.sprite.Sprite):
                 self.standTime = time.time()
 
 
-        super().update(up, down, left, right, shooting, shootUp, world, speed = SPEED)
+        super().update(up, down, left, right, shooting, shootUp, world)
