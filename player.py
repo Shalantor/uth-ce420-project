@@ -255,6 +255,8 @@ class Player(pygame.sprite.Sprite):
         self.movx = 0
         self.movy = 0
 
+        self.image = pygame.transform.scale(self.image,(self.player_width,self.player_height))
+
         #If player is in shooting animation change image
         if self.isShooting:
             if self.contact and not left and not right:
@@ -281,9 +283,9 @@ class Player(pygame.sprite.Sprite):
                 self.shootJumpFrame = (self.shootJumpFrame + 1) % self.jump_shoot_frames
                 if self.shootJumpFrame == 0:
                     self.isShooting = False
+            self.image = pygame.transform.scale(self.image,(self.player_width + (self.rect.w // 3),self.player_height))
 
         #Transform image
-        self.image = pygame.transform.scale(self.image,(self.player_width,self.player_height))
         self.image.set_colorkey((255,255,255))
 
         #Check if invincibility must be disabled
