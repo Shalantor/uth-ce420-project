@@ -9,6 +9,7 @@ from databaseUtils import *
 
 SCREEN_SIZE = (0,0) #resolution of the game
 FPS = 30
+TIME_DEAD = 3
 
 """SETUP DATABASE"""
 setupDatabase()
@@ -99,18 +100,29 @@ while True:
         visibleObjects,visibleSprites = camera.getVisibleObjects(world,all_sprite)
         time_spent = tps(clock, FPS)
         camera.draw_sprites(screen, visibleSprites)
+
+        if player.isDead:
+            showPlayerDeadScreen(screen)
+
         showPlayerInfo(screen,player)
 
-        #Update player
-        player.update(up, down, left, right, shooting, shootUp,visibleObjects)
+        if not player.isDead:
+            #Update player
+            player.update(up, down, left, right, shooting, shootUp,visibleObjects)
 
-        #Update player projectiles collisions
-        player.collideProjectiles(player.projectiles,world,level.all_sprite,breakBlocks)
+            #Update player projectiles collisions
+            player.collideProjectiles(player.projectiles,world,level.all_sprite,breakBlocks)
 
-        #Check for enemy collisions with player
-        player.collideEnemies(enemies,visibleObjects)
-        player.collideEnemies(enemies2,visibleObjects)
-        player.collideEnemies(enemies3,visibleObjects)
+            #Check for enemy collisions with player
+            player.collideEnemies(enemies,visibleObjects)
+            player.collideEnemies(enemies2,visibleObjects)
+            player.collideEnemies(enemies3,visibleObjects)
+        else:
+            if time.time() - player.isDeadStartTime > TIME_DEAD:
+                player.isDead = False
+                player.rect.left = player.startX
+                player.rect.right = player.startY
+                player.initPosition(visibleObjects)
 
         #Update enemies
         for enemy in enemies:
@@ -173,7 +185,7 @@ while True:
         for e in enemies2:
             for p in e.projectiles[:]:
                 if p.get('projectile').colliderect(player.rect):
-                    if not player.isInvincible:
+                    if not player.isInvincible and not player.isDead:
                         player.health -= e.damage
                         if player.health <= 0:
                             player.health = 100
@@ -188,7 +200,7 @@ while True:
         for e in enemies3:
             for p in e.projectiles[:]:
                 if p.get('projectile').colliderect(player.rect):
-                    if not player.isInvincible:
+                    if not player.isInvincible and not player.isDead:
                         player.health -= e.damage
                         if player.health <= 0:
                             player.health = 100

@@ -14,6 +14,18 @@ def tps(orologio,fps):
     tps = temp / 1000.
     return tps
 
+#Function to display on screen message when player is dead
+def showPlayerDeadScreen(screen):
+    screenRect = screen.get_rect()
+    font = pygame.font.Font(None,screenRect.h // 5)
+
+    #Text to display
+    deadText = font.render("YOU DIED",1,(255,255,255))
+    deadTextPos = deadText.get_rect()
+    deadTextPos.center = screenRect.center
+
+    screen.blit(deadText,deadTextPos)
+
 #Function to show player info while playing
 #Temporarily shows hard coded values
 def showPlayerInfo(screen,player):

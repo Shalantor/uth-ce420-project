@@ -29,6 +29,8 @@ class Player(pygame.sprite.Sprite):
         self.jump_shoot_frames = 9
 
         #Other player variables
+        self.isDead = False
+        self.isDeadStartTime = 0
         self.lastShotTime = 0
         self.symbol = "P"
         self.projectileImage = pygame.image.load("megaman/fires/fr1.png").convert()
@@ -57,7 +59,7 @@ class Player(pygame.sprite.Sprite):
         self.maxJumpHeight = self.rect.height * 1.5
         self.lastTimeDamaged = time.time() - self.damage_delay
         self.isInvincible = False
-        self.invincibilityTime = 20 #TODO:Change time
+        self.invincibilityTime = 10 #TODO:Change time
         self.startInvincibility = 0
 
         self.jump_left = ["megaman/jump_left/jl1.png","megaman/jump_left/jl2.png",
@@ -357,11 +359,9 @@ class Player(pygame.sprite.Sprite):
                 self.lastTimeDamaged = time.time()
                 if self.health <= 0:
                     self.health = 100
-                    self.x = self.startX
-                    self.y = self.startY
-                    self.rect.left = self.startX
-                    self.rect.right = self.startY
-                    self.initPosition(visibleObjects)
+                    if self.symbol == "P":
+                        self.isDead = True
+                        self.isDeadStartTime = time.time()
 
     #initialize player position
     def initPosition(self,world):
