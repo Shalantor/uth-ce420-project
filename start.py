@@ -188,7 +188,8 @@ while True:
         for e in enemies2:
             for p in e.projectiles[:]:
                 if p.get('projectile').colliderect(player.rect):
-                    if not player.isInvincible and not player.isDead:
+                    if not player.isInvincible and not player.isDead and time.time() - player.lastTimeDamaged >= player.damage_delay:
+                        player.lastTimeDamaged = time.time()
                         player.health -= e.damage
                         if player.health <= 0:
                             player.health = 100
@@ -203,7 +204,8 @@ while True:
         for e in enemies3:
             for p in e.projectiles[:]:
                 if p.get('projectile').colliderect(player.rect):
-                    if not player.isInvincible and not player.isDead:
+                    if not player.isInvincible and not player.isDead and time.time() - player.lastTimeDamaged >= player.damage_delay:
+                        player.lastTimeDamaged = time.time()
                         player.health -= e.damage
                         if player.health <= 0:
                             player.health = 100
