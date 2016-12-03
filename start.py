@@ -102,6 +102,8 @@ while True:
         camera.draw_sprites(screen, visibleSprites)
 
         if player.isDead:
+            if player in level.all_sprite:
+                all_sprite.remove(player)
             showPlayerDeadScreen(screen)
 
         showPlayerInfo(screen,player)
@@ -123,6 +125,7 @@ while True:
                 player.rect.left = player.startX
                 player.rect.right = player.startY
                 player.initPosition(visibleObjects)
+                all_sprite.add(player)
 
         #Update enemies
         for enemy in enemies:
