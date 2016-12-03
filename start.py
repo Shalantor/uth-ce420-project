@@ -114,16 +114,19 @@ while True:
 
         #Update enemies
         for enemy in enemies:
-            enemy.update(player,visibleObjects)
-            enemy.collideProjectiles(enemy.projectiles,visibleObjects,all_sprite,breakBlocks)
+            if enemy in visibleSprites:
+                enemy.update(player,visibleObjects)
+                enemy.collideProjectiles(enemy.projectiles,visibleObjects,all_sprite,breakBlocks)
 
         for enemy in enemies2:
-            enemy.update(player,visibleObjects)
-            enemy.collideProjectiles(enemy.projectiles,visibleObjects,all_sprite,breakBlocks)
+            if enemy in visibleSprites:
+                enemy.update(player,visibleObjects)
+                enemy.collideProjectiles(enemy.projectiles,visibleObjects,all_sprite,breakBlocks)
 
         for enemy in enemies3:
-            enemy.update(player,visibleObjects)
-            enemy.collideProjectiles(enemy.projectiles,visibleObjects,all_sprite,breakBlocks)
+            if enemy in visibleSprites:
+                enemy.update(player,visibleObjects)
+                enemy.collideProjectiles(enemy.projectiles,visibleObjects,all_sprite,breakBlocks)
 
         #Update vertical platforms
         for platV in platformsVertical:
