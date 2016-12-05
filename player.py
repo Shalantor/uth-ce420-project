@@ -63,6 +63,7 @@ class Player(pygame.sprite.Sprite):
         self.invincibilityTime = 10 #TODO:Change time
         self.startInvincibility = 0
         self.hasWings = False
+        self.hasKey = False
 
         self.jump_left = ["megaman/jump_left/jl1.png","megaman/jump_left/jl2.png",
                          "megaman/jump_left/jl3.png","megaman/jump_left/jl4.png",

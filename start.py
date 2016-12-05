@@ -54,6 +54,7 @@ while True:
     jumpBoosts = level.jumpBoosts
     wings = level.wings
     fountains = level.fountains
+    keys = level.keys
 
     camera = Camera(screenInfo, player.rect, level.get_size()[0], level.get_size()[1])
     all_sprite = level.all_sprite
@@ -281,6 +282,13 @@ while True:
                     player.canFly = True
                 if player.energy >= 100:
                     player.energy = 100
+
+        #Check if collided with keys
+        for k in keys[:]:
+            if player.rect.colliderect(k):
+                keys.remove(k)
+                player.hasKey = True
+                level.all_sprite.remove(k)
 
         camera.update()
         pygame.display.flip()
