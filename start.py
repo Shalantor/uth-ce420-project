@@ -23,9 +23,14 @@ screen = pygame.display.set_mode(SCREEN_SIZE, FULLSCREEN, 32)
 screenInfo = pygame.display.Info()
 clock = pygame.time.Clock()
 
+nextLevel = False
+
 """GAME LOOP"""
 while True:
-    playerId = showMenu(screen,clock)
+    if not nextLevel:
+        playerId = showMenu(screen,clock)
+    else:
+        nextLevel = False
     pygame.mouse.set_visible(0)
     screen_rect = screen.get_rect()
     background = pygame.image.load("world/background2.jpg").convert_alpha()
@@ -35,8 +40,7 @@ while True:
     playerLevel = getLevel(playerId)
     playerCoins = getCoins(playerId)
 
-    #level = Level("level/level" + str(playerLevel) +  ".txt")
-    level = Level("level/test.txt")
+    level = Level("level/level" + str(playerLevel) +  ".txt")
     level.create_level(0,0,playerId)
     world = level.world
     player = level.player
@@ -55,6 +59,7 @@ while True:
     wings = level.wings
     fountains = level.fountains
     keys = level.keys
+    door = level.door
 
     camera = Camera(screenInfo, player.rect, level.get_size()[0], level.get_size()[1])
     all_sprite = level.all_sprite
@@ -289,6 +294,14 @@ while True:
                 keys.remove(k)
                 player.hasKey = k
                 level.all_sprite.remove(k)
+
+        #Check for door
+        if door != None and player.hasKey != None:
+            if player.rect.colliderect(door):
+                playerLevel += 1
+                setStats(playerId,playerLevel,player.coins)
+                leaveLoop = True
+                nextLevel = True
 
         camera.update()
         pygame.display.flip()

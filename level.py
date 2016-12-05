@@ -10,6 +10,19 @@ from enemy3 import *
 
 PLATFORM_STEPS = 30
 
+class Door(pygame.sprite.Sprite):
+    '''Class for player to get to the next level'''
+    def __init__(self,x,y):
+        self.symbol = "F"
+        self.x = x
+        self.y = y
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("megaman/star/star1.png").convert()
+        self.image = pygame.transform.scale(self.image,(50,80))
+        self.image.set_colorkey((255,255,255))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [self.x, self.y]
+
 class Key(pygame.sprite.Sprite):
     '''Class that represents key which player needs to access end level door'''
     def __init__(self,x,y):
@@ -284,6 +297,7 @@ class Level(object):
         self.jumpBoosts = []
         self.fountains = []
         self.keys = []
+        self.door = None
 
     def create_level(self, x, y,playerId):
         for l in self.level:
@@ -362,6 +376,9 @@ class Level(object):
                     key = Key(x,y)
                     self.keys.append(key)
                     self.all_sprite.add(self.keys)
+                elif col == "D":
+                    self.door = Door(x,y)
+                    self.all_sprite.add(self.door)
                 x += 25
             y += 25
             x = 0

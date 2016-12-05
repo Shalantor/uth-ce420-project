@@ -89,6 +89,15 @@ def getLevel(userId):
     connection.close()
     return cursorResult[0]
 
+#Function to set levels and coins
+def setStats(userId,level,coins):
+    connection = sqlite3.connect(DATABASE)
+    cursor = connection.cursor()
+    data = (level,coins,userId)
+    cursor.execute('UPDATE Profiles SET level=?,coins=? WHERE id=?',data)
+    connection.commit()
+    connection.close()
+
 #Function to get players current coins
 def getCoins(userId):
     connection = sqlite3.connect(DATABASE)
