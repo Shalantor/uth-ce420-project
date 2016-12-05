@@ -51,6 +51,8 @@ while True:
     coins = level.coins
     hearts = level.hearts
     spawnPoints = level.spawnPoints
+    jumpBoosts = level.jumpBoosts
+    wings = level.wings
 
     camera = Camera(screenInfo, player.rect, level.get_size()[0], level.get_size()[1])
     all_sprite = level.all_sprite
@@ -254,6 +256,20 @@ while True:
             if player.rect.colliderect(s.rect) and not player.isDead:
                 player.startX = s.x
                 player.startY = s.y
+
+        #Check if player collided with wings
+        for w in wings[:]:
+            if player.rect.colliderect(w):
+                player.canFly = True
+                wings.remove(w)
+                level.all_sprite.remove(w)
+
+        #Check if player collided with jump boost
+        for j in jumpBoosts[:]:
+            if player.rect.colliderect(j):
+                player.startJumpHeight += player.rect.height
+                jumpBoosts.remove(j)
+                level.all_sprite.remove(j)
 
         camera.update()
         pygame.display.flip()

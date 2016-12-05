@@ -10,6 +10,32 @@ from enemy3 import *
 
 PLATFORM_STEPS = 30
 
+class Wings(pygame.sprite.Sprite):
+    '''Class that represents wings , to make player fly'''
+    def __init__(self,x,y):
+        self.symbol = "W"
+        self.x = x
+        self.y = y
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("megaman/star/star1.png").convert()
+        self.image = pygame.transform.scale(self.image,(50,50))
+        self.image.set_colorkey((255,255,255))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [self.x, self.y]
+
+class higherJump(pygame.sprite.Sprite):
+    '''Object for player to collect , so he can jump higher'''
+    def __init__(self,x,y):
+        self.symbol = "J"
+        self.x = x
+        self.y = y
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("megaman/star/star1.png").convert()
+        self.image = pygame.transform.scale(self.image,(50,50))
+        self.image.set_colorkey((255,255,255))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [self.x, self.y]
+
 class Spawn(pygame.sprite.Sprite):
     '''Class that represents a spawn point for the player when he dies'''
     def __init__(self,x,y):
@@ -227,6 +253,8 @@ class Level(object):
         self.coins = []
         self.hearts = []
         self.spawnPoints = []
+        self.wings = []
+        self.jumpBoosts = []
 
     def create_level(self, x, y,playerId):
         for l in self.level:
@@ -289,6 +317,14 @@ class Level(object):
                     spawnPoint = Spawn(x,y)
                     self.spawnPoints.append(spawnPoint)
                     self.all_sprite.add(self.spawnPoints)
+                elif col == "W":
+                    wings = Wings(x,y)
+                    self.wings.append(wings)
+                    self.all_sprite.add(self.wings)
+                elif col == "J":
+                    jumpBoost = higherJump(x,y)
+                    self.jumpBoosts.append(jumpBoost)
+                    self.all_sprite.add(self.jumpBoosts)
                 x += 25
             y += 25
             x = 0

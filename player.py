@@ -56,7 +56,8 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image,(50,80))
         self.image.set_colorkey((255,255,255))
         self.rect = self.image.get_rect()
-        self.maxJumpHeight = self.rect.height * 1.5
+        self.startJumpHeight = self.rect.height * 2
+        self.maxJumpHeight = self.startJumpHeight
         self.lastTimeDamaged = time.time() - self.damage_delay
         self.isInvincible = False
         self.invincibilityTime = 10 #TODO:Change time
@@ -244,7 +245,7 @@ class Player(pygame.sprite.Sprite):
             if self.jumpSpeed <= self.min_vertical_speed:
                 self.jumpSpeed = self.min_vertical_speed
             if self.maxJumpHeight <= 0:
-                self.maxJumpHeight = self.rect.height * 2
+                self.maxJumpHeight = self.startJumpHeight
                 self.jump = False
 
         if self.isFlying:
@@ -322,13 +323,13 @@ class Player(pygame.sprite.Sprite):
                     self.fallSpeed = 0
                     self.jumpSpeed = self.vertical_mov_incr
                     self.jump = False
-                    self.maxJumpHeight = self.rect.height * 2
+                    self.maxJumpHeight = self.startJumpHeight
                 if movy < 0:
                     self.rect.top = o.rect.bottom
                     self.movy = 0
                     self.jumpSpeed = self.vertical_mov_incr
                     self.jump = False
-                    self.maxJumpHeight = self.rect.height * 2
+                    self.maxJumpHeight = self.startJumpHeight
 
     #Checks for collided projectiles
     def collideProjectiles(self,projectiles,world,all_sprite,breakBlocks):

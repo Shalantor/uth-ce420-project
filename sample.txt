@@ -12,8 +12,8 @@ spawn 			S
 invincible		I	
 wings			W	
 jump higher		J	
-platform1(vertical) 	PV	
-platform2(horizontal)   PH	
+platform1(vertical) 	V	
+platform2(horizontal)   H	
 door			D
 key 			K
 boss1			B1
