@@ -250,7 +250,6 @@ def showOptions(screen,font):
     volumePos.right = volumeBar.left - 10
     volumePos.bottom = volumeBar.bottom
 
-    #TODO:set progress according to current volume
     volumeProgress = Rect(0,0,volumeBar.width // 2,volumeBar.height)
     volumeProgress.topleft = volumeBar.topleft
 
@@ -457,7 +456,7 @@ def showMenu(screen,clock):
     pygame.mixer.init()
     pygame.mixer.music.load("soundtracks/menu.ogg")
     pygame.mixer.music.play(-1,0)
-    pygame.mixer.music.set_volume(1.0)
+    pygame.mixer.music.set_volume(0.5)
 
     startBackground = pygame.Surface(screen.get_size()).convert()
     width,height = screen.get_size()
