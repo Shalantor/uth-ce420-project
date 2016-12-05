@@ -30,10 +30,16 @@ while True:
     screen_rect = screen.get_rect()
     background = pygame.image.load("world/background2.jpg").convert_alpha()
     background_rect = background.get_rect()
-    level = Level("level/level4.txt")
+
+    #Get level of player
+    playerLevel = getLevel(playerId)
+    playerCoins = getCoins(playerId)
+
+    level = Level("level/level" + str(playerLevel) +  ".txt")
     level.create_level(0,0,playerId)
     world = level.world
     player = level.player
+    player.coins = playerCoins
     enemies = level.enemies
     enemies2 = level.enemies2
     enemies3 = level.enemies3

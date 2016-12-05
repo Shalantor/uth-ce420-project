@@ -78,3 +78,23 @@ def getDifficulty(userId):
     cursorResult = cursor.fetchone()
     connection.close()
     return cursorResult[0]
+
+#Function to get players current level
+def getLevel(userId):
+    connection = sqlite3.connect(DATABASE)
+    cursor = connection.cursor()
+    data = (userId,)
+    cursor.execute('SELECT level FROM Profiles WHERE id=?',data)
+    cursorResult = cursor.fetchone()
+    connection.close()
+    return cursorResult[0]
+
+#Function to get players current coins
+def getCoins(userId):
+    connection = sqlite3.connect(DATABASE)
+    cursor = connection.cursor()
+    data = (userId,)
+    cursor.execute('SELECT coins FROM Profiles WHERE id=?',data)
+    cursorResult = cursor.fetchone()
+    connection.close()
+    return cursorResult[0]
