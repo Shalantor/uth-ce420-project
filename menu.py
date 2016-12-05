@@ -215,7 +215,11 @@ def showLoadingScreen(screen,font):
     while not leaveLoop:
         for event in pygame.event.get():
             if event.type == KEYDOWN and event.key == K_ESCAPE:
-                leaveLoop = True
+                return False,-1
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                for r in slots:
+                    if r.collidepoint(pygame.mouse.get_pos()):
+                        return True,slots.index(r)
             screen.fill((0,0,0))
             screen.blit(chooseText,choosePos)
             for i in range(0,4):
@@ -555,11 +559,14 @@ def showMenu(screen,clock):
             isLoadingVisible = False
             isNewGameVisible = False
         elif isLoadingVisible:
-            playerId = showLoadingScreen(screen,font)
-            isStartMenuVisible = True
-            areOptionsVisible = False
-            isLoadingVisible = False
-            isNewGameVisible = False
+            startGame,playerId = showLoadingScreen(screen,font)
+            if startGame:
+                leaveLoop = True
+            else:
+                isStartMenuVisible = True
+                areOptionsVisible = False
+                isLoadingVisible = False
+                isNewGameVisible = False
 
         pygame.display.flip()
         time_spent = tps(clock, FPS)
