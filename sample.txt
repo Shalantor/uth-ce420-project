@@ -16,6 +16,7 @@ platform1(vertical) 	V
 platform2(horizontal)   H	
 door			D
 key 			K
+fountain (for energy)   F
 boss1			B1
 boss2			B2
 

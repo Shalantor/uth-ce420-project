@@ -53,6 +53,7 @@ while True:
     spawnPoints = level.spawnPoints
     jumpBoosts = level.jumpBoosts
     wings = level.wings
+    fountains = level.fountains
 
     camera = Camera(screenInfo, player.rect, level.get_size()[0], level.get_size()[1])
     all_sprite = level.all_sprite
@@ -261,6 +262,7 @@ while True:
         for w in wings[:]:
             if player.rect.colliderect(w):
                 player.canFly = True
+                player.hasWings = True
                 wings.remove(w)
                 level.all_sprite.remove(w)
 
@@ -270,6 +272,15 @@ while True:
                 player.startJumpHeight += player.rect.height
                 jumpBoosts.remove(j)
                 level.all_sprite.remove(j)
+
+        #Check if player collided with fountain
+        for f in fountains:
+            if player.rect.colliderect(f):
+                player.energy += 10
+                if player.hasWings:
+                    player.canFly = True
+                if player.energy >= 100:
+                    player.energy = 100
 
         camera.update()
         pygame.display.flip()

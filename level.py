@@ -10,6 +10,20 @@ from enemy3 import *
 
 PLATFORM_STEPS = 30
 
+class Fountain(pygame.sprite.Sprite):
+    '''Class that represents a fountain restoring energy'''
+    def __init__(self,x,y):
+        self.symbol = "F"
+        self.x = x
+        self.y = y
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("megaman/star/star1.png").convert()
+        self.image = pygame.transform.scale(self.image,(50,50))
+        self.image.set_colorkey((255,255,255))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [self.x, self.y]
+
+
 class Wings(pygame.sprite.Sprite):
     '''Class that represents wings , to make player fly'''
     def __init__(self,x,y):
@@ -255,6 +269,7 @@ class Level(object):
         self.spawnPoints = []
         self.wings = []
         self.jumpBoosts = []
+        self.fountains = []
 
     def create_level(self, x, y,playerId):
         for l in self.level:
@@ -325,6 +340,10 @@ class Level(object):
                     jumpBoost = higherJump(x,y)
                     self.jumpBoosts.append(jumpBoost)
                     self.all_sprite.add(self.jumpBoosts)
+                elif col == "F":
+                    fountain = Fountain(x,y)
+                    self.fountains.append(fountain)
+                    self.all_sprite.add(self.fountains)
                 x += 25
             y += 25
             x = 0
