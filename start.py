@@ -20,6 +20,7 @@ pygame.init()
 
 #Show menu for login
 screen = pygame.display.set_mode(SCREEN_SIZE, FULLSCREEN, 32)
+screenInfo = pygame.display.Info()
 clock = pygame.time.Clock()
 
 """GAME LOOP"""
@@ -29,7 +30,7 @@ while True:
     screen_rect = screen.get_rect()
     background = pygame.image.load("world/background2.jpg").convert_alpha()
     background_rect = background.get_rect()
-    level = Level("level/test.txt")
+    level = Level("level/level4.txt")
     level.create_level(0,0,playerId)
     world = level.world
     player = level.player
@@ -43,7 +44,7 @@ while True:
     coins = level.coins
     hearts = level.hearts
 
-    camera = Camera(screen, player.rect, level.get_size()[0], level.get_size()[1])
+    camera = Camera(screenInfo, player.rect, level.get_size()[0], level.get_size()[1])
     all_sprite = level.all_sprite
     up = down = left = right = shooting = shootUp = False
     x, y = 0, 0

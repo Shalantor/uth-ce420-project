@@ -4,9 +4,9 @@ import sys
 
 class Camera(object):
     '''Class for center screen on the player'''
-    def __init__(self, screen, player, level_width, level_height):
+    def __init__(self, screenInfo, player, level_width, level_height):
         self.player = player
-        self.rect = screen.get_rect()
+        self.rect = Rect(0,0,screenInfo.current_w,screenInfo.current_h)
         self.rect.center = self.player.center
         self.world_rect = Rect(0, 0, level_width, level_height)
 
