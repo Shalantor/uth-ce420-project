@@ -10,6 +10,19 @@ from enemy3 import *
 
 PLATFORM_STEPS = 30
 
+class Spawn(pygame.sprite.Sprite):
+    '''Class that represents a spawn point for the player when he dies'''
+    def __init__(self,x,y):
+        self.symbol = "S"
+        self.x = x
+        self.y = y
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load("megaman/star/star1.png").convert()
+        self.image = pygame.transform.scale(self.image,(50,80))
+        self.image.set_colorkey((255,255,255))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [self.x, self.y]
+
 class Heart(pygame.sprite.Sprite):
     '''Class for heart that replenishes player health'''
     def __init__(self,x,y):
@@ -213,6 +226,7 @@ class Level(object):
         self.stars = []
         self.coins = []
         self.hearts = []
+        self.spawnPoints = []
 
     def create_level(self, x, y,playerId):
         for l in self.level:
@@ -271,6 +285,10 @@ class Level(object):
                     heart = Heart(x,y)
                     self.hearts.append(heart)
                     self.all_sprite.add(self.hearts)
+                elif col == "S":
+                    spawnPoint = Spawn(x,y)
+                    self.spawnPoints.append(spawnPoint)
+                    self.all_sprite.add(self.spawnPoints)
                 x += 25
             y += 25
             x = 0

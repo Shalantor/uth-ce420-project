@@ -35,7 +35,8 @@ while True:
     playerLevel = getLevel(playerId)
     playerCoins = getCoins(playerId)
 
-    level = Level("level/level" + str(playerLevel) +  ".txt")
+    #level = Level("level/level" + str(playerLevel) +  ".txt")
+    level = Level("level/test.txt")
     level.create_level(0,0,playerId)
     world = level.world
     player = level.player
@@ -49,6 +50,7 @@ while True:
     stars = level.stars
     coins = level.coins
     hearts = level.hearts
+    spawnPoints = level.spawnPoints
 
     camera = Camera(screenInfo, player.rect, level.get_size()[0], level.get_size()[1])
     all_sprite = level.all_sprite
@@ -104,13 +106,13 @@ while True:
             for y in range(0, asize[1], background_rect.h):
                 screen.blit(background, (x, y))
 
-        visibleObjects,visibleSprites = camera.getVisibleObjects(world,all_sprite)
+        visibleObjects,visibleSprites = camera.getVisibleObjects(world,level.all_sprite)
         time_spent = tps(clock, FPS)
         camera.draw_sprites(screen, visibleSprites)
 
         if player.isDead:
             if player in level.all_sprite:
-                all_sprite.remove(player)
+                level.all_sprite.remove(player)
             showPlayerDeadScreen(screen)
 
         showPlayerInfo(screen,player)
@@ -129,10 +131,12 @@ while True:
         else:
             if time.time() - player.isDeadStartTime > TIME_DEAD:
                 player.isDead = False
-                player.rect.left = player.startX
-                player.rect.right = player.startY
+                player.rect.x = player.startX
+                player.rect.y = player.startY
+                player.x = player.startX
+                player.y = player.startY
                 player.initPosition(visibleObjects)
-                all_sprite.add(player)
+                level.all_sprite.add(player)
 
         #Update enemies
         for enemy in enemies:
@@ -244,6 +248,12 @@ while True:
                 if player.replenishHealth(h):
                     level.all_sprite.remove(h)
                     hearts.remove(h)
+
+        #Check if player collided with spawnpoint
+        for s in spawnPoints:
+            if player.rect.colliderect(s.rect) and not player.isDead:
+                player.startX = s.x
+                player.startY = s.y
 
         camera.update()
         pygame.display.flip()
