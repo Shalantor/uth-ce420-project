@@ -69,6 +69,10 @@ def showPlayerInfo(screen,player):
     pygame.draw.rect(screen,(255,255,255),energyBar,1)
     pygame.draw.rect(screen,(0,0,255),remainingEnergy)
 
+    if player.hasKey != None:
+        keyRect = Rect(coinsPos.right + 10,0,50,screenRect.h // 20)
+        screen.blit(player.hasKey.image,keyRect)
+
 
 #Function to show pause screen from game
 #Returns true for leaving game and false for just continuing

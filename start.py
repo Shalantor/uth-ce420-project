@@ -287,7 +287,7 @@ while True:
         for k in keys[:]:
             if player.rect.colliderect(k):
                 keys.remove(k)
-                player.hasKey = True
+                player.hasKey = k
                 level.all_sprite.remove(k)
 
         camera.update()
