@@ -67,6 +67,9 @@ while True:
     x, y = 0, 0
     leaveLoop = False
 
+    #Sound
+    demoSound = pygame.mixer.Sound('Sounds/demo.ogg')
+
     #Start song
     pygame.mixer.init()
     pygame.mixer.music.load("soundtracks/song" + str(playerLevel) + ".ogg")
@@ -217,6 +220,8 @@ while True:
                     if not player.isInvincible and not player.isDead and time.time() - player.lastTimeDamaged >= player.damage_delay:
                         player.lastTimeDamaged = time.time()
                         player.health -= e.damage
+                        """---DAMAGE SOUND---"""
+                        demoSound = pygame.mixer.Sound('Sounds/demo.ogg')
                         if player.health <= 0:
                             player.health = 100
                             player.x = player.startX
@@ -233,6 +238,8 @@ while True:
                     if not player.isInvincible and not player.isDead and time.time() - player.lastTimeDamaged >= player.damage_delay:
                         player.lastTimeDamaged = time.time()
                         player.health -= e.damage
+                        """---DAMAGE SOUND---"""
+                        demoSound = pygame.mixer.Sound('Sounds/demo.ogg')
                         if player.health <= 0:
                             player.health = 100
                             player.x = player.startX
@@ -273,6 +280,8 @@ while True:
         #Check if player collided with wings
         for w in wings[:]:
             if player.rect.colliderect(w):
+                """---GET WINGS SOUND---"""
+                demoSound = pygame.mixer.Sound('Sounds/demo.ogg')
                 player.canFly = True
                 player.hasWings = True
                 wings.remove(w)
@@ -281,6 +290,8 @@ while True:
         #Check if player collided with jump boost
         for j in jumpBoosts[:]:
             if player.rect.colliderect(j):
+                """---GET JUMP BOOST SOUND---"""
+                demoSound = pygame.mixer.Sound('Sounds/demo.ogg')
                 player.startJumpHeight += player.rect.height
                 jumpBoosts.remove(j)
                 level.all_sprite.remove(j)
@@ -297,6 +308,8 @@ while True:
         #Check if collided with keys
         for k in keys[:]:
             if player.rect.colliderect(k):
+                """---GET KEY SOUND---"""
+                demoSound = pygame.mixer.Sound('Sounds/demo.ogg')
                 keys.remove(k)
                 player.hasKey = k
                 level.all_sprite.remove(k)

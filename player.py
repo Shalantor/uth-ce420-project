@@ -65,7 +65,7 @@ class Player(pygame.sprite.Sprite):
         self.hasWings = False
         self.hasKey = None
         #Variables for sound
-        demoSound = pygame.mixer.Sound('Sounds/demo.ogg')
+        self.demoSound = pygame.mixer.Sound('Sounds/demo.ogg')
         #demoSound.play()
 
         #Variables for graphics
@@ -155,6 +155,9 @@ class Player(pygame.sprite.Sprite):
         if up:
             if self.canFly:
                 self.isFlying = True
+
+                """TODO:Add sound for flying"""
+
             if self.contact:
                 if self.direction == "right":
                     self.image = pygame.image.load(self.jump_right[self.jumpFrame]).convert()
@@ -162,6 +165,10 @@ class Player(pygame.sprite.Sprite):
                         self.jumpFrame = (self.jumpFrame + 1) % self.jump_frames
                         self.lastJumpFrame = time.time()
                 if not self.canFly:
+
+                    """---JUMP SOUND---"""
+                    self.demoSound.play()
+
                     self.jump = True
                 else:
                     self.isFlying = True
@@ -207,6 +214,10 @@ class Player(pygame.sprite.Sprite):
                     self.lastJumpFrame = time.time()
 
         if shooting and time.time() - self.lastShotTime > self.shooting_frequency:
+
+            """---SHOOT SOUND---"""
+            self.demoSound.play()
+
             self.isShooting = True
             if not shootUp:
                 if self.direction == "right":
@@ -368,6 +379,10 @@ class Player(pygame.sprite.Sprite):
 
         for enemy in enemies:
             if self.rect.colliderect(enemy.rect) and time.time() - self.lastTimeDamaged > self.damage_delay:
+
+                """---TAKE DAMAGE SOUND---"""
+                self.demoSound.play()
+
                 self.health -= enemy.damage
                 self.lastTimeDamaged = time.time()
                 if self.health <= 0:
@@ -386,15 +401,22 @@ class Player(pygame.sprite.Sprite):
     def setInvincible(self):
         self.isInvincible = True
         self.startInvincibility = time.time()
+        """---SOUND FOR INVINCIBILITY---"""
 
     #Add a coin to player stats
     def addCoin(self):
         self.coins += 1
+        """---COIN SOUND---"""
+        self.demoSound.play()
+
 
     #Replenish health
     def replenishHealth(self,heart):
         if self.health == 100:
             return False
+
+        """---HEALTH SOUND---"""
+        self.demoSound.play()
 
         self.health += heart.healthValue
         if self.health > 100:
