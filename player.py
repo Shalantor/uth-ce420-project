@@ -64,7 +64,11 @@ class Player(pygame.sprite.Sprite):
         self.startInvincibility = 0
         self.hasWings = False
         self.hasKey = None
+        #Variables for sound
+        demoSound = pygame.mixer.Sound('Sounds/demo.ogg')
+        #demoSound.play()
 
+        #Variables for graphics
         self.jump_left = ["megaman/jump_left/jl1.png","megaman/jump_left/jl2.png",
                          "megaman/jump_left/jl3.png","megaman/jump_left/jl4.png",
                          "megaman/jump_left/jl5.png","megaman/jump_left/jl6.png",

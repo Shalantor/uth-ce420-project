@@ -152,6 +152,10 @@ def showPauseScreen(screen,playerId):
                     volumeProgress.width = pygame.mouse.get_pos()[0] - volumeBar.left
                     volumeProgress.topleft = volumeBar.topleft
                     volumeButton.centerx = volumeProgress.right
+
+                    #Change volume based on progress
+                    pygame.mixer.music.set_volume(volumeProgress.width / volumeBar.width )
+
                 if exitPos.collidepoint(pygame.mouse.get_pos()):
                     return True
                 for rect in diffList:

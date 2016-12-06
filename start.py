@@ -67,6 +67,12 @@ while True:
     x, y = 0, 0
     leaveLoop = False
 
+    #Start song
+    pygame.mixer.init()
+    pygame.mixer.music.load("soundtracks/song" + str(playerLevel) + ".ogg")
+    pygame.mixer.music.play(-1,0)
+    pygame.mixer.music.set_volume(0.5)
+
     #Correct positions of player and enemies
     player.initPosition(world)
     for e in enemies:
@@ -302,6 +308,7 @@ while True:
                 setStats(playerId,playerLevel,player.coins)
                 leaveLoop = True
                 nextLevel = True
+                pygame.mixer.music.stop()
 
         camera.update()
         pygame.display.flip()
