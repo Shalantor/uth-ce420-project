@@ -31,6 +31,7 @@ while True:
         playerId = showMenu(screen,clock)
     else:
         nextLevel = False
+        showNextLevelScreen(screen)
     pygame.mouse.set_visible(0)
     screen_rect = screen.get_rect()
     background = pygame.image.load("world/background2.jpg").convert_alpha()

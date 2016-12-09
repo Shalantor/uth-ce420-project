@@ -14,6 +14,40 @@ def tps(orologio,fps):
     tps = temp / 1000.
     return tps
 
+#Function to display screen for proceeding to next level
+def showNextLevelScreen(screen):
+    screenRect = screen.get_rect()
+    font = pygame.font.Font(None,screenRect.h // 10)
+
+    #text to display
+    gzText = font.render("CONGRATULATIONS",1,(255,255,255))
+    nextLevelText = font.render("YOU PROCEED TO THE NEXT LEVEL",1,(255,255,255))
+    anyKeyText = font.render("PRESS ANY KEY TO CONTINUE",1,(255,255,255))
+
+    #Rectangles of text
+    gzPos = gzText.get_rect()
+    nextLevelPos = nextLevelText.get_rect()
+    anyKeyPos = anyKeyText.get_rect()
+
+    gzPos.centerx = nextLevelPos.centerx = anyKeyPos.centerx = screenRect.centerx
+
+    gzPos.bottom = screenRect.h // 3
+    nextLevelPos.top = gzPos.bottom + 10
+    anyKeyPos.bottom = 2 * (screenRect.h // 3 )
+    leaveLoop = False
+
+    while not leaveLoop:
+        #Check for any key press
+        for event in pygame.event.get():
+            if event.type == KEYDOWN:
+                leaveLoop = True
+
+        screen.fill((0,0,0))
+        screen.blit(gzText,gzPos)
+        screen.blit(nextLevelText,nextLevelPos)
+        screen.blit(anyKeyText,anyKeyPos)
+        pygame.display.flip()
+
 #Function to display on screen message when player is dead
 def showPlayerDeadScreen(screen):
     screenRect = screen.get_rect()
