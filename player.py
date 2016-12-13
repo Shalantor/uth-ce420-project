@@ -27,6 +27,7 @@ class Player(pygame.sprite.Sprite):
         self.shoot_frames = 8
         self.walk_shoot_frames = 15
         self.jump_shoot_frames = 9
+        self.fly_frames = 6
 
         #Other player variables
         self.isDead = False
@@ -136,7 +137,16 @@ class Player(pygame.sprite.Sprite):
                               "megaman/jump_shoot_left/jsl5.png","megaman/jump_shoot_left/jsl6.png",
                               "megaman/jump_shoot_left/jsl7.png","megaman/jump_shoot_left/jsl8.png","megaman/jump_shoot_left/jsl9.png"]
 
+        self.flyRight = ["megaman/fly_right/rfly1.png","megaman/fly_right/rfly2.png",
+                         "megaman/fly_right/rfly3.png","megaman/fly_right/rfly4.png",
+                         "megaman/fly_right/rfly5.png","megaman/fly_right/rfly6.png"]
+
+        self.flyLeft = ["megaman/fly_left/lfly1.png","megaman/fly_left/lfly2.png",
+                         "megaman/fly_left/lfly3.png","megaman/fly_left/lfly4.png",
+                         "megaman/fly_left/lfly5.png","megaman/fly_left/lfly6.png"]
+
         self.standFrame = 0
+        self.flyFrame = 0
         self.jumpFrame = 0
         self.shootFrame = 0
         self.shootWalkFrame = 0
@@ -155,6 +165,7 @@ class Player(pygame.sprite.Sprite):
         if up:
             if self.canFly:
                 self.isFlying = True
+                self.contact = False
 
                 """TODO:Add sound for flying"""
 
@@ -195,6 +206,10 @@ class Player(pygame.sprite.Sprite):
             if self.contact:
                 self.frame = (self.frame + 1) % self.run_frames
                 self.image = pygame.image.load(self.run_left[self.frame]).convert()
+            elif self.canFly:
+                if not self.flyFrame == self.fly_frames - 1:
+                    self.flyFrame = self.flyFrame + 1
+                self.image = pygame.image.load(self.flyLeft[self.flyFrame]).convert()
             else:
                 self.image = pygame.image.load(self.jump_left[self.jumpFrame]).convert()
                 if time.time() - self.lastJumpFrame > self.jump_frames_time:
@@ -207,11 +222,19 @@ class Player(pygame.sprite.Sprite):
             if self.contact:
                 self.frame = (self.frame + 1) % self.run_frames
                 self.image = pygame.image.load(self.run_right[self.frame]).convert()
+            elif self.canFly:
+                if not self.flyFrame == self.fly_frames - 1:
+                    self.flyFrame = self.flyFrame + 1
+                self.image = pygame.image.load(self.flyRight[self.flyFrame]).convert()
             else:
                 self.image = pygame.image.load(self.jump_right[self.jumpFrame]).convert()
                 if time.time() - self.lastJumpFrame > self.jump_frames_time:
                     self.jumpFrame = (self.jumpFrame + 1) % self.jump_frames
                     self.lastJumpFrame = time.time()
+
+        #Reset fly frames
+        if not left and not right:
+            self.flyFrame = 0
 
         if shooting and time.time() - self.lastShotTime > self.shooting_frequency:
 
@@ -281,7 +304,7 @@ class Player(pygame.sprite.Sprite):
 
         #Reduce energy level if in air
         if not self.contact and self.canFly:
-            self.energy -= 0.5
+            self.energy -= 0.3
             if self.energy == 0:
                 self.canFly = False
 
