@@ -296,10 +296,14 @@ class Player(pygame.sprite.Sprite):
         if self.isFlying:
             self.movy -= 1
             self.rect.top -= self.horiz_mov_incr
+            self.image = pygame.image.load(self.flyRight[self.fly_frames - 1])
+            self.image = pygame.transform.rotate(self.image,90)
 
         if self.flyDown:
             self.movy += 1
             self.rect.top += self.horiz_mov_incr
+            self.image = pygame.image.load(self.flyRight[self.fly_frames - 1])
+            self.image = pygame.transform.rotate(self.image,-90)
 
         self.collide(0, self.movy, world)
         self.movx = 0
@@ -307,6 +311,8 @@ class Player(pygame.sprite.Sprite):
 
         if self.canFly and left or right and self.flyFrame == self.fly_frames - 1:
             self.image = pygame.transform.scale(self.image,(self.player_height,self.player_width + 20))
+        elif self.flyDown or self.isFlying:
+            self.image = pygame.transform.scale(self.image,(self.player_width + 20,self.player_height))
         else:
             self.image = pygame.transform.scale(self.image,(self.player_width,self.player_height))
 
