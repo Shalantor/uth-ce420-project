@@ -65,6 +65,8 @@ class Player(pygame.sprite.Sprite):
         self.startInvincibility = 0
         self.hasWings = False
         self.hasKey = None
+        self.flyFrameFrequency = 0.1
+
         #Variables for sound
         self.demoSound = pygame.mixer.Sound('Sounds/demo.ogg')
         #demoSound.play()
@@ -151,6 +153,7 @@ class Player(pygame.sprite.Sprite):
         self.shootFrame = 0
         self.shootWalkFrame = 0
         self.shootJumpFrame = 0
+        self.lastFlyFrame = time.time()
         self.lastJumpFrame = time.time()
         self.lastStandFrame = time.time()
         self.direction = "right"
@@ -207,8 +210,9 @@ class Player(pygame.sprite.Sprite):
                 self.frame = (self.frame + 1) % self.run_frames
                 self.image = pygame.image.load(self.run_left[self.frame]).convert()
             elif self.canFly:
-                if not self.flyFrame == self.fly_frames - 1:
+                if not self.flyFrame == self.fly_frames - 1 and time.time() - self.lastFlyFrame > self.flyFrameFrequency:
                     self.flyFrame = self.flyFrame + 1
+                    self.lastFlyFrame = time.time()
                 self.image = pygame.image.load(self.flyLeft[self.flyFrame]).convert()
             else:
                 self.image = pygame.image.load(self.jump_left[self.jumpFrame]).convert()
@@ -223,8 +227,9 @@ class Player(pygame.sprite.Sprite):
                 self.frame = (self.frame + 1) % self.run_frames
                 self.image = pygame.image.load(self.run_right[self.frame]).convert()
             elif self.canFly:
-                if not self.flyFrame == self.fly_frames - 1:
+                if not self.flyFrame == self.fly_frames - 1 and time.time() - self.lastFlyFrame > self.flyFrameFrequency:
                     self.flyFrame = self.flyFrame + 1
+                    self.lastFlyFrame = time.time()
                 self.image = pygame.image.load(self.flyRight[self.flyFrame]).convert()
             else:
                 self.image = pygame.image.load(self.jump_right[self.jumpFrame]).convert()
