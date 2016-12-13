@@ -7,7 +7,7 @@ import time,random
 from player import *
 
 MAX_VERT_DISTANCE = 200
-MAX_HORIZ_DISTANCE = 100
+MAX_HORIZ_DISTANCE = 500
 MAX_HEIGHT_MULTIPLICATOR = 3
 MAX_HORIZONTAL_MULTIPLICATOR = 3
 MAX_STEPS = 20
@@ -34,6 +34,8 @@ class Enemy3(Player,pygame.sprite.Sprite):
         self.health = 50 * (difficulty + 1)
         self.horiz_mov_incr = 3
         self.shooting_frequency = 1
+
+        self.projectileImage = pygame.image.load("megaman/enemy3/fire.png").convert()
 
     #Override update function
     def update(self,player,world):

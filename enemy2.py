@@ -29,6 +29,8 @@ class Enemy2(Player,pygame.sprite.Sprite):
             #shooting frequency
             self.shooting_frequency = 2
 
+            self.projectileImage = pygame.image.load("megaman/enemy2/fire.png").convert()
+
         #Override update function
         def update(self,player,world):
             #decide what to do depending on player position

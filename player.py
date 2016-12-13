@@ -250,12 +250,13 @@ class Player(pygame.sprite.Sprite):
             if not shootUp:
                 if self.direction == "right":
                     projectile = Rect(self.rect.right,self.rect.top + self.rect.h // 4,self.rect.w,self.rect.h // 10)
-                    image = pygame.image.load("megaman/fires/fr1.png")
+                    image = self.projectileImage
                     image.set_colorkey((255,255,255))
 
                 else:
                     projectile = Rect(self.rect.left - self.rect.w // 2,self.rect.top + self.rect.h // 4,self.rect.w,self.rect.h // 10)
-                    image = pygame.image.load("megaman/fires/fl1.png")
+                    image = self.projectileImage
+                    image = pygame.transform.rotate(image,180)
                     image.set_colorkey((255,255,255))
 
                 info = {'projectile':projectile,'direction':self.direction,'image': image}
