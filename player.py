@@ -300,12 +300,15 @@ class Player(pygame.sprite.Sprite):
         self.movx = 0
         self.movy = 0
 
-        self.image = pygame.transform.scale(self.image,(self.player_width,self.player_height))
+        if self.canFly and left or right and self.flyFrame == self.fly_frames - 1:
+            self.image = pygame.transform.scale(self.image,(self.player_height,self.player_width + 20))
+        else:
+            self.image = pygame.transform.scale(self.image,(self.player_width,self.player_height))
 
         #Reduce energy level if in air
         if not self.contact and self.canFly:
             self.energy -= 0.3
-            if self.energy == 0:
+            if self.energy <= 0:
                 self.canFly = False
 
         #If player is in shooting animation change image
