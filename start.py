@@ -280,6 +280,7 @@ while True:
 
         #Check if player collided with wings
         for w in wings[:]:
+            w.update()
             if player.rect.colliderect(w):
                 """---GET WINGS SOUND---"""
                 demoSound = pygame.mixer.Sound('Sounds/demo.ogg')

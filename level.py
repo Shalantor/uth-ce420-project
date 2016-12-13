@@ -57,11 +57,22 @@ class Wings(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("megaman/star/star1.png").convert()
+        self.imageList = ["megaman/wings/wings1.png","megaman/wings/wings2.png"]
+        self.image = pygame.image.load("megaman/wings/wings1.png").convert()
         self.image = pygame.transform.scale(self.image,(50,50))
-        self.image.set_colorkey((255,255,255))
         self.rect = self.image.get_rect()
         self.rect.topleft = [self.x, self.y]
+        self.frame = 0
+        self.imageFrequency = 0.4
+        self.lastFrameTime = time.time()
+
+    def update(self):
+        if time.time() - self.lastFrameTime > self.imageFrequency:
+            self.lastFrameTime = time.time()
+            self.frame = (self.frame + 1) % 2
+            self.image =pygame.image.load(self.imageList[self.frame]).convert()
+            self.image = pygame.transform.scale(self.image,(50,50))
+
 
 class higherJump(pygame.sprite.Sprite):
     '''Object for player to collect , so he can jump higher'''
