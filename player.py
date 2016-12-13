@@ -317,7 +317,7 @@ class Player(pygame.sprite.Sprite):
                 self.canFly = False
 
         #If player is in shooting animation change image
-        if self.isShooting:
+        if self.isShooting and not (left or right and self.canFly):
             if self.contact and not left and not right:
                 if self.direction == "right":
                     self.image = pygame.image.load(self.shootRight[self.shootFrame])
