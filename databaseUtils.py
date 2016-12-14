@@ -26,6 +26,22 @@ def setupDatabase():
                           (3,'EMPTY',START_LEVEL,START_LIVES,START_COINS,0),]
         cursor.executemany('INSERT INTO Profiles VALUES (?,?,?,?,?,?)',startProfiles)
 
+    #Controls table
+    cursor.execute('''CREATE TABLE IF NOT EXISTS Controls(id integer,
+                                moveLeft text,
+                                moveRight text,
+                                moveUp text,
+                                moveDown text,
+                                shoot text,
+                                combo text,
+                                jump text,
+                                PRIMARY KEY(id))''')
+    cursor.execute('SELECT * FROM Controls')
+    if cursor.fetchone() == None:
+        #Fill with default controls
+        data = (0,'left_arrow','right_arrow','up_arrow','down_arrow','space','c','up_arrow')
+        cursor.execute('INSERT INTO Controls VALUES (?,?,?,?,?,?,?,?)',data)
+
     connection.commit()
     connection.close()
 
