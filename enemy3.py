@@ -40,7 +40,7 @@ class Enemy3(Player,pygame.sprite.Sprite):
     #Override update function
     def update(self,player,world):
         #decide what to do depending on player position
-        left = right = up = down = shooting = shootUp =  False
+        left = right = up = down = shooting = shootUp = combo = False
         horizDiff = abs(player.rect.centerx - self.rect.centerx)
         vertDiff = abs(player.rect.centery - self.rect.centery)
 
@@ -83,4 +83,4 @@ class Enemy3(Player,pygame.sprite.Sprite):
                     left = True
                     self.stepsRemaining -= 1
 
-        super().update(up, down, left, right, shooting, shootUp, world)
+        super().update(up, down, left, right, shooting, shootUp, combo, world)

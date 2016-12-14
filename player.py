@@ -28,6 +28,7 @@ class Player(pygame.sprite.Sprite):
         self.walk_shoot_frames = 15
         self.jump_shoot_frames = 9
         self.fly_frames = 6
+        self.combo_frames = 8
 
         #Other player variables
         self.isDead = False
@@ -35,6 +36,7 @@ class Player(pygame.sprite.Sprite):
         self.lastShotTime = 0
         self.symbol = "P"
         self.projectileImage = pygame.image.load("megaman/fires/fr1.png").convert()
+        self.comboImage = pygame.image.load("megaman/fires/combo.png").convert()
         self.projectileImage.set_colorkey((255,255,255))
         self.projectiles = []
         self.coins = 0
@@ -147,12 +149,25 @@ class Player(pygame.sprite.Sprite):
                          "megaman/fly_left/lfly3.png","megaman/fly_left/lfly4.png",
                          "megaman/fly_left/lfly5.png","megaman/fly_left/lfly6.png"]
 
+        self.comboShootRight = ["megaman/combo_right/1.png","megaman/combo_right/2.png",
+                                "megaman/combo_right/3.png","megaman/combo_right/4.png",
+                                "megaman/combo_right/5.png","megaman/combo_right/6.png",
+                                "megaman/combo_right/7.png","megaman/combo_right/8.png"]
+
+        self.comboShootLeft = ["megaman/combo_left/1.png","megaman/combo_left/2.png",
+                                "megaman/combo_left/3.png","megaman/combo_left/4.png",
+                                "megaman/combo_left/5.png","megaman/combo_left/6.png",
+                                "megaman/combo_left/7.png","megaman/combo_left/8.png"]
+
+        self.comboFrame = 0
         self.standFrame = 0
         self.flyFrame = 0
         self.jumpFrame = 0
         self.shootFrame = 0
         self.shootWalkFrame = 0
         self.shootJumpFrame = 0
+        self.lastComboTime = time.time()
+        self.comboFrequency = 2
         self.lastFlyFrame = time.time()
         self.lastJumpFrame = time.time()
         self.lastStandFrame = time.time()
@@ -161,7 +176,7 @@ class Player(pygame.sprite.Sprite):
         self.frame = 0
         self.isShooting = False
 
-    def update(self, up, down, left, right, shooting, shootUp, world):
+    def update(self, up, down, left, right, shooting, shootUp, combo, world):
         #Check for key presses
         self.isFlying = False
         self.flyDown = False
@@ -241,7 +256,21 @@ class Player(pygame.sprite.Sprite):
         if not left and not right:
             self.flyFrame = 0
 
-        if shooting and time.time() - self.lastShotTime > self.shooting_frequency:
+        #Check for combo
+        if combo and time.time() - self.lastComboTime > self.comboFrequency and not (left or right) and self.contact:
+            self.lastComboTime = time.time()
+            if self.direction == "right":
+                projectile = Rect(self.rect.right,self.rect.top,self.rect.w * 3,self.rect.h)
+                image = self.comboImage
+            else:
+                projectile = Rect(self.rect.right,self.rect.top,self.rect.w * 3,self.rect.h)
+                image = pygame.transform.rotate(image,180)
+                image = self.comboImage
+            image.set_colorkey((255,255,255))
+            info = {'projectile':projectile,'direction':self.direction,'image': image,'normal':False}
+            self.projectiles.append(info)
+
+        if shooting and time.time() - self.lastShotTime > self.shooting_frequency and not combo:
 
             """---SHOOT SOUND---"""
             self.demoSound.play()
@@ -251,15 +280,13 @@ class Player(pygame.sprite.Sprite):
                 if self.direction == "right":
                     projectile = Rect(self.rect.right,self.rect.top + self.rect.h // 4,self.rect.w,self.rect.h // 10)
                     image = self.projectileImage
-                    image.set_colorkey((255,255,255))
-
                 else:
                     projectile = Rect(self.rect.left - self.rect.w // 2,self.rect.top + self.rect.h // 4,self.rect.w,self.rect.h // 10)
                     image = self.projectileImage
                     image = pygame.transform.rotate(image,180)
-                    image.set_colorkey((255,255,255))
+                image.set_colorkey((255,255,255))
 
-                info = {'projectile':projectile,'direction':self.direction,'image': image}
+                info = {'projectile':projectile,'direction':self.direction,'image': image,'normal':True}
             else:
                 projectile = Rect(self.rect.left,self.rect.top,self.rect.h // 10,self.rect.w)
                 image = pygame.image.load("megaman/fires/fr1.png")
@@ -324,7 +351,7 @@ class Player(pygame.sprite.Sprite):
                 self.canFly = False
 
         #If player is in shooting animation change image
-        if self.isShooting and not (left or right and self.canFly):
+        if self.isShooting and not (left or right and self.canFly) :
             if self.contact and not left and not right:
                 if self.direction == "right":
                     self.image = pygame.image.load(self.shootRight[self.shootFrame])
@@ -350,6 +377,7 @@ class Player(pygame.sprite.Sprite):
                 if self.shootJumpFrame == 0:
                     self.isShooting = False
             self.image = pygame.transform.scale(self.image,(self.player_width + (self.rect.w // 3),self.player_height))
+
 
         #Transform image
         self.image.set_colorkey((255,255,255))

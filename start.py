@@ -64,7 +64,7 @@ while True:
 
     camera = Camera(screenInfo, player.rect, level.get_size()[0], level.get_size()[1])
     all_sprite = level.all_sprite
-    up = down = left = right = shooting = shootUp = False
+    up = down = left = right = shooting = shootUp = combo = False
     x, y = 0, 0
     leaveLoop = False
 
@@ -105,6 +105,8 @@ while True:
                 shooting = True
             if event.type == KEYDOWN and event.key == K_w:
                 shootUp = True
+            if event.type == KEYDOWN and event.key == K_c:
+                combo = True
 
             if event.type == KEYUP and event.key == K_UP:
                 up = False
@@ -118,6 +120,8 @@ while True:
                 shooting = False
             if event.type == KEYUP and event.key == K_w:
                 shootUp = False
+            if event.type == KEYUP and event.key == K_c:
+                combo = False
 
         asize = ((screen_rect.w // background_rect.w + 1) * background_rect.w, (screen_rect.h // background_rect.h + 1) * background_rect.h)
 
@@ -138,7 +142,7 @@ while True:
 
         if not player.isDead:
             #Update player
-            player.update(up, down, left, right, shooting, shootUp,visibleObjects)
+            player.update(up, down, left, right, shooting, shootUp, combo ,visibleObjects)
 
             #Update player projectiles collisions
             player.collideProjectiles(player.projectiles,world,level.all_sprite,breakBlocks)
