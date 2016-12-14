@@ -167,7 +167,7 @@ class Player(pygame.sprite.Sprite):
         self.shootWalkFrame = 0
         self.shootJumpFrame = 0
         self.lastComboTime = time.time()
-        self.comboFrequency = 2
+        self.comboFrequency = 1
         self.lastFlyFrame = time.time()
         self.lastJumpFrame = time.time()
         self.lastStandFrame = time.time()
@@ -175,6 +175,9 @@ class Player(pygame.sprite.Sprite):
         self.rect.topleft = [x, y]
         self.frame = 0
         self.isShooting = False
+        self.isComboing = False
+        self.comboFrameFrequency = 0.01
+        self.lastComboFrameChange = time.time()
 
     def update(self, up, down, left, right, shooting, shootUp, combo, world):
         #Check for key presses
@@ -263,14 +266,17 @@ class Player(pygame.sprite.Sprite):
                 projectile = Rect(self.rect.right,self.rect.top,self.rect.w * 3,self.rect.h)
                 image = self.comboImage
             else:
-                projectile = Rect(self.rect.right,self.rect.top,self.rect.w * 3,self.rect.h)
-                image = pygame.transform.rotate(image,180)
+                projectile = Rect(self.rect.left,self.rect.top,self.rect.w * 3,self.rect.h)
+                projectile.right = self.rect.left
                 image = self.comboImage
+                image = pygame.transform.rotate(image,180)
             image.set_colorkey((255,255,255))
             info = {'projectile':projectile,'direction':self.direction,'image': image,'normal':False}
             self.projectiles.append(info)
+            self.isComboing = True
 
-        if shooting and time.time() - self.lastShotTime > self.shooting_frequency and not combo:
+        #Check for shooting
+        if shooting and time.time() - self.lastShotTime > self.shooting_frequency and not self.isComboing:
 
             """---SHOOT SOUND---"""
             self.demoSound.play()
@@ -351,7 +357,7 @@ class Player(pygame.sprite.Sprite):
                 self.canFly = False
 
         #If player is in shooting animation change image
-        if self.isShooting and not (left or right and self.canFly) :
+        if self.isShooting and not (left or right and self.canFly) and not self.isComboing:
             if self.contact and not left and not right:
                 if self.direction == "right":
                     self.image = pygame.image.load(self.shootRight[self.shootFrame])
@@ -377,6 +383,17 @@ class Player(pygame.sprite.Sprite):
                 if self.shootJumpFrame == 0:
                     self.isShooting = False
             self.image = pygame.transform.scale(self.image,(self.player_width + (self.rect.w // 3),self.player_height))
+        elif self.isComboing:
+            if time.time() - self.lastComboFrameChange > self.comboFrameFrequency:
+                self.lastComboFrameChange = time.time()
+                if self.direction == "right":
+                    self.image = pygame.image.load(self.comboShootRight[self.comboFrame])
+                else:
+                    self.image = pygame.image.load(self.comboShootLeft[self.comboFrame])
+                self.comboFrame = (self.comboFrame + 1 ) % self.combo_frames
+                if self.comboFrame == 0:
+                    self.isComboing = False
+            self.image = pygame.transform.scale(self.image,(self.rect.w + 10,self.rect.h))
 
 
         #Transform image
