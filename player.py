@@ -271,7 +271,7 @@ class Player(pygame.sprite.Sprite):
                 image = self.comboImage
                 image = pygame.transform.rotate(image,180)
             image.set_colorkey((255,255,255))
-            info = {'projectile':projectile,'direction':self.direction,'image': image,'normal':False}
+            info = {'projectile':projectile,'direction':self.direction,'image': image,'normal':False, 'damage':self.damage * 3}
             self.projectiles.append(info)
             self.isComboing = True
 
@@ -292,7 +292,7 @@ class Player(pygame.sprite.Sprite):
                     image = pygame.transform.rotate(image,180)
                 image.set_colorkey((255,255,255))
 
-                info = {'projectile':projectile,'direction':self.direction,'image': image,'normal':True}
+                info = {'projectile':projectile,'direction':self.direction,'image': image,'normal':True, 'damage':self.damage}
             else:
                 projectile = Rect(self.rect.left,self.rect.top,self.rect.h // 10,self.rect.w)
                 image = pygame.image.load("megaman/fires/fr1.png")

@@ -34,6 +34,7 @@ class Enemy3(Player,pygame.sprite.Sprite):
         self.health = 50 * (difficulty + 1)
         self.horiz_mov_incr = 3
         self.shooting_frequency = 1
+        self.damage = (difficulty + 1) * 10
 
         self.projectileImage = pygame.image.load("megaman/enemy3/fire.png").convert()
 

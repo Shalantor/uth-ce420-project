@@ -25,6 +25,7 @@ class Enemy2(Player,pygame.sprite.Sprite):
             #health
             difficulty = getDifficulty(playerId)
             self.health = 50 * (difficulty + 1)
+            self.damage = (difficulty + 1) * 10
 
             #shooting frequency
             self.shooting_frequency = 2

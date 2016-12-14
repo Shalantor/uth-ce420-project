@@ -189,7 +189,7 @@ while True:
         for p in player.projectiles[:]:
             for e in enemies[:]:
                 if p.get('projectile').colliderect(e):
-                    e.health -= player.damage
+                    e.health -= p.get('damage')
                     player.projectiles.remove(p)
                     if e.health <= 0:
                         enemies.remove(e)
@@ -200,7 +200,7 @@ while True:
         for p in player.projectiles[:]:
             for e in enemies2[:]:
                 if p.get('projectile').colliderect(e):
-                    e.health -= player.damage
+                    e.health -= p.get('damage')
                     player.projectiles.remove(p)
                     if e.health <= 0:
                         enemies2.remove(e)
@@ -211,7 +211,7 @@ while True:
         for p in player.projectiles[:]:
             for e in enemies3[:]:
                 if p.get('projectile').colliderect(e):
-                    e.health -= player.damage
+                    e.health -= p.get('damage')
                     player.projectiles.remove(p)
                     if e.health <= 0:
                         enemies3.remove(e)
