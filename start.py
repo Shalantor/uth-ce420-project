@@ -103,7 +103,7 @@ while True:
                 right = True
             if event.type == KEYDOWN and event.key == K_SPACE:
                 shooting = True
-            if event.type == KEYDOWN and event.key == K_w:
+            if event.type == KEYDOWN and event.key == K_v:
                 shootUp = True
             if event.type == KEYDOWN and event.key == K_c:
                 combo = True
@@ -118,7 +118,7 @@ while True:
                 right = False
             if event.type == KEYUP and event.key == K_SPACE:
                 shooting = False
-            if event.type == KEYUP and event.key == K_w:
+            if event.type == KEYUP and event.key == K_v:
                 shootUp = False
             if event.type == KEYUP and event.key == K_c:
                 combo = False

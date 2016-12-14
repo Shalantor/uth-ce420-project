@@ -278,14 +278,37 @@ def showOptions(screen,font):
     #render texts
     volumeText = font.render("VOLUME",1,(255,255,255))
     controlsText = font.render("CONTROLS",1,(255,255,255))
+    moveLeftText = font.render("Move left",1,(255,255,255))
+    moveRightText = font.render("Move right",1,(255,255,255))
+    moveUpText = font.render("Move up (Flying)",1,(255,255,255))
+    moveDownText = font.render("Move down (Flying)",1,(255,255,255))
+    jumpText = font.render("Jump",1,(255,255,255))
+    shootText = font.render("Shoot",1,(255,255,255))
+    comboText = font.render("Shoot (Combo)",1,(255,255,255))
 
     #get rectangles of texts
     volumePos = volumeText.get_rect()
     controlsPos = controlsText.get_rect()
+    moveLeftPos = moveLeftText.get_rect()
+    moveRightPos = moveRightText.get_rect()
+    moveUpPos = moveUpText.get_rect()
+    moveDownPos = moveDownText.get_rect()
+    jumpPos = jumpText.get_rect()
+    shootPos = shootText.get_rect()
+    comboPos = comboText.get_rect()
 
     #position them
     controlsPos.centerx = screenRect.centerx
     controlsPos.top = screenRect.top
+    moveLeftPos.left = moveRightPos.left = moveUpPos.left = moveDownPos.left =  200
+    jumpPos.left = shootPos.left = comboPos.left = 200
+    moveLeftPos.top = controlsPos.bottom + 70
+    moveRightPos.top = moveLeftPos.bottom + 20
+    moveUpPos.top = moveRightPos.bottom + 20
+    moveDownPos.top = moveUpPos.bottom + 20
+    jumpPos.top = moveDownPos.bottom + 20
+    shootPos.top = jumpPos.bottom + 20
+    comboPos.top = shootPos.bottom + 20
 
     #create volume bar and progress
     volumeBar = Rect(0,0,screenRect.width // 2, screenRect.height // 12)
@@ -303,15 +326,6 @@ def showOptions(screen,font):
     volumeButton = Rect(0,0,volumeBar.width // 20, int(volumeBar.height * 1.2))
     volumeButton.centerx = volumeProgress.right
     volumeButton.centery = volumeProgress.centery
-
-    #draw on screen
-    screen.fill((0,0,0))
-    screen.blit(volumeText,volumePos)
-    screen.blit(controlsText,controlsPos)
-    pygame.draw.rect(screen,(255,255,255),volumeBar,1)
-    pygame.draw.rect(screen,(0,255,0),volumeProgress)
-    pygame.draw.rect(screen,(0,0,255),volumeButton)
-    pygame.display.flip()
     leaveLoop = False
 
     while not leaveLoop:
@@ -330,6 +344,13 @@ def showOptions(screen,font):
         screen.fill((0,0,0))
         screen.blit(volumeText,volumePos)
         screen.blit(controlsText,controlsPos)
+        screen.blit(moveLeftText,moveLeftPos)
+        screen.blit(moveRightText,moveRightPos)
+        screen.blit(moveUpText,moveUpPos)
+        screen.blit(moveDownText,moveDownPos)
+        screen.blit(jumpText,jumpPos)
+        screen.blit(shootText,shootPos)
+        screen.blit(comboText,comboPos)
         pygame.draw.rect(screen,(255,255,255),volumeBar,1)
         pygame.draw.rect(screen,(0,255,0),volumeProgress)
         pygame.draw.rect(screen,(0,0,255),volumeButton)
