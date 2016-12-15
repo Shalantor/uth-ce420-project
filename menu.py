@@ -286,6 +286,19 @@ def showOptions(screen,font):
     shootText = font.render("Shoot",1,(255,255,255))
     comboText = font.render("Shoot (Combo)",1,(255,255,255))
 
+    #Render texts from database
+    controls = getControls(0)
+    controlsTextList = []
+    controlsPosList = []
+
+    #Create list of fonts
+    for c in controls:
+        controlsTextList.append(font.render(c,1,(255,255,255)))
+
+    #Create rectangles of fonts
+    for c in controlsTextList:
+        controlsPosList.append(c.get_rect())
+
     #get rectangles of texts
     volumePos = volumeText.get_rect()
     controlsPos = controlsText.get_rect()
@@ -309,6 +322,14 @@ def showOptions(screen,font):
     jumpPos.top = moveDownPos.bottom + 20
     shootPos.top = jumpPos.bottom + 20
     comboPos.top = shootPos.bottom + 20
+
+    #Add them to list
+    moveExplainList = [moveLeftPos,moveRightPos,moveUpPos,moveDownPos,jumpPos,shootPos,comboPos]
+
+    #Position rectangles of texts from database
+    for i in range(0,7):
+        controlsPosList[i].top = moveExplainList[i].top
+        controlsPosList[i].right = screenRect.w -200
 
     #create volume bar and progress
     volumeBar = Rect(0,0,screenRect.width // 2, screenRect.height // 12)
@@ -351,6 +372,11 @@ def showOptions(screen,font):
         screen.blit(jumpText,jumpPos)
         screen.blit(shootText,shootPos)
         screen.blit(comboText,comboPos)
+
+        #Moves
+        for i in range(0,7):
+            screen.blit(controlsTextList[i],controlsPosList[i])
+
         pygame.draw.rect(screen,(255,255,255),volumeBar,1)
         pygame.draw.rect(screen,(0,255,0),volumeProgress)
         pygame.draw.rect(screen,(0,0,255),volumeButton)

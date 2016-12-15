@@ -32,14 +32,14 @@ def setupDatabase():
                                 moveRight text,
                                 moveUp text,
                                 moveDown text,
+                                jump text,
                                 shoot text,
                                 combo text,
-                                jump text,
                                 PRIMARY KEY(id))''')
     cursor.execute('SELECT * FROM Controls')
     if cursor.fetchone() == None:
         #Fill with default controls
-        data = (0,'left_arrow','right_arrow','up_arrow','down_arrow','space','c','up_arrow')
+        data = (0,'left_arrow','right_arrow','up_arrow','down_arrow','up_arrow','space','c')
         cursor.execute('INSERT INTO Controls VALUES (?,?,?,?,?,?,?,?)',data)
 
     connection.commit()
@@ -132,5 +132,5 @@ def getControls(userId):
     cursor.execute('SELECT * FROM Controls WHERE id=?',data)
     cursorResult = cursor.fetchone()
     connection.close()
-    returnData = {'left':cursorResult[1],'right':cursorResult[2],'up':cursorResult[3],'down':cursorResult[4],'shoot':cursorResult[5],'combo':cursorResult[6],'jump':cursorResult[7]}
+    returnData = [cursorResult[1],cursorResult[2],cursorResult[3],cursorResult[4],cursorResult[5],cursorResult[6],cursorResult[7]]
     return returnData
