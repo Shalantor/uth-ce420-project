@@ -86,6 +86,9 @@ while True:
     for e in enemies3:
         e.initPosition(world)
 
+    #Get player moves
+    controls = getControls(0)
+
     while not leaveLoop:
 
         for event in pygame.event.get():
@@ -93,34 +96,34 @@ while True:
                 leaveLoop = showPauseScreen(screen,playerId)
                 pygame.mouse.set_visible(0)
 
-            if event.type == KEYDOWN and event.key == K_UP:
+            if event.type == KEYDOWN and pygame.key.name(event.key) == controls[2]:
                 up = True
-            if event.type == KEYDOWN and event.key == K_DOWN:
+            if event.type == KEYDOWN and pygame.key.name(event.key) == controls[3]:
                 down = True
-            if event.type == KEYDOWN and event.key == K_LEFT:
+            if event.type == KEYDOWN and pygame.key.name(event.key) == controls[0]:
                 left = True
-            if event.type == KEYDOWN and event.key == K_RIGHT:
+            if event.type == KEYDOWN and pygame.key.name(event.key) == controls[1]:
                 right = True
-            if event.type == KEYDOWN and event.key == K_SPACE:
+            if event.type == KEYDOWN and pygame.key.name(event.key) == controls[5]:
                 shooting = True
             if event.type == KEYDOWN and event.key == K_v:
                 shootUp = True
-            if event.type == KEYDOWN and event.key == K_c:
+            if event.type == KEYDOWN and pygame.key.name(event.key) == controls[6]:
                 combo = True
 
-            if event.type == KEYUP and event.key == K_UP:
+            if event.type == KEYUP and pygame.key.name(event.key) == controls[2]:
                 up = False
-            if event.type == KEYUP and event.key == K_DOWN:
+            if event.type == KEYUP and pygame.key.name(event.key) == controls[3]:
                 down = False
-            if event.type == KEYUP and event.key == K_LEFT:
+            if event.type == KEYUP and pygame.key.name(event.key) == controls[0]:
                 left = False
-            if event.type == KEYUP and event.key == K_RIGHT:
+            if event.type == KEYUP and pygame.key.name(event.key) == controls[1]:
                 right = False
-            if event.type == KEYUP and event.key == K_SPACE:
+            if event.type == KEYUP and pygame.key.name(event.key) == controls[5]:
                 shooting = False
             if event.type == KEYUP and event.key == K_v:
                 shootUp = False
-            if event.type == KEYUP and event.key == K_c:
+            if event.type == KEYUP and pygame.key.name(event.key) == controls[6]:
                 combo = False
 
         asize = ((screen_rect.w // background_rect.w + 1) * background_rect.w, (screen_rect.h // background_rect.h + 1) * background_rect.h)
