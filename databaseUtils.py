@@ -123,3 +123,14 @@ def getCoins(userId):
     cursorResult = cursor.fetchone()
     connection.close()
     return cursorResult[0]
+
+#Get controls
+def getControls(userId):
+    connection = sqlite3.connect(DATABASE)
+    cursor = connection.cursor()
+    data = (userId,)
+    cursor.execute('SELECT * FROM Controls WHERE id=?',data)
+    cursorResult = cursor.fetchone()
+    connection.close()
+    returnData = {'left':cursorResult[1],'right':cursorResult[2],'up':cursorResult[3],'down':cursorResult[4],'shoot':cursorResult[5],'combo':cursorResult[6],'jump':cursorResult[7]}
+    return returnData

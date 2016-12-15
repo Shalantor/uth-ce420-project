@@ -369,7 +369,7 @@ class Player(pygame.sprite.Sprite):
             elif self.contact:
                 if self.direction == "left":
                     self.image = pygame.image.load(self.shootLeftWalk[self.shootWalkFrame])
-                else:
+                elif self.direction == "right":
                     self.image = pygame.image.load(self.shootRightWalk[self.shootWalkFrame])
                 self.shootWalkFrame = (self.shootWalkFrame + 1) % self.walk_shoot_frames
                 if self.shootWalkFrame == 0:
@@ -377,7 +377,7 @@ class Player(pygame.sprite.Sprite):
             elif not self.contact:
                 if self.direction == "left":
                     self.image = pygame.image.load(self.shootJumpLeft[self.shootJumpFrame])
-                else:
+                elif self.direction == "right":
                     self.image = pygame.image.load(self.shootJumpRight[self.shootJumpFrame])
                 self.shootJumpFrame = (self.shootJumpFrame + 1) % self.jump_shoot_frames
                 if self.shootJumpFrame == 0:
@@ -388,7 +388,7 @@ class Player(pygame.sprite.Sprite):
                 self.lastComboFrameChange = time.time()
                 if self.direction == "right":
                     self.image = pygame.image.load(self.comboShootRight[self.comboFrame])
-                else:
+                elif self.direction == "left":
                     self.image = pygame.image.load(self.comboShootLeft[self.comboFrame])
                 self.comboFrame = (self.comboFrame + 1 ) % self.combo_frames
                 if self.comboFrame == 0:
