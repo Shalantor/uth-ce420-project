@@ -356,6 +356,14 @@ class Player(pygame.sprite.Sprite):
             if self.energy <= 0:
                 self.canFly = False
 
+        #If player can fly change his idle flying animation
+        if self.canFly and not (left or right):
+            if self.direction == "right":
+                self.image = pygame.image.load("megaman/jump_right/jr6.png")
+            else:
+                self.image = pygame.image.load("megaman/jump_left/jl6.png")
+            self.image = pygame.transform.scale(self.image,(self.player_width,self.player_height))
+
         #If player is in shooting animation change image
         if self.isShooting and not ((left or right) and self.canFly) and not self.isComboing:
             if self.contact and not left and not right:
