@@ -280,7 +280,7 @@ def showOptions(screen,font):
     controlsText = font.render("CONTROLS",1,(255,255,255))
     moveLeftText = font.render("Move left",1,(255,255,255))
     moveRightText = font.render("Move right",1,(255,255,255))
-    moveUpText = font.render("Move up (Flying)",1,(255,255,255))
+    moveUpText = font.render("Shoot up (Hold)",1,(255,255,255))
     moveDownText = font.render("Move down (Flying)",1,(255,255,255))
     jumpText = font.render("Jump",1,(255,255,255))
     shootText = font.render("Shoot",1,(255,255,255))

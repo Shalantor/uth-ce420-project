@@ -39,7 +39,7 @@ def setupDatabase():
     cursor.execute('SELECT * FROM Controls')
     if cursor.fetchone() == None:
         #Fill with default controls
-        data = (0,'left','right','up','down','up','space','c')
+        data = (0,'left','right','up','down','v','space','c')
         cursor.execute('INSERT INTO Controls VALUES (?,?,?,?,?,?,?,?)',data)
 
     connection.commit()

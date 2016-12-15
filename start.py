@@ -106,7 +106,7 @@ while True:
                 right = True
             if event.type == KEYDOWN and pygame.key.name(event.key) == controls[5]:
                 shooting = True
-            if event.type == KEYDOWN and event.key == K_v:
+            if event.type == KEYDOWN and pygame.key.name(event.key) == controls[4]:
                 shootUp = True
             if event.type == KEYDOWN and pygame.key.name(event.key) == controls[6]:
                 combo = True
@@ -121,7 +121,7 @@ while True:
                 right = False
             if event.type == KEYUP and pygame.key.name(event.key) == controls[5]:
                 shooting = False
-            if event.type == KEYUP and event.key == K_v:
+            if event.type == KEYUP and pygame.key.name(event.key) == controls[4]:
                 shootUp = False
             if event.type == KEYUP and pygame.key.name(event.key) == controls[6]:
                 combo = False
