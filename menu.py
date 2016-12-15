@@ -355,8 +355,21 @@ def showOptions(screen,font):
 
     while not leaveLoop:
         for event in pygame.event.get():
-            if event.type == KEYDOWN and event.key == K_ESCAPE:
-                leaveLoop = True
+            if event.type == KEYDOWN :
+                if event.key == K_ESCAPE:
+                    leaveLoop = True
+                else:
+                    name = pygame.key.name(event.key)
+                    for i in range(0,7):
+                        if controlsPosList[i].top == activeControlRect.top:
+                            controlsTextList[i] = font.render(name,1,(255,255,255))
+                            oldRect = controlsPosList[i]
+                            controlsPosList[i] = controlsTextList[i].get_rect()
+                            controlsPosList[i].center = oldRect.center
+                            controlsPosList[i].right = screenRect.w - 200
+                            activeControlRect = Rect(0,0,controlsPosList[i].w,controlsPosList[i].h)
+                            activeControlRect.center = controlsPosList[i].center
+
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if volumeBar.collidepoint(pygame.mouse.get_pos()):
                     volumeProgress.width = pygame.mouse.get_pos()[0] - volumeBar.left
