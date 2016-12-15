@@ -83,6 +83,7 @@ def changeDifficulty(userId,difficulty):
     cursor = connection.cursor()
     data = (difficulty,userId)
     cursor.execute('UPDATE Profiles SET difficulty=? WHERE id=?',data)
+    connection.commit()
     connection.close()
 
 #Function to get current difficulty for a profile
@@ -134,3 +135,15 @@ def getControls(userId):
     connection.close()
     returnData = [cursorResult[1],cursorResult[2],cursorResult[3],cursorResult[4],cursorResult[5],cursorResult[6],cursorResult[7]]
     return returnData
+
+#Change controls
+def changeControls(userId,controlsList):
+    connection = sqlite3.connect(DATABASE)
+    cursor = connection.cursor()
+    newControls = controlsList[:]
+
+    newControls.append(userId)
+    data = tuple(newControls)
+    cursor.execute('UPDATE Controls SET moveLeft=?,moveRight=?,moveUp=?,moveDown=?,jump=?,shoot=?,combo=? WHERE id=?',data)
+    connection.commit()
+    connection.close()

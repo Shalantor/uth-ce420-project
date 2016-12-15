@@ -360,8 +360,13 @@ def showOptions(screen,font):
                     leaveLoop = True
                 else:
                     name = pygame.key.name(event.key)
+                    #Change controls
                     for i in range(0,7):
                         if controlsPosList[i].top == activeControlRect.top:
+                            controls.pop(i)
+                            print(len(controls))
+                            controls.insert(i,name)
+                            print(len(controls))
                             controlsTextList[i] = font.render(name,1,(255,255,255))
                             oldRect = controlsPosList[i]
                             controlsPosList[i] = controlsTextList[i].get_rect()
@@ -369,6 +374,7 @@ def showOptions(screen,font):
                             controlsPosList[i].right = screenRect.w - 200
                             activeControlRect = Rect(0,0,controlsPosList[i].w,controlsPosList[i].h)
                             activeControlRect.center = controlsPosList[i].center
+                            changeControls(0,controls)
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if volumeBar.collidepoint(pygame.mouse.get_pos()):
