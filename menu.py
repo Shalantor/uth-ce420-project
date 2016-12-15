@@ -366,6 +366,12 @@ def showOptions(screen,font):
                     #Change volume based on progress
                     pygame.mixer.music.set_volume(volumeProgress.width / volumeBar.width )
 
+                #Now check if user wants to change a control
+                for r in controlsPosList:
+                    if r.collidepoint(pygame.mouse.get_pos()):
+                        activeControlRect = Rect(0,0,r.w,r.h)
+                        activeControlRect.center = r.center
+
         screen.fill((0,0,0))
         screen.blit(volumeText,volumePos)
         screen.blit(controlsText,controlsPos)
