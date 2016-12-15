@@ -349,6 +349,10 @@ def showOptions(screen,font):
     volumeButton.centery = volumeProgress.centery
     leaveLoop = False
 
+    #Create a rectangle for active control
+    activeControlRect = Rect(0,0,controlsPosList[0].w,controlsPosList[0].h)
+    activeControlRect.center = controlsPosList[0].center
+
     while not leaveLoop:
         for event in pygame.event.get():
             if event.type == KEYDOWN and event.key == K_ESCAPE:
@@ -372,6 +376,9 @@ def showOptions(screen,font):
         screen.blit(jumpText,jumpPos)
         screen.blit(shootText,shootPos)
         screen.blit(comboText,comboPos)
+
+        #Rect around active move
+        pygame.draw.rect(screen,(0,255,0),activeControlRect,2)
 
         #Moves
         for i in range(0,7):
