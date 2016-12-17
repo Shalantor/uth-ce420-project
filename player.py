@@ -199,7 +199,8 @@ class Player(pygame.sprite.Sprite):
                 if not self.canFly:
 
                     """---JUMP SOUND---"""
-                    self.demoSound.play()
+                    if self.symbol == "P":
+                        self.demoSound.play()
 
                     self.jump = True
                 else:
@@ -279,7 +280,8 @@ class Player(pygame.sprite.Sprite):
         if shooting and time.time() - self.lastShotTime > self.shooting_frequency and not self.isComboing:
 
             """---SHOOT SOUND---"""
-            self.demoSound.play()
+            if self.symbol == "P":
+                self.demoSound.play()
 
             self.isShooting = True
             if not shootUp:
@@ -472,7 +474,8 @@ class Player(pygame.sprite.Sprite):
             if self.rect.colliderect(enemy.rect) and time.time() - self.lastTimeDamaged > self.damage_delay:
 
                 """---TAKE DAMAGE SOUND---"""
-                self.demoSound.play()
+                if self.symbol == "P":
+                    self.demoSound.play()
 
                 self.health -= enemy.damage
                 self.lastTimeDamaged = time.time()
@@ -498,7 +501,8 @@ class Player(pygame.sprite.Sprite):
     def addCoin(self):
         self.coins += 1
         """---COIN SOUND---"""
-        self.demoSound.play()
+        if self.symbol == "P":
+            self.demoSound.play()
 
 
     #Replenish health
@@ -507,7 +511,8 @@ class Player(pygame.sprite.Sprite):
             return False
 
         """---HEALTH SOUND---"""
-        self.demoSound.play()
+        if self.symbol == "P":
+            self.demoSound.play()
 
         self.health += heart.healthValue
         if self.health > 100:

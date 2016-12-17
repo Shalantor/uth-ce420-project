@@ -69,7 +69,8 @@ while True:
     leaveLoop = False
 
     #Sound
-    demoSound = pygame.mixer.Sound('Sounds/demo.ogg')
+    keySound = pygame.mixer.Sound('Sounds/Key_Pickup.ogg')
+    damageSound = pygame.mixer.Sound('Sounds/Punch.ogg')
 
     #Start song
     pygame.mixer.init()
@@ -229,7 +230,7 @@ while True:
                         player.lastTimeDamaged = time.time()
                         player.health -= e.damage
                         """---DAMAGE SOUND---"""
-                        demoSound = pygame.mixer.Sound('Sounds/demo.ogg')
+                        damageSound.play()
                         if player.health <= 0:
                             player.health = 100
                             player.x = player.startX
@@ -247,7 +248,7 @@ while True:
                         player.lastTimeDamaged = time.time()
                         player.health -= e.damage
                         """---DAMAGE SOUND---"""
-                        demoSound = pygame.mixer.Sound('Sounds/demo.ogg')
+                        damageSound.play()
                         if player.health <= 0:
                             player.health = 100
                             player.x = player.startX
@@ -290,7 +291,6 @@ while True:
             w.update()
             if player.rect.colliderect(w):
                 """---GET WINGS SOUND---"""
-                demoSound = pygame.mixer.Sound('Sounds/demo.ogg')
                 player.canFly = True
                 player.hasWings = True
                 wings.remove(w)
@@ -300,7 +300,6 @@ while True:
         for j in jumpBoosts[:]:
             if player.rect.colliderect(j):
                 """---GET JUMP BOOST SOUND---"""
-                demoSound = pygame.mixer.Sound('Sounds/demo.ogg')
                 player.startJumpHeight += player.rect.height
                 jumpBoosts.remove(j)
                 level.all_sprite.remove(j)
@@ -318,7 +317,7 @@ while True:
         for k in keys[:]:
             if player.rect.colliderect(k):
                 """---GET KEY SOUND---"""
-                demoSound = pygame.mixer.Sound('Sounds/demo.ogg')
+                keySound.play()
                 keys.remove(k)
                 player.hasKey = k
                 level.all_sprite.remove(k)
