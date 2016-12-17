@@ -70,8 +70,11 @@ class Player(pygame.sprite.Sprite):
         self.flyFrameFrequency = 0.1
 
         #Variables for sound
-        self.demoSound = pygame.mixer.Sound('Sounds/demo.ogg')
-        #demoSound.play()
+        self.jumpSound = pygame.mixer.Sound('Sounds/Jump.ogg')
+        self.damageSound = pygame.mixer.Sound('Sounds/Punch.ogg')
+        self.shootSound = pygame.mixer.Sound('Sounds/Laser.ogg')
+        self.pickupHealthSound = pygame.mixer.Sound('Sounds/Life_Pickup.ogg')
+        self.coinSound = pygame.mixer.Sound('Sounds/Cash.ogg')
 
         #Variables for graphics
         self.jump_left = ["megaman/jump_left/jl1.png","megaman/jump_left/jl2.png",
@@ -200,7 +203,7 @@ class Player(pygame.sprite.Sprite):
 
                     """---JUMP SOUND---"""
                     if self.symbol == "P":
-                        self.demoSound.play()
+                        self.jumpSound.play()
 
                     self.jump = True
                 else:
@@ -281,7 +284,7 @@ class Player(pygame.sprite.Sprite):
 
             """---SHOOT SOUND---"""
             if self.symbol == "P":
-                self.demoSound.play()
+                self.shootSound.play()
 
             self.isShooting = True
             if not shootUp:
@@ -475,7 +478,7 @@ class Player(pygame.sprite.Sprite):
 
                 """---TAKE DAMAGE SOUND---"""
                 if self.symbol == "P":
-                    self.demoSound.play()
+                    self.damageSound.play()
 
                 self.health -= enemy.damage
                 self.lastTimeDamaged = time.time()
@@ -502,7 +505,7 @@ class Player(pygame.sprite.Sprite):
         self.coins += 1
         """---COIN SOUND---"""
         if self.symbol == "P":
-            self.demoSound.play()
+            self.coinSound.play()
 
 
     #Replenish health
@@ -512,7 +515,7 @@ class Player(pygame.sprite.Sprite):
 
         """---HEALTH SOUND---"""
         if self.symbol == "P":
-            self.demoSound.play()
+            self.pickupHealthSound.play()
 
         self.health += heart.healthValue
         if self.health > 100:
