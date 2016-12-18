@@ -42,7 +42,7 @@ while True:
     playerCoins = getCoins(playerId)
 
     level = Level("level/level" + str(playerLevel) +  ".txt")
-    level.create_level(0,0,playerId)
+    level.create_level(0,0,playerId,playerLevel)
     world = level.world
     player = level.player
     player.coins = playerCoins

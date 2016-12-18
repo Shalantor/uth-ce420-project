@@ -276,12 +276,14 @@ class PlatformVertical(pygame.sprite.Sprite):
 
 class Obstacle(pygame.sprite.Sprite):
     '''Class for create obstacles'''
-    def __init__(self, x, y):
+    def __init__(self, x, y,level):
         self.symbol = "X"
         self.x = x
         self.y = y
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("world/obstacle.png").convert()
+        self.image = pygame.image.load("megaman/world/level" + str(level) + "/blocks/Block1.png").convert()
+        self.image = pygame.transform.scale(self.image,(25,25))
+        self.image.set_colorkey((255,255,255))
         self.rect = self.image.get_rect()
         self.rect.topleft = [self.x, self.y]
 
@@ -310,14 +312,14 @@ class Level(object):
         self.keys = []
         self.door = None
 
-    def create_level(self, x, y,playerId):
+    def create_level(self, x, y,playerId,playerLevel):
         for l in self.level:
             self.level1.append(l)
 
         for row in self.level1:
             for col in row:
                 if col == "X":
-                    obstacle = Obstacle(x, y)
+                    obstacle = Obstacle(x, y,playerLevel)
                     self.world.append(obstacle)
                     self.all_sprite.add(self.world)
                 elif col == "P":
