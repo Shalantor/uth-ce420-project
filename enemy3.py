@@ -37,6 +37,7 @@ class Enemy3(Player,pygame.sprite.Sprite):
         self.damage = (difficulty + 1) * 10
 
         self.projectileImage = pygame.image.load("megaman/enemy3/fire.png").convert()
+        self.projectileImage.set_colorkey(None)
 
     #Override update function
     def update(self,player,world):
