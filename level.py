@@ -179,13 +179,14 @@ class BreakableBlock(pygame.sprite.Sprite):
 
 class PlatformHorizontal(pygame.sprite.Sprite):
     '''Class for platforms that move horizontally'''
-    def __init__(self,x,y):
+    def __init__(self,x,y,level):
         self.symbol = "H"
         self.x = x - 25
         self.y = y
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("world/obstacle.png").convert()
+        self.image = pygame.image.load("megaman/world/level" + str(level) + "/platforms/Block1.png").convert()
         self.image = pygame.transform.scale(self.image,(75,25))
+        self.image.set_colorkey((255,255,255))
         self.rect = self.image.get_rect()
         self.rect.topleft = [self.x, self.y]
         self.maxLeft = self.rect.left - self.rect.w
@@ -223,13 +224,14 @@ class PlatformHorizontal(pygame.sprite.Sprite):
 
 class PlatformVertical(pygame.sprite.Sprite):
     '''Class for platforms that move vertically'''
-    def __init__(self,x,y):
+    def __init__(self,x,y,level):
         self.symbol = "V"
         self.x = x - 25
         self.y = y
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("world/obstacle.png").convert()
+        self.image = pygame.image.load("megaman/world/level" + str(level) + "/platforms/Block1.png").convert()
         self.image = pygame.transform.scale(self.image,(75,25))
+        self.image.set_colorkey((255,255,255))
         self.rect = self.image.get_rect()
         self.rect.topleft = [self.x, self.y]
         self.maxTop = self.y - 3 * self.rect.h
@@ -343,12 +345,12 @@ class Level(object):
                     self.enemies3.append(enemy)
                     self.all_sprite.add(self.enemies3)
                 elif col == "V":
-                    platformV = PlatformVertical(x,y)
+                    platformV = PlatformVertical(x,y,playerLevel)
                     self.platformsVertical.append(platformV)
                     self.world.append(platformV)
                     self.all_sprite.add(self.platformsVertical)
                 elif col == "H":
-                    platformH = PlatformHorizontal(x,y)
+                    platformH = PlatformHorizontal(x,y,playerLevel)
                     self.platformsHorizontal.append(platformH)
                     self.world.append(platformH)
                     self.all_sprite.add(self.platformsHorizontal)
