@@ -34,7 +34,7 @@ while True:
         showNextLevelScreen(screen)
     pygame.mouse.set_visible(0)
     screen_rect = screen.get_rect()
-    background = pygame.image.load("world/background2.jpg").convert_alpha()
+    background = pygame.image.load("megaman/world/background.png").convert_alpha()
     background_rect = background.get_rect()
 
     #Get level of player
