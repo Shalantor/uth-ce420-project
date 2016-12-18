@@ -168,12 +168,14 @@ class Star(pygame.sprite.Sprite):
 
 class BreakableBlock(pygame.sprite.Sprite):
     '''Class for breakable blocks'''
-    def __init__(self,x,y):
+    def __init__(self,x,y,level):
         self.symbol = "B"
         self.x = x
         self.y = y
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("world/obstacle.png").convert()
+        self.image = pygame.image.load("megaman/world/level" + str(level) + "/blocks/Block3.png").convert()
+        self.image = pygame.transform.scale(self.image,(25,25))
+        self.image.set_colorkey((255,255,255))
         self.rect = self.image.get_rect()
         self.rect.topleft = [self.x, self.y]
 
@@ -355,7 +357,7 @@ class Level(object):
                     self.world.append(platformH)
                     self.all_sprite.add(self.platformsHorizontal)
                 elif col == "B":
-                    breakBlock = BreakableBlock(x,y)
+                    breakBlock = BreakableBlock(x,y,playerLevel)
                     self.breakBlocks.append(breakBlock)
                     self.world.append(breakBlock)
                     self.all_sprite.add(self.breakBlocks)
