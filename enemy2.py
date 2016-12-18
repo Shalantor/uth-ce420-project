@@ -58,11 +58,16 @@ class Enemy2(Player,pygame.sprite.Sprite):
                          "megaman/enemy/move_right/e5.png", "megaman/enemy/move_right/e6.png",
                          "megaman/enemy/move_right/e7.png", "megaman/enemy/move_right/e8.png","megaman/enemy/move_right/e9.png"]
 
+        self.shootJumpRight = ["megaman/enemy/jump_right/jr3.png"]
+
+        self.shootJumpLeft = ["megaman/enemy/jump_left/jl3.png"]
+
         #Set number of frames
         self.stand_frames = 1
         self.run_frames = 9
         self.jump_frames = 4
         self.shoot_frames = 5
+        self.jump_shoot_frames = 1
 
     #Override update function
     def updateEnemy(self,player,world):
