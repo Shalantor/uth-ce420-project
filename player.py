@@ -162,6 +162,9 @@ class Player(pygame.sprite.Sprite):
                                 "megaman/combo_left/5.png","megaman/combo_left/6.png",
                                 "megaman/combo_left/7.png","megaman/combo_left/8.png"]
 
+        self.flyRightImage = pygame.image.load("megaman/jump_right/jr6.png")
+        self.flyLeftImage =  pygame.image.load("megaman/jump_left/jl6.png")
+
         self.comboFrame = 0
         self.standFrame = 0
         self.flyFrame = 0
@@ -356,7 +359,7 @@ class Player(pygame.sprite.Sprite):
             self.image = pygame.transform.scale(self.image,(self.player_width,self.player_height))
 
         #Reduce energy level if in air
-        if not self.contact and self.canFly:
+        if not self.contact and self.canFly and self.symbol == "P":
             self.energy -= 0.3
             if self.energy <= 0:
                 self.canFly = False
@@ -364,9 +367,9 @@ class Player(pygame.sprite.Sprite):
         #If player can fly change his idle flying animation
         if self.canFly and not (left or right):
             if self.direction == "right":
-                self.image = pygame.image.load("megaman/jump_right/jr6.png")
+                self.image = self.flyRightImage
             else:
-                self.image = pygame.image.load("megaman/jump_left/jl6.png")
+                self.image = self.flyLeftImage
             self.image = pygame.transform.scale(self.image,(self.player_width,self.player_height))
 
         #If player is in shooting animation change image
@@ -410,7 +413,8 @@ class Player(pygame.sprite.Sprite):
 
 
         #Transform image
-        self.image.set_colorkey((255,255,255))
+        if self.symbol == "P":
+            self.image.set_colorkey((255,255,255))
 
         #Check if invincibility must be disabled
         if self.startInvincibility != 0:
