@@ -75,6 +75,7 @@ class Player(pygame.sprite.Sprite):
         self.shootSound = pygame.mixer.Sound('Sounds/Laser.ogg')
         self.pickupHealthSound = pygame.mixer.Sound('Sounds/Life_Pickup.ogg')
         self.coinSound = pygame.mixer.Sound('Sounds/Cash.ogg')
+        self.breakSound = pygame.mixer.Sound('Sounds/breakables.ogg')
 
         #Variables for graphics
         self.jump_left = ["megaman/jump_left/jl1.png","megaman/jump_left/jl2.png",
@@ -461,6 +462,7 @@ class Player(pygame.sprite.Sprite):
             for b in breakBlocks:
                 for p in projectiles[:]:
                     if p.get('projectile').colliderect(b):
+                        self.breakSound.play()
                         projectiles.remove(p)
                         world.remove(b)
                         breakBlocks.remove(b)
