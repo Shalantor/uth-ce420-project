@@ -63,7 +63,7 @@ class Player(pygame.sprite.Sprite):
         self.maxJumpHeight = self.startJumpHeight
         self.lastTimeDamaged = time.time() - self.damage_delay
         self.isInvincible = False
-        self.invincibilityTime = 10 #TODO:Change time
+        self.invincibilityTime = 5 
         self.startInvincibility = 0
         self.hasWings = False
         self.hasKey = None
@@ -78,6 +78,7 @@ class Player(pygame.sprite.Sprite):
         self.breakSound = pygame.mixer.Sound('Sounds/breakables.ogg')
         self.comboSound = pygame.mixer.Sound('Sounds/Laser_Blast.ogg')
         self.dyingSound = pygame.mixer.Sound('Sounds/Dying.ogg')
+        self.invincibleSound = pygame.mixer.Sound('Sounds/Shield.ogg')
 
         #Variables for graphics
         self.jump_left = ["megaman/jump_left/jl1.png","megaman/jump_left/jl2.png",
@@ -423,6 +424,7 @@ class Player(pygame.sprite.Sprite):
         #Check if invincibility must be disabled
         if self.startInvincibility != 0:
             if time.time() - self.startInvincibility > self.invincibilityTime:
+                self.invincibleSound.stop()
                 self.isInvincible = False
                 self.startInvincibility = 0
 
@@ -510,6 +512,7 @@ class Player(pygame.sprite.Sprite):
         self.isInvincible = True
         self.startInvincibility = time.time()
         """---SOUND FOR INVINCIBILITY---"""
+        self.invincibleSound.play(-1,0)
 
     #Add a coin to player stats
     def addCoin(self):
