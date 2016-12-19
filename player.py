@@ -77,6 +77,7 @@ class Player(pygame.sprite.Sprite):
         self.coinSound = pygame.mixer.Sound('Sounds/Cash.ogg')
         self.breakSound = pygame.mixer.Sound('Sounds/breakables.ogg')
         self.comboSound = pygame.mixer.Sound('Sounds/Laser_Blast.ogg')
+        self.dyingSound = pygame.mixer.Sound('Sounds/Dying.ogg')
 
         #Variables for graphics
         self.jump_left = ["megaman/jump_left/jl1.png","megaman/jump_left/jl2.png",
@@ -493,6 +494,8 @@ class Player(pygame.sprite.Sprite):
                 if self.health <= 0:
                     self.health = 100
                     if self.symbol == "P":
+                        self.dyingSound.play(-1)
+                        pygame.mixer.music.stop()
                         self.isDead = True
                         self.isDeadStartTime = time.time()
 

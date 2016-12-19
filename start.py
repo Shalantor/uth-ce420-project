@@ -159,6 +159,8 @@ while True:
             player.collideEnemies(enemies3,visibleObjects)
         else:
             if time.time() - player.isDeadStartTime > TIME_DEAD:
+                player.dyingSound.stop()
+                pygame.mixer.music.play(-1,0)
                 player.isDead = False
                 player.rect.x = player.startX
                 player.rect.y = player.startY
