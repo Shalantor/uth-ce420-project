@@ -125,5 +125,7 @@ class Enemy3(Player,pygame.sprite.Sprite):
                 else:
                     left = True
                     self.stepsRemaining -= 1
+        left = False
+        right = False
 
         super().update(up, down, left, right, shooting, shootUp, combo, world)
