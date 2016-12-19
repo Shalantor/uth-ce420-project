@@ -43,9 +43,8 @@ class Fountain(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("megaman/star/star1.png").convert()
+        self.image = pygame.image.load("megaman/energy.png").convert()
         self.image = pygame.transform.scale(self.image,(50,50))
-        self.image.set_colorkey((255,255,255))
         self.rect = self.image.get_rect()
         self.rect.topleft = [self.x, self.y]
 
@@ -81,7 +80,7 @@ class higherJump(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("megaman/star/star1.png").convert()
+        self.image = pygame.image.load("megaman/megajump.png").convert()
         self.image = pygame.transform.scale(self.image,(50,50))
         self.image.set_colorkey((255,255,255))
         self.rect = self.image.get_rect()
