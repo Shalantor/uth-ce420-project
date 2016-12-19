@@ -76,6 +76,7 @@ class Player(pygame.sprite.Sprite):
         self.pickupHealthSound = pygame.mixer.Sound('Sounds/Life_Pickup.ogg')
         self.coinSound = pygame.mixer.Sound('Sounds/Cash.ogg')
         self.breakSound = pygame.mixer.Sound('Sounds/breakables.ogg')
+        self.comboSound = pygame.mixer.Sound('Sounds/Laser_Blast.ogg')
 
         #Variables for graphics
         self.jump_left = ["megaman/jump_left/jl1.png","megaman/jump_left/jl2.png",
@@ -269,6 +270,7 @@ class Player(pygame.sprite.Sprite):
 
         #Check for combo
         if combo and time.time() - self.lastComboTime > self.comboFrequency and not (left or right) and self.contact:
+            self.comboSound.play()
             self.lastComboTime = time.time()
             if self.direction == "right":
                 projectile = Rect(self.rect.right,self.rect.top,self.rect.w * 3,self.rect.h)

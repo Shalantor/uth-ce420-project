@@ -30,6 +30,7 @@ while True:
     if not nextLevel:
         playerId = showMenu(screen,clock)
     else:
+        endLevelSound.play()
         nextLevel = False
         showNextLevelScreen(screen)
     pygame.mouse.set_visible(0)
@@ -71,6 +72,7 @@ while True:
     #Sound
     keySound = pygame.mixer.Sound('Sounds/Key_Pickup.ogg')
     damageSound = pygame.mixer.Sound('Sounds/Punch.ogg')
+    endLevelSound = pygame.mixer.Sound('Sounds/end_level.ogg')
 
     #Start song
     pygame.mixer.init()
