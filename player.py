@@ -22,8 +22,8 @@ class Player(pygame.sprite.Sprite):
         self.run_frames = 16
         self.jump_frames = 9
         self.jump_frames_time = 0.4
-        self.player_width = 50
-        self.player_height = 80
+        self.player_width = 45
+        self.player_height = 70
         self.shoot_frames = 8
         self.walk_shoot_frames = 15
         self.jump_shoot_frames = 9
@@ -56,14 +56,14 @@ class Player(pygame.sprite.Sprite):
         self.contact = False
         self.jump = False
         self.image = pygame.image.load("megaman/stand/sr1.png").convert()
-        self.image = pygame.transform.scale(self.image,(50,80))
+        self.image = pygame.transform.scale(self.image,(40,60))
         self.image.set_colorkey((255,255,255))
         self.rect = self.image.get_rect()
         self.startJumpHeight = self.rect.height * 2
         self.maxJumpHeight = self.startJumpHeight
         self.lastTimeDamaged = time.time() - self.damage_delay
         self.isInvincible = False
-        self.invincibilityTime = 5 
+        self.invincibilityTime = 5
         self.startInvincibility = 0
         self.hasWings = False
         self.hasKey = None
