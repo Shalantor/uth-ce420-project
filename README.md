@@ -1,10 +1,10 @@
 # Uth winter semester 2016-2017 ce420 project
 
-                                                              SCOPE  
+                                               SCOPE  
 
 The goal of this project was to design and implement a 2D arcade style game, where the user moves an avatar from level to level to eventually reach the end of the game.
 
-                                                          GAME DESCRIPTION
+                                               GAME DESCRIPTION
 
 The project itself consists of a start menu and the graphical interface of the game.
 
@@ -18,14 +18,14 @@ The player is does have a certain amount of health that decreases upon contact w
 The avatar also has a certain amount of energy, that deplenishes by using certain tools and items or performing certain actions, that are explained in the game.
 
 
-                                                         SYSTEM REQUIREMENTS
+                                             SYSTEM REQUIREMENTS
                                                              
 - Valid installation of Python 3
 - Valid installation of pygame version 1.9.2
 - Windows 8,8.1,10
 
 
-                                                             USER GUIDE
+                                             USER GUIDE
                                                              
 The game starts by double clicking the start.py file. To navigate from one menu to the previous one , press the escape button.
 
