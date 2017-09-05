@@ -2,6 +2,8 @@ import pygame
 from pygame.locals import *
 import sys
 
+CAMERA_DISTANCE = 25
+
 class Camera(object):
     '''Class for center screen on the player'''
     def __init__(self, screenInfo, player, level_width, level_height):
@@ -10,17 +12,19 @@ class Camera(object):
         self.rect.center = self.player.center
         self.world_rect = Rect(0, 0, level_width, level_height)
 
+    #Follow player
     def update(self):
-      if self.player.centerx > self.rect.centerx + 25:
-          self.rect.centerx = self.player.centerx - 25
-      if self.player.centerx < self.rect.centerx - 25:
-          self.rect.centerx = self.player.centerx + 25
-      if self.player.centery > self.rect.centery + 25:
-          self.rect.centery = self.player.centery - 25
-      if self.player.centery < self.rect.centery - 25:
-          self.rect.centery = self.player.centery + 25
+      if self.player.centerx > self.rect.centerx + CAMERA_DISTANCE:
+          self.rect.centerx = self.player.centerx - CAMERA_DISTANCE
+      if self.player.centerx < self.rect.centerx - CAMERA_DISTANCE:
+          self.rect.centerx = self.player.centerx + CAMERA_DISTANCE
+      if self.player.centery > self.rect.centery + CAMERA_DISTANCE:
+          self.rect.centery = self.player.centery - CAMERA_DISTANCE
+      if self.player.centery < self.rect.centery - CAMERA_DISTANCE:
+          self.rect.centery = self.player.centery + CAMERA_DISTANCE
       self.rect.clamp_ip(self.world_rect)
 
+    #Draw sprites on screen
     def draw_sprites(self, surf, sprites):
         for s in sprites:
             if s.rect.colliderect(self.rect):
@@ -37,13 +41,15 @@ class Camera(object):
                             image = pygame.transform.scale(image,(pRect.w,pRect.h))
                             surf.blit(image,self.RelRectProject(p.get('projectile'),self))
 
-
+    #Measure displacement of camera to show the player
     def RelRect(self,actor, camera):
         return pygame.Rect(actor.rect.x-camera.rect.x, actor.rect.y-camera.rect.y, actor.rect.w, actor.rect.h)
 
+    #Measure displacement of camera for projectile
     def RelRectProject(self,projectile,camera):
         return pygame.Rect(projectile.x-camera.rect.x, projectile.y-camera.rect.y, projectile.w, projectile.h)
 
+    #Get visible objects on screen
     def getVisibleObjects(self,world,sprites):
         visibleObjects = []
         visibleSprites = []

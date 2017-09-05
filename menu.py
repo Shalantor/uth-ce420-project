@@ -154,8 +154,6 @@ def showPauseScreen(screen,playerId):
     #adjust volume text position
     volumePos.right = volumeBar.left - 10
     volumePos.bottom = volumeBar.bottom
-
-    #TODO:set progress according to current volume
     volumeProgress = Rect(0,0,volumeBar.width // 2,volumeBar.height)
     volumeProgress.topleft = volumeBar.topleft
 
@@ -213,7 +211,6 @@ def showPauseScreen(screen,playerId):
 
 
 def showLoadingScreen(screen,font):
-
     screenRect = screen.get_rect()
     chooseText = font.render("CHOOSE A SAVE",1,(255,255,255))
     choosePos = chooseText.get_rect()
@@ -272,7 +269,6 @@ def showLoadingScreen(screen,font):
 
 
 def showOptions(screen,font):
-
     screenRect = screen.get_rect()
 
     #render texts
@@ -574,7 +570,6 @@ def showNameBox(screen,font):
             pygame.display.flip()
 
 def showMenu(screen,clock):
-
     pygame.mouse.set_visible(1)
 
     #Playback music
@@ -688,7 +683,6 @@ def showMenu(screen,clock):
                 areOptionsVisible = False
                 isLoadingVisible = False
                 isNewGameVisible = False
-
         pygame.display.flip()
         time_spent = tps(clock, FPS)
     pygame.mixer.music.stop()
